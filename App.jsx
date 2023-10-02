@@ -11,6 +11,7 @@ import Home from './views/Home';
 import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
 import LoadingScreen from './views/LoadingScreen';
+import MonthlyIncome from './views/Starting/MonthlyincomeView';
 
 
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,10 @@ const App = () => {
             animation: 'slide_from_right',
           }}
         >
+          <Stack.Screen
+            name="Income"
+            component={MonthlyIncome}
+          />
           <Stack.Screen
             name="Welcome"
             component={Welcome}

@@ -31,7 +31,7 @@ export const useLoginController = () => {
 
     // Navigate to Home if there are no errors
     if (isValidEmail(inputs.email) && inputs.password) {
-      navigation.navigate('Home');
+      navigation.navigate('Income');
     }
   };
 
