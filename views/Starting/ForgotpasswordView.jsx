@@ -1,77 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, Image, useWindowDimensions, TouchableOpacity } from 'react-native';
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
-import { useNavigation } from '@react-navigation/native';
+import { useForgotPasswordController } from '../../controller/ForgotpasswordController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Forgot = () => {
+const ForgotPasswordView = () => {
   const { height } = useWindowDimensions();
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [passwordError, setPasswordError] = useState(null);
-  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState(null);
-  const [isPasswordValid, setIsPasswordValid] = useState(true); // Track password format validity
-  const [isUppercase, setIsUppercase] = useState(false);
-  const [isLowercase, setIsLowercase] = useState(false);
-  const [hasNumber, setHasNumber] = useState(false);
-  const [hasSymbol, setHasSymbol] = useState(false);
-  const navigation = useNavigation();
-
-  const goToSignin = () => {
-    navigation.navigate('Log in');
-  };
-
-  useEffect(() => {
-    if (newPassword) {
-      setIsPasswordValid(isValidPassword(newPassword));
-      setIsUppercase(/[A-Z]/.test(newPassword));
-      setIsLowercase(/[a-z]/.test(newPassword));
-      setHasNumber(/[0-9]/.test(newPassword));
-      setHasSymbol(/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(newPassword));
-    }
-  }, [newPassword]);
-
-  const handleSignUp = () => {
-    // Clear existing errors
-    setPasswordError(null);
-    setConfirmNewPasswordError(null);
-
-    // Validate password
-    if (!newPassword) {
-      setPasswordError('Password is required');
-    } else if (newPassword.length < 8) { 
-        setPasswordError('At least 8 characters');
-    } else if (!isPasswordValid) {
-      setPasswordError('Follow required format');
-    } 
-
-    // Validate confirm new password
-    if (!confirmNewPassword) {
-      setConfirmNewPasswordError('Required');
-    } else if (newPassword !== confirmNewPassword) {
-      setConfirmNewPasswordError('Passwords do not match');
-    }
-
-    // Check if all fields are valid
-    if (isPasswordValid && newPassword.length >= 8 && confirmNewPassword && newPassword === confirmNewPassword) {
-      // Clear the password error when all conditions are met
-      setPasswordError(null);
-      navigation.navigate('Log in');
-    }
-  };
-
-  const isValidPassword = (password) => {
-    // Password must have at least 8 characters and meet other requirements
-    return (
-      password.length >= 8 &&
-      /[A-Z]/.test(password) &&
-      /[a-z]/.test(password) &&
-      /[0-9]/.test(password) &&
-      /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)
-    );
-  };
+  const {
+    passwordData,
+    errors,
+    isUppercase,
+    isLowercase,
+    hasNumber,
+    hasSymbol,
+    setPasswordData,
+    setErrors,
+    goToSignin,
+    handleUpdatePassword,
+  } = useForgotPasswordController();
 
   return (
     <View style={Style.common}>
@@ -82,17 +30,17 @@ const Forgot = () => {
         <CustomInput
           iconName="lock"
           placeholder="New Password"
-          value={newPassword}
-          onChangeText={(text) => setNewPassword(text)}
+          value={passwordData.newPassword}
+          onChangeText={(text) => setPasswordData({ ...passwordData, newPassword: text })}
           secureTextEntry
-          error={passwordError}
+          error={errors.newPassword}
           onFocus={() => {
             // Clear password error on focus
-            setPasswordError(null);
+            setErrors({ ...errors, newPassword: null });
           }}
         />
 
-        {passwordError && (
+        {errors.newPassword && (
           <View style={{ flexDirection: 'row', top: -12 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
               <Icon
@@ -101,7 +49,7 @@ const Forgot = () => {
                 color={isUppercase ? 'green' : '#810000'}
                 style={{ marginRight: 5 }}
               />
-              <Text style={{ fontSize: 12, color: '#144714'}}>Uppercase</Text>
+              <Text style={{ fontSize: 12, color: '#144714' }}>Uppercase</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
               <Icon
@@ -136,17 +84,17 @@ const Forgot = () => {
         <CustomInput
           iconName="lock"
           placeholder="Confirm New Password"
-          value={confirmNewPassword}
-          onChangeText={(text) => setConfirmNewPassword(text)}
+          value={passwordData.confirmNewPassword}
+          onChangeText={(text) => setPasswordData({ ...passwordData, confirmNewPassword: text })}
           secureTextEntry
-          error={confirmNewPasswordError}
+          error={errors.confirmNewPassword}
           onFocus={() => {
             // Clear confirm new password error on focus
-            setConfirmNewPasswordError(null);
+            setErrors({ ...errors, confirmNewPassword: null });
           }}
         />
 
-        <TouchableOpacity style={Style.signInButton} onPress={handleSignUp}>
+        <TouchableOpacity style={Style.signInButton} onPress={handleUpdatePassword}>
           <Text style={Style.signInButtonText}>Update Password</Text>
         </TouchableOpacity>
 
@@ -167,4 +115,4 @@ const Forgot = () => {
   );
 };
 
-export default Forgot;
+export default ForgotPasswordView;

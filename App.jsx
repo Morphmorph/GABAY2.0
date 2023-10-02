@@ -9,7 +9,7 @@ import Verify from './views/Starting/VerifyView';
 import Pin from './views/Starting/PinView';
 import Home from './views/Home';
 import Welcome from './views/Starting/Welcome';
-import Forgot from './views/Starting/Forgotpassword';
+import Forgot from './views/Starting/ForgotpasswordView';
 import LoadingScreen from './views/LoadingScreen';
 
 
