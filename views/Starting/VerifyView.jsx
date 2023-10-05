@@ -7,10 +7,13 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useVerifyController } from '../../controller/VerifyController'; // Import the controller
 
+
+
 const Verify = () => {
   const { height } = useWindowDimensions();
   const { email, setEmail, emailError, setEmailError, handleVerify, reSend } = useVerifyController();
-
+  
+  
   return (
     <View style={Style.common}>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
@@ -33,7 +36,7 @@ const Verify = () => {
           <Text style={Style.signInButtonText}>Send</Text>
         </TouchableOpacity>
 
-        <Text
+        {/* <Text
           style={{
             textAlign: 'center',
             fontSize: 16,
@@ -45,7 +48,7 @@ const Verify = () => {
           <Text onPress={reSend} style={{ color: '#E3B448' }}>
             Resend
           </Text>
-        </Text>
+        </Text> */}
       </View>
     </View>
   );

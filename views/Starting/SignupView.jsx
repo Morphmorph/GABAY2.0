@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, useWindowDimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, useWindowDimensions, TouchableOpacity,KeyboardAvoidingView} from 'react-native';
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
@@ -24,6 +24,7 @@ const Signup = () => {
   } = useSignupController();
 
   return (
+   
     <View style={Style.common}>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
@@ -124,6 +125,7 @@ const Signup = () => {
         </Text>
       </View>
     </View>
+   
   );
 };
 

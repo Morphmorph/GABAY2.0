@@ -12,12 +12,22 @@ import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
 import LoadingScreen from './views/LoadingScreen';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
+import UserContext from './api_server/context';
 
+//TODO
+// 1. Alert sa pag transition kada button
+// 2.Forgot password nga mag type og unsa nga email ang sendan og another OTP nga input para Verify
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true); // Initial loading state
+
+  const [context,setContext] = React.useState({
+    id: null,
+    email: null,
+    otp:null
+  })
 
   useEffect(() => {
     // Simulate loading delay (you can replace this with your actual loading logic)
@@ -33,6 +43,7 @@ const App = () => {
       {isLoading ? (
           <LoadingScreen /> // Show the loading component while loading
         ) : (
+<UserContext.Provider value={{context,setContext}}>
         <Stack.Navigator
           initialRouteName="Welcome"
           screenOptions={{
@@ -73,8 +84,10 @@ const App = () => {
             component={Pin}
           />
         </Stack.Navigator>
+        </UserContext.Provider>
         )}
       </NavigationContainer>
+      
     </SafeAreaView>
   );
 };

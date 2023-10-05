@@ -1,5 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 import { useSignupModel } from '../model/SignupModel';
+import { axiosRequest } from '../api_server/axios';
+import UserContext from '../api_server/context';
 
 export const useSignupController = () => {
   const navigation = useNavigation();
@@ -15,11 +18,15 @@ export const useSignupController = () => {
     hasSymbol,
   } = useSignupModel();
 
+
+const {setContext} = React.useContext(UserContext)
+
   const goToSignin = () => {
     navigation.navigate('Log in');
   };
 
-  const handleSignUp = () => {
+
+  const handleSignUp = async() => {
     // Clear existing errors
     setErrors({});
 
@@ -56,7 +63,20 @@ export const useSignupController = () => {
     ) {
       // Clear the password error when all conditions are met
       setErrors((prevErrors) => ({ ...prevErrors, password: null }));
-      navigation.navigate('Verify');
+
+      await axiosRequest.post("auth/register/",JSON.stringify(formData),{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response)=>{
+        alert(response.data)
+        setContext({email:formData.email})
+        navigation.navigate('Verify');
+      }).catch((err)=>{
+        console.log(JSON.stringify(data))
+        console.log(err)
+      })
+      
     }
   };
 
