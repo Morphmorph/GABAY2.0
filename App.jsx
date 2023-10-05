@@ -12,12 +12,7 @@ import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
 import LoadingScreen from './views/LoadingScreen';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
-import InspectExpenses from './views/Landing/InspectExpenses';
-import InspectIncome from './views/Landing/InspectIncome';
-import AddCategory from './views/Landing/AddCategory';
-import ForecastSavings from './views/Landing/ForecastSavings';
-import AddExpenses from './views/Landing/AddExpenses';
-import AddIncome from './views/Landing/AddIncome';
+import UserContext from './api_server/context';
 import InspectHistory from './views/Landing/InspectHistory';
 
 import UserContext from './api_server/context';

@@ -39,7 +39,6 @@ const Verify = () => {
         </TouchableOpacity>
 
         {/* <Text
-        {/* <Text
           style={{
             textAlign: 'center',
             fontSize: 16,
