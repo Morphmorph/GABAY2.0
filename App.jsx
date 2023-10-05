@@ -12,13 +12,11 @@ import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
 import LoadingScreen from './views/LoadingScreen';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
-import InspectExpenses from './views/Landing/InspectExpenses';
-import InspectIncome from './views/Landing/InspectIncome';
-import AddCategory from './views/Landing/AddCategory';
-import ForecastSavings from './views/Landing/ForecastSavings';
-import AddExpenses from './views/Landing/AddExpenses';
-import AddIncome from './views/Landing/AddIncome';
+import UserContext from './api_server/context';
 
+//TODO
+// 1. Alert sa pag transition kada button
+// 2.Forgot password nga mag type og unsa nga email ang sendan og another OTP nga input para Verify
 
 const statusBarStyle = 'light-content'; // Set your desired status bar style here
 const statusBarBackgroundColor = '#CBD18F'; // Set your desired status bar background color here
@@ -27,6 +25,12 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  const [context,setContext] = React.useState({
+    id: null,
+    email: null,
+    otp:null
+  })
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,6 +49,7 @@ const App = () => {
       {isLoading ? (
           <LoadingScreen /> 
         ) : (
+<UserContext.Provider value={{context,setContext}}>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
@@ -187,8 +192,10 @@ const App = () => {
             component={Pin}
           />
         </Stack.Navigator>
+        </UserContext.Provider>
         )}
       </NavigationContainer>
+      
     </SafeAreaView>
   );
 };
