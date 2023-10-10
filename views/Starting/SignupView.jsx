@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const Signup = () => {
   const { height } = useWindowDimensions();
   const {
-    formData,
+  formData,
   setFormData,
   errors,
   setErrors,
