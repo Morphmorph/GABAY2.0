@@ -73,7 +73,6 @@ const {setContext} = React.useContext(UserContext)
         setContext({email:formData.email})
         navigation.navigate('Verify');
       }).catch((err)=>{
-        console.log(JSON.stringify(data))
         console.log(err)
       })
       
