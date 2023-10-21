@@ -85,6 +85,7 @@ const AddExpenses = () => {
     require('../../assets/Icon/savings/s3.png'),
     require('../../assets/Icon/savings/s4.png'),
     require('../../assets/Icon/savings/s5.png'),
+    require('../../assets/Icon/Icons/c11.png'),
   ];
   
   const savingsText = [
@@ -93,6 +94,7 @@ const AddExpenses = () => {
     'Short-term',
     'Retirement',
     'Education',
+    'Vacation'
 
   ];
 
@@ -244,7 +246,7 @@ const handlePreviousMonthSelection = (month) => {
       
       <ScrollView contentContainerStyle={{paddingBottom: 90, height: 'auto',}}>
       <Text style={{alignSelf: 'center', color: '#E3B448'}}>Necessities</Text>
-      <View style={{overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{height: 200, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
@@ -252,7 +254,7 @@ const handlePreviousMonthSelection = (month) => {
     <TouchableOpacity
       key={index}
       style={{
-        margin: 5,
+        margin: 2.2,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}
@@ -272,7 +274,7 @@ const handlePreviousMonthSelection = (month) => {
   ))}
             <TouchableOpacity
             style={{
-              margin: 5,
+              margin: 2,
               alignItems: 'center',
             }}
             onPress={openAddCategory}
@@ -299,7 +301,7 @@ const handlePreviousMonthSelection = (month) => {
     <TouchableOpacity
       key={index}
       style={{
-        margin: 5,
+        margin: 2.1,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}
@@ -318,7 +320,7 @@ const handlePreviousMonthSelection = (month) => {
   ))}
   <TouchableOpacity
             style={{
-              margin: 5,
+              margin: 2,
               alignItems: 'center',
             }}
             onPress={openAddCategory}
@@ -347,7 +349,7 @@ const handlePreviousMonthSelection = (month) => {
     <TouchableOpacity
       key={index}
       style={{
-        margin: 5,
+        margin: 2.3,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}
@@ -366,7 +368,7 @@ const handlePreviousMonthSelection = (month) => {
   ))}
   <TouchableOpacity
             style={{
-              margin: 5,
+              margin: 2,
               alignItems: 'center',
             }}
             onPress={openAddCategory}
@@ -393,10 +395,10 @@ const handlePreviousMonthSelection = (month) => {
               setIsModalVisible(!isModalVisible);
             }}
           >
-            <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)',}}>
               <View
                 style={{
-                  backgroundColor: '#CBD18F',
+                  backgroundColor: '#3A6B35',
                   width: '100%',
                   paddingVertical: 20,
                   paddingHorizontal: 30,
@@ -404,31 +406,31 @@ const handlePreviousMonthSelection = (month) => {
                   borderTopRightRadius: 20,
                 }}
               >
-                <Text style={{ fontSize: 20, marginBottom: 20, color: '#144714' }}>What month is this expenses? </Text>
+                <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448'}}>What month is this expenses? </Text>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: '#144714',
+                    backgroundColor: '#CBD18F',
                     padding: 10,
-                    borderRadius: 20,
+                    borderRadius: 5,
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 10,
                   }}
                   onPress={() => toggleModal('Current month')}
                 >
-                  <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Current month</Text>
+                  <Text style={{ color: '#144714', fontSize: 18, }}>Current month</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: '#144714',
+                    backgroundColor: '#CBD18F',
                     padding: 10,
-                    borderRadius: 20,
+                    borderRadius: 5,
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
                   onPress={() => toggleModal('Previous month')}
                 >
-                  <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Previous month</Text>
+                  <Text style={{ color: '#144714', fontSize: 18,}}>Previous month</Text>
                 </TouchableOpacity>
                 {previousMonthsVisible && (
                 <ScrollView>
@@ -439,7 +441,7 @@ const handlePreviousMonthSelection = (month) => {
                         backgroundColor:
                           selectedMonth === month ? '#144714' : 'transparent',
                         padding: 10,
-                        borderRadius: 20,
+                        borderRadius: 5,
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginBottom: 10,
@@ -464,16 +466,16 @@ const handlePreviousMonthSelection = (month) => {
               )}
                 <TouchableOpacity
                   style={{
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#810000',
                     padding: 10,
-                    borderRadius: 20,
+                    borderRadius: 5,
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: 10,
                   }}
                   onPress={() => setIsModalVisible(!isModalVisible)}
                 >
-                  <Text style={{ color: '#810000', fontSize: 18, fontWeight: 'bold' }}>Cancel</Text>
+                  <Text style={{ color: '#CBD18F', fontSize: 18,}}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -486,10 +488,10 @@ const handlePreviousMonthSelection = (month) => {
               setPreviousMonthsVisible(!previousMonthsVisible);
             }}
           >
-            <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
               <View
                 style={{
-                  backgroundColor: '#CBD18F',
+                  backgroundColor: '#3A6B35',
                   width: '100%',
                   paddingVertical: 20,
                   paddingHorizontal: 30,
@@ -497,39 +499,39 @@ const handlePreviousMonthSelection = (month) => {
                   borderTopRightRadius: 20,
                 }}
               >
-                <Text style={{ fontSize: 20, marginBottom: 20, color: '#144714' }}>
-                  Select a Previous Month
+                <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448'}}>
+                  Select Month:
                 </Text>
                 {previousMonths.map((month) => (
                   <TouchableOpacity
                     key={month}
                     style={{
-                      backgroundColor: '#144714',
+                      backgroundColor: '#CBD18F',
                       padding: 10,
-                      borderRadius: 10,
+                      borderRadius: 5,
                       justifyContent: 'center',
                       alignItems: 'center',
                       marginBottom: 10,
                     }}
                     onPress={() => handlePreviousMonthSelection(month)}
                   >
-                    <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>
+                    <Text style={{ color: '#144714', fontSize: 18,}}>
                       {month}
                     </Text>
                   </TouchableOpacity>
                 ))}
                 <TouchableOpacity
                   style={{
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#810000',
                     padding: 10,
-                    borderRadius: 20,
+                    borderRadius: 5,
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: 10,
                   }}
                   onPress={() => setPreviousMonthsVisible(false)}
                 >
-                  <Text style={{ color: '#810000', fontSize: 18, fontWeight: 'bold' }}>
+                  <Text style={{ color: '#CBD18F', fontSize: 18,}}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -551,7 +553,7 @@ const handlePreviousMonthSelection = (month) => {
         <View style={{ width: '45%' }}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#144714',
+              backgroundColor: '#CBD18F',
               padding: 10,
               borderRadius: 20,
               justifyContent: 'center',
@@ -560,7 +562,7 @@ const handlePreviousMonthSelection = (month) => {
             }}
             onPress={startButtonPressed}
           >
-            <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Add</Text>
+            <Text style={{ color: '#144714', fontSize: 18,}}>Add</Text>
           </TouchableOpacity>
         </View>
         <View style={{ width: '45%' }}>
@@ -577,7 +579,7 @@ const handlePreviousMonthSelection = (month) => {
               navigation.navigate('Home')
             }}
           >
-            <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Cancel</Text>
+            <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
