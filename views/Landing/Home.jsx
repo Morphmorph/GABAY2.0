@@ -255,7 +255,7 @@ const Home = ({ navigation }) => {
                   alignItems: 'center',
                   backgroundColor: '#144714',
                   height: 40,
-                  width: "auto",
+                  width: 110,
                   paddingHorizontal: 5,
                   borderRadius: 5,
                   justifyContent: 'space-between'
