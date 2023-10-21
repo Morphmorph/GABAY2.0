@@ -150,7 +150,7 @@ const AddIncome = () => {
         <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5 }}>Select categories</Text>
       </View>
       
-      <View style={{ top: 30, height: 420, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{ top: 30, height: 280, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
@@ -158,7 +158,7 @@ const AddIncome = () => {
       <TouchableOpacity
       key={iconUrl}
       style={{
-        margin: 5,
+        margin: 2.3,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}
@@ -177,7 +177,7 @@ const AddIncome = () => {
   ))}
   <TouchableOpacity
             style={{
-              margin: 5,
+              margin: 2,
               alignItems: 'center',
             }}
             onPress={openAddCategory}
@@ -210,7 +210,7 @@ const AddIncome = () => {
         <View style={{ width: '45%' }}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#144714',
+              backgroundColor: '#CBD18F',
               padding: 10,
               borderRadius: 20,
               justifyContent: 'center',
@@ -219,7 +219,7 @@ const AddIncome = () => {
             }}
             onPress={startButtonPressed}
           >
-            <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Add</Text>
+            <Text style={{ color: '#144714', fontSize: 18,}}>Add</Text>
           </TouchableOpacity>
         </View>
         <View style={{ width: '45%' }}>
@@ -236,7 +236,7 @@ const AddIncome = () => {
               navigation.navigate('Home')
             }}
           >
-            <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Cancel</Text>
+            <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
       color: '#144714',
     },
     {
-      name: 'Utility',
+      name: 'Utility ksdklad safdnaklsnd',
       population: 4000,
       color: '#CBD18F',
     },
@@ -116,7 +116,7 @@ const Home = ({ navigation }) => {
     name: item.name,
     population: item.population,
     color: item.color,
-    percentage: ((item.population / totalPopulation) * 100).toFixed(2),
+    percentage: ((item.population / totalPopulation1) * 100).toFixed(2),
   }));
   return (
     
@@ -202,15 +202,15 @@ const Home = ({ navigation }) => {
             </View>
           )}
           
-          <View style={{ top: 10, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', paddingVertical: 10, backgroundColor: '#144714', height: 60, width: 200, borderRadius: 10, }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#CBD18F' }}>
+          <View style={{ top: 10, alignSelf: 'center',  alignItems: 'center', paddingVertical: 10, backgroundColor: '#144714', height: 60, width: 200, borderRadius: 10, }}>
+            <View style={{ flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: '#CBD18F' }}>
               <Iconn name="currency-php" style={{ fontSize: 20, color: '#E3B448' }} />
               <Text style={{ fontWeight: '500', fontSize: 20, color: '#E3B448' }}>1,000,000</Text>
             </View>
             <Text style={{ color: '#E3B448' }}>Income</Text>
           </View>
 
-          <View style={{top: 30, alignSelf: 'center' }}>
+          <View style={{top: 30, paddingHorizontal: 10}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{ fontSize: 35, color: '#E3B448' }}>HISTORY</Text>
             <TouchableOpacity onPress={toggleOption}>
@@ -220,7 +220,6 @@ const Home = ({ navigation }) => {
                   alignItems: 'center',
                   backgroundColor: '#144714',
                   height: 40,
-                  width: 110,
                   paddingHorizontal: 5,
                   borderRadius: 5,
                   justifyContent: 'space-between'
@@ -230,11 +229,10 @@ const Home = ({ navigation }) => {
                 <Iconn name="swap-horizontal" style={{ fontSize: 25, color: '#E3B448', marginLeft: 2 }} />
               </View>
             </TouchableOpacity>
-            
             </View>
             {selectedOption === 'Income' && (
             
-            <View style={{ top: 10, backgroundColor: 'white', width: 330, borderRadius: 10 }}>
+            <View style={{ top: 10, backgroundColor: 'white', width: 'auto', alignContent: 'center', borderRadius: 10,}}>
             <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
               <TouchableOpacity onPress={() => { /* Add your logic here */ }}>
               <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
@@ -245,47 +243,46 @@ const Home = ({ navigation }) => {
               </TouchableOpacity>
             </View>
               
-              <View style={{ padding: 20, flexDirection: 'row', flexWrap: 'wrap'}}>
+              <View style={{padding: 20, height: 'auto', overflow: 'hidden'}}>
               <PieChart
                 data={percentageData}
-                width={screenWidth}
-                height={220}
+                width={470}
+                height={250}
                 chartConfig={chartConfig}
                 accessor="population"
                 backgroundColor="transparent"
-                center={[5, 0]}
-                hasLegend={true} // Set this to false to hide the default legend
+                hasLegend={true} 
               />
-              <TouchableOpacity style={{backgroundColor: '#144714', left: 5, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 5,}} onPress={() => {navigation.navigate('Expenses')}}>
-                <Text style={{color: '#E3B448', fontSize: 18, fontWeight: 'bold'}}>Inspect</Text>
+              </View>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('Expenses')}}>
+                <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
+            
+              </View>
               
-              </View>
-              </View>
               )}
               {selectedOption === 'Expenses' && (
-               <View style={{ top: 10, backgroundColor: 'white', width: 330, borderRadius: 10 }}>
+               <View style={{ top: 10, backgroundColor: 'white', borderRadius: 10 }}>
                <View style={{ top: 10, alignItems: 'center'}}>
               
               <Text style={{ fontSize: 20, color: '#144714' }}>Income</Text>
               
             </View>
-               <View style={{ padding: 20, flexDirection: 'row', flexWrap: 'wrap'}}>
+               <View style={{ padding: 20, height: 'auto',}}>
               <PieChart
                 data={percentageData1}
-                width={screenWidth}
-                height={220}
+                width={470}
+                height={250}
                 chartConfig={chartConfig}
                 accessor="population"
                 backgroundColor="transparent"
-                center={[5, 0]}
-                hasLegend={true} // Set this to false to hide the default legend
+                hasLegend={true}
               />
-              <TouchableOpacity style={{backgroundColor: '#144714', left: 5, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 5,}} onPress={() => {navigation.navigate('Income')}}>
-                <Text style={{color: '#E3B448', fontSize: 18, fontWeight: 'bold'}}>Inspect</Text>
-              </TouchableOpacity>
-              
               </View>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('Expenses')}}>
+                <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
+              </TouchableOpacity>
+            
               </View>
               )}
             </View>
@@ -355,7 +352,7 @@ const Home = ({ navigation }) => {
               style={[Style.modalButton, Style.modalCancelButton]}
               onPress={() => setIsModalVisible(!isModalVisible)}
             >
-              <Text style={Style.modalButtonText}>Cancel</Text>
+              <Text style={{color: '#CBD18F', fontSize: 18,}}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>

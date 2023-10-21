@@ -173,11 +173,11 @@ const AddCategory = ({route}) => {
           <Text style={{ top: -10, textAlign: 'center', color: '#E3B448' }}>Category</Text>
         </View>
       </View>
-      <View style={{ top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center' }}>
+      <View style={{top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', marginBottom: 30}}>
         <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5 }}>Select icon</Text>
       </View>
       <ScrollView contentContainerStyle={{paddingBottom: 90, height: 'auto'}}>
-      <View style={{ top: 30, height: 420, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{height: 430, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
@@ -185,7 +185,7 @@ const AddCategory = ({route}) => {
       <TouchableOpacity
       key={iconUrl}
       style={{
-        margin: 5,
+        margin: 2.3,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}
@@ -218,7 +218,7 @@ const AddCategory = ({route}) => {
         <View style={{ width: '45%' }}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#144714',
+              backgroundColor: '#CBD18F',
               padding: 10,
               borderRadius: 20,
               justifyContent: 'center',
@@ -227,7 +227,7 @@ const AddCategory = ({route}) => {
             }}
             onPress={startButtonPressed}
           >
-            <Text style={{ color: '#E3B448', fontSize: 18, fontWeight: 'bold' }}>Add</Text>
+            <Text style={{ color: '#144714', fontSize: 18,}}>Add</Text>
           </TouchableOpacity>
         </View>
         

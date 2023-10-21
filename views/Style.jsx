@@ -43,29 +43,40 @@ export const Style = StyleSheet.create({
       },
       modalContainer: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
       modalContent: {
-        width: 300,
-        padding: 20,
         backgroundColor: '#3A6B35',
-        borderRadius: 10,
+        width: '100%',
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
       },
       modalButton: {
-        backgroundColor: '#144714',
+        backgroundColor: '#CBD18F',
         borderRadius: 5,
         paddingVertical: 10,
         marginTop: 10,
         alignItems: 'center',
       },
       modalButtonText: {
-        color: '#E3B448',
+        color: '#144714',
         fontSize: 18,
       },
       modalCancelButton: {
         backgroundColor: '#810000',
+      },
+      legendItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+      },
+      legendLabel: {
+        fontSize: 16,
+        color: '#144714',
       },
       
 })
