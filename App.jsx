@@ -12,6 +12,13 @@ import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
 import LoadingScreen from './views/LoadingScreen';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
+import InspectExpenses from './views/Landing/InspectExpenses';
+import InspectIncome from './views/Landing/InspectIncome';
+import AddCategory from './views/Landing/AddCategory';
+import ForecastSavings from './views/Landing/ForecastSavings';
+import AddExpenses from './views/Landing/AddExpenses';
+import AddIncome from './views/Landing/AddIncome';
+
 import UserContext from './api_server/context';
 
 //TODO
@@ -32,6 +39,9 @@ const App = () => {
     otp:null
   })
 
+  const [nav, setNav] = React.useState(false)
+
+  
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -49,7 +59,7 @@ const App = () => {
       {isLoading ? (
           <LoadingScreen /> 
         ) : (
-<UserContext.Provider value={{context,setContext}}>
+<UserContext.Provider value={{context,setContext,nav,setNav}}>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{

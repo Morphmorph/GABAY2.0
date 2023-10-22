@@ -6,6 +6,8 @@ export const useLoginModel = () => {
     password: '',
   });
 
+  const [loader,SetLoader] = useState(false)
+
   
 
   const [errors, setErrors] = useState({});
@@ -15,5 +17,5 @@ export const useLoginModel = () => {
     return emailRegex.test(email);
   };
 
-  return { inputs, setInputs, errors, setErrors, isValidEmail };
+  return { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader};
 };

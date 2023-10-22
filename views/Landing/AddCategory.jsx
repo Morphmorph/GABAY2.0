@@ -180,7 +180,7 @@ const AddCategory = ({route}) => {
       <View style={{ top: 30, height: 420, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
       {iconPaths.map((iconUrl, index) => (
       <TouchableOpacity
       key={iconUrl}

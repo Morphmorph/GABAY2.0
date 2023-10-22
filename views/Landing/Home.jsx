@@ -6,7 +6,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
 import { Header, Icon } from 'react-native-elements';
 import Style from '../Style';
-
+import randomColor from 'randomcolor';
 const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -49,7 +49,7 @@ const Home = ({ navigation }) => {
   const screenWidth = Dimensions.get('window').width;
   const headerHeight = 70;
 
-  const toggleDropdown = () => {
+  const toggleDropdown = async() => {
     setIsDropdownVisible(!isDropdownVisible);
   };
   
@@ -105,7 +105,10 @@ const Home = ({ navigation }) => {
   const percentageData = data.map((item) => ({
     name: item.name,
     population: item.population,
-    color: item.color,
+    color: randomColor({
+      luminosity: 'light',
+      hue: 'random',
+   }),
     percentage: ((item.population / totalPopulation) * 100).toFixed(2),
   }));
 
@@ -189,7 +192,9 @@ const Home = ({ navigation }) => {
                   />
                   <Text style={{ fontSize: 20, paddingVertical: 5, color: '#144714' }}> Help</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress = {()=>{
+                  navigation.navigate("Log in")
+                }}>
                   <Icon
                     name="logout"
                     type="material"
@@ -211,7 +216,7 @@ const Home = ({ navigation }) => {
           </View>
 
           <View style={{top: 30, alignSelf: 'center' }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Text style={{ fontSize: 35, color: '#E3B448' }}>HISTORY</Text>
             <TouchableOpacity onPress={toggleOption}>
               <View
@@ -220,7 +225,7 @@ const Home = ({ navigation }) => {
                   alignItems: 'center',
                   backgroundColor: '#144714',
                   height: 40,
-                  width: 110,
+                  width: "auto",
                   paddingHorizontal: 5,
                   borderRadius: 5,
                   justifyContent: 'space-between'
@@ -234,7 +239,7 @@ const Home = ({ navigation }) => {
             </View>
             {selectedOption === 'Income' && (
             
-            <View style={{ top: 10, backgroundColor: 'white', width: 330, borderRadius: 10 }}>
+            <View style={{ top: 10, backgroundColor: 'white', maxWidth:"auto",marginHorizontal:30, borderRadius: 10 }}>
             <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
               <TouchableOpacity onPress={() => { /* Add your logic here */ }}>
               <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
@@ -245,7 +250,7 @@ const Home = ({ navigation }) => {
               </TouchableOpacity>
             </View>
               
-              <View style={{ padding: 20, flexDirection: 'row', flexWrap: 'wrap'}}>
+              <View style={{ padding: 20, flexDirection: 'row', justifyContent:"center",flexWrap: 'wrap'}}>
               <PieChart
                 data={percentageData}
                 width={screenWidth}
@@ -264,13 +269,13 @@ const Home = ({ navigation }) => {
               </View>
               )}
               {selectedOption === 'Expenses' && (
-               <View style={{ top: 10, backgroundColor: 'white', width: 330, borderRadius: 10 }}>
-               <View style={{ top: 10, alignItems: 'center'}}>
+               <View style={{ top: 10, backgroundColor: 'white',marginHorizontal:30, borderRadius: 10 }}>
+               <View style={{ top: 10, alignItems: 'center',width:"auto"}}>
               
               <Text style={{ fontSize: 20, color: '#144714' }}>Income</Text>
               
             </View>
-               <View style={{ padding: 20, flexDirection: 'row', flexWrap: 'wrap'}}>
+               <View style={{ padding: 20, flexDirection: 'row',justifyContent:"center", flexWrap: 'wrap'}}>
               <PieChart
                 data={percentageData1}
                 width={screenWidth}

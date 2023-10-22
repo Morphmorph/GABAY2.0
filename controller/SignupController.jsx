@@ -16,10 +16,12 @@ export const useSignupController = () => {
     isLowercase,
     hasNumber,
     hasSymbol,
+    loader,
+    SetLoader
   } = useSignupModel();
 
 
-const {setContext} = React.useContext(UserContext)
+const {setContext,setNav} = React.useContext(UserContext)
 
   const goToSignin = () => {
     navigation.navigate('Log in');
@@ -63,7 +65,7 @@ const {setContext} = React.useContext(UserContext)
     ) {
       // Clear the password error when all conditions are met
       setErrors((prevErrors) => ({ ...prevErrors, password: null }));
-
+      SetLoader(true)
       await axiosRequest.post("auth/register/",JSON.stringify(formData),{
         headers: {
           'Content-Type': 'application/json'
@@ -71,9 +73,13 @@ const {setContext} = React.useContext(UserContext)
       }).then((response)=>{
         alert(response.data)
         setContext({email:formData.email})
+        SetLoader(false)
+        setNav(false)
         navigation.navigate('Verify');
       }).catch((err)=>{
         console.log(err)
+        SetLoader(false)
+        alert(err)
       })
       
     }
@@ -106,5 +112,7 @@ const {setContext} = React.useContext(UserContext)
     hasSymbol,
     goToSignin,
     handleSignUp,
+    loader,
+    SetLoader
   };
 };

@@ -13,6 +13,7 @@ export const useSignupModel = () => {
   const [isLowercase, setIsLowercase] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
   const [hasSymbol, setHasSymbol] = useState(false);
+  const [loader,SetLoader] = useState(false)
 
   useEffect(() => {
     if (formData.password) {
@@ -44,5 +45,7 @@ export const useSignupModel = () => {
     isLowercase,
     hasNumber,
     hasSymbol,
+    loader,
+    SetLoader
   };
 };

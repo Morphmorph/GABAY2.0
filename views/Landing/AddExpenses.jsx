@@ -226,10 +226,10 @@ const handlePreviousMonthSelection = (month) => {
       
       <ScrollView contentContainerStyle={{paddingBottom: 90, height: 'auto',}}>
       <Text style={{alignSelf: 'center', color: '#E3B448'}}>Necessities</Text>
-      <View style={{height: 200, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
   {necessities.map((iconUrl, index) => (
     <TouchableOpacity
       key={iconUrl}
@@ -272,10 +272,10 @@ const handlePreviousMonthSelection = (month) => {
         </ScrollView>
         </View>
         <Text style={{alignSelf: 'center', color: '#E3B448'}}>Wants</Text>
-      <View style={{height: 200, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{ overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: "space-between", flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
   {wants.map((iconUrl, index) => (
     <TouchableOpacity
       key={iconUrl}
@@ -319,10 +319,11 @@ const handlePreviousMonthSelection = (month) => {
           </View>
         
         <Text style={{alignSelf: 'center', color: '#E3B448'}}>Savings</Text>
-      <View style={{height: 200, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{ overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,flex: 1, alignItems: 'center' }}>
+
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: "space-between", flexDirection: 'row', flexWrap: 'wrap', paddingVertical: 5 }}>
   {savings.map((iconUrl, index) => (
     <TouchableOpacity
       key={iconUrl}
@@ -363,6 +364,7 @@ const handlePreviousMonthSelection = (month) => {
             </View>
             </TouchableOpacity>
           </ScrollView>
+          
           </View>
           <Modal
             animationType="slide"

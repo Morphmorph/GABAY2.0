@@ -8,7 +8,7 @@ import { axiosRequest } from '../api_server/axios';
 export const usePinController = () => {
   const navigation = useNavigation();
   const { pin, setPin, pinError, setPinError } = usePinModel();
-  const {context} = React.useContext(UserContext)
+  const {context,nav} = React.useContext(UserContext)
   const reSend = () => {
     navigation.navigate('Verify');
   };
@@ -30,12 +30,16 @@ export const usePinController = () => {
         if(response.data.status == 200 ){
           alert(response.data.Warning)
           navigation.navigate('Log in');
-        }else{
+        }else if(response.data.status == 208 && nav){
+          alert("Verified!")
+          navigation.navigate('Forgot password');
+        }
+        else{
           setPinError('Wrong PIN');
         }
         
       }).catch((err)=>{
-        console.log(JSON.stringify(data))
+        
         console.log(err)
       })
     }

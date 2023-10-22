@@ -4,13 +4,15 @@ import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useLoginController } from '../../controller/LoginController'; // Import the controller
+import Loader from './actionLoader';
 
 const Login = () => {
   const { height } = useWindowDimensions();
-  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn } = useLoginController();
+  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader } = useLoginController();
 
   return (
     <View style={Style.common}>
+      <Loader visible={loader} message= "Signing in..."/>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
         <Text style={Style.textcolor}>SIGN IN</Text>

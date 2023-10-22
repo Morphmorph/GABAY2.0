@@ -8,6 +8,7 @@ export const useVerifyModel = () => {
   const {context} = React.useContext(UserContext)
   const [email, setEmail] = useState(context.email);
   const [emailError, setEmailError] = useState(null);
+  const [loader,setLoader] = useState(false)
 
-  return { email, setEmail, emailError, setEmailError };
+  return { email, setEmail, emailError, setEmailError,loader,setLoader };
 };

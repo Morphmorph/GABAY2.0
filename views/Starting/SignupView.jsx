@@ -5,6 +5,7 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useSignupController } from '../../controller/SignupController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Loader from './actionLoader';
 
 const Signup = () => {
   const { height } = useWindowDimensions();
@@ -20,14 +21,19 @@ const Signup = () => {
   hasSymbol,
   goToSignin,
   handleSignUp,
+  loader,
+  SetLoader
 
   } = useSignupController();
 
   return (
    
     <View style={Style.common}>
+      <Loader visible ={loader} message="Registering..."/>
+
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
+        
         <Text style={Style.textcolor}>CREATE ACCOUNT</Text>
 
         <CustomInput

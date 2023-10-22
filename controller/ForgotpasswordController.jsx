@@ -1,5 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { useForgotPasswordModel } from '../model/ForgotpasswordModel';
+import { axiosRequest } from '../api_server/axios';
+import UserContext from '../api_server/context';
+import React from 'react';
 
 export const useForgotPasswordController = () => {
     const navigation = useNavigation();
@@ -14,12 +17,14 @@ export const useForgotPasswordController = () => {
         hasNumber,
         hasSymbol,
     } = useForgotPasswordModel();
+
+    const {context} = React.useContext(UserContext)
   
     const goToSignin = () => {
       navigation.navigate('Log in');
     };
   
-    const handleUpdatePassword = () => {
+    const handleUpdatePassword = async() => {
       // Clear existing errors
       setErrors({});
   
@@ -49,7 +54,14 @@ export const useForgotPasswordController = () => {
       ) {
         // Clear the password error when all conditions are met
         setErrors((prevErrors) => ({ ...prevErrors, newPassword: null }));
-        navigation.navigate('Log in');
+        // navigation.navigate('Log in');
+        await axiosRequest.put(`auth/new/password/${context.email}/`,{"password" : passwordData.confirmNewPassword})
+        .then((response)=>{
+          alert(`Password Updated! Yehey!`)
+          
+        }).catch((e)=>{
+          console.log(JSON.stringify({"password" : passwordData.confirmNewPassword}))
+        })
       }
     };
   
