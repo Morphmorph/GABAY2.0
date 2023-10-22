@@ -245,8 +245,8 @@ const Home = ({ navigation }) => {
             <Text style={{ color: '#E3B448' }}>Income</Text>
           </View>
 
-          <View style={{top: 30, paddingHorizontal: 10}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{top: 30, alignSelf: 'center' }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Text style={{ fontSize: 35, color: '#E3B448' }}>HISTORY</Text>
             <TouchableOpacity onPress={toggleOption}>
               <View
@@ -268,7 +268,7 @@ const Home = ({ navigation }) => {
             </View>
             {selectedOption === 'Income' && (
             
-            <View style={{ top: 10, backgroundColor: 'white',  width: 'auto', alignContent: 'center', borderRadius: 10, padding: 10}}>
+            <View style={{ top: 10, backgroundColor: 'white', maxWidth:"auto",marginHorizontal:30, borderRadius: 10 }}>
             <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
               <TouchableOpacity onPress={() => { /* Add your logic here */ }}>
               <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />

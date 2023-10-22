@@ -152,7 +152,8 @@ const AddIncome = () => {
         <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5 }}>Select categories</Text>
       </View>
       
-      <View style={{ top: 30, height: 280, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{ top: 30, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20}}>
+      
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,alignSelf:"center", justifyContent: 'center'}}>
