@@ -39,6 +39,7 @@ const Verify = () => {
         </TouchableOpacity>
 
         {/* <Text
+        {/* <Text
           style={{
             textAlign: 'center',
             fontSize: 16,
@@ -50,6 +51,7 @@ const Verify = () => {
           <Text onPress={reSend} style={{ color: '#E3B448' }}>
             Resend
           </Text>
+        </Text> */}
         </Text> */}
       </View>
     </View>

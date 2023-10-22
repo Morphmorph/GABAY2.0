@@ -29,6 +29,8 @@ const {setContext,setNav} = React.useContext(UserContext)
 
 
   const handleSignUp = async() => {
+
+  const handleSignUp = async() => {
     // Clear existing errors
     setErrors({});
 
