@@ -6,6 +6,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
 import { Header, Icon } from 'react-native-elements';
 import Style from '../Style';
+import randomColor from 'randomcolor';
 import DonutChart from './DonutChart';
 import randomColor from 'randomcolor';
 import { axiosRequest} from '../../api_server/axios'
