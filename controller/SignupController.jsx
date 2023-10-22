@@ -21,7 +21,7 @@ export const useSignupController = () => {
   } = useSignupModel();
 
 
-const {setContext,setNav} = React.useContext(UserContext)
+const {setContext} = React.useContext(UserContext)
 
   const goToSignin = () => {
     navigation.navigate('Log in');
