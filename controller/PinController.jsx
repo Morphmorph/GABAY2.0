@@ -1,10 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import React from 'react';
 import { usePinModel } from '../model/PinModel'; // Import the model
-import UserContext from '../api_server/context';
-import { axiosRequest } from '../api_server/axios';
-
 import UserContext from '../api_server/context';
 import { axiosRequest } from '../api_server/axios';
 

@@ -21,14 +21,12 @@ export const useSignupController = () => {
   } = useSignupModel();
 
 
-const {setContext,setNav} = React.useContext(UserContext)
+const {setContext} = React.useContext(UserContext)
 
   const goToSignin = () => {
     navigation.navigate('Log in');
   };
 
-
-  const handleSignUp = async() => {
 
   const handleSignUp = async() => {
     // Clear existing errors

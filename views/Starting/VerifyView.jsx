@@ -52,7 +52,6 @@ const Verify = () => {
             Resend
           </Text>
         </Text> */}
-        </Text> */}
       </View>
     </View>
   );
