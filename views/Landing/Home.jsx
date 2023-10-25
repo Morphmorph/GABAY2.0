@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image, Modal} from 'react-native';
-import { PieChart } from 'react-native-chart-kit';
+import { View, Text, Dimensions, TouchableOpacity, Image, Modal, ScrollView} from 'react-native';
 import Logo from '../../assets/logo/logo1.png';
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
 import { Header, Icon } from 'react-native-elements';
 import Style from '../Style';
+import DonutChart from './DonutChart';
 import randomColor from 'randomcolor';
 const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,6 +13,50 @@ const Home = ({ navigation }) => {
   const [selectedOption, setSelectedOption] = useState('Income');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAddOption, setSelectedAddOption] = useState('');
+  
+  const expenses = [
+    {
+      key: 'food',
+      value: 500, // Replace with your actual expense data
+    },
+    {
+      key: 'utilities',
+      value: 1500, 
+    },
+    {
+      key: 'transportation',
+      value: 2000, 
+    },
+    {
+      key: 'school',
+      value: 1000, 
+    },
+    {
+      key: 'gifts',
+      value: 5000, 
+    },
+    {
+      key: 'entertainment',
+      value: 3700, 
+    },
+    
+  ];
+
+  const income = [
+    {
+      key: 'Online selling',
+      value: 1000, 
+    },
+    {
+      key: 'Employment',
+      value: 35000, 
+    },
+    {
+      key: 'Freelancing',
+      value: 20000, 
+    },
+    
+  ];
 
   const toggleModal = () => {
   
@@ -24,22 +68,7 @@ const Home = ({ navigation }) => {
       setIsModalVisible(!isModalVisible);
     };
 
-  const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 3,
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false,
-    labelColor: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    labelPosition: 45,
-    labelStyle: {
-      fontSize: 14,
-    },
-    formatLabelText: (item, percentage) => `${item.name} (${percentage}%)`,
-  };
+  
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -129,6 +158,7 @@ const Home = ({ navigation }) => {
         <LoadingScreen />
       ) : (
         <>
+        
        <View>
           <Header
             placement="left"
@@ -238,7 +268,7 @@ const Home = ({ navigation }) => {
             </View>
             {selectedOption === 'Income' && (
             
-            <View style={{ top: 10, backgroundColor: 'white', maxWidth:"auto",marginHorizontal:30, borderRadius: 10 }}>
+            <View style={{ top: 10, backgroundColor: 'white',  width: 'auto', alignContent: 'center', borderRadius: 10, padding: 10}}>
             <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
               <TouchableOpacity onPress={() => { /* Add your logic here */ }}>
               <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
@@ -249,17 +279,11 @@ const Home = ({ navigation }) => {
               </TouchableOpacity>
             </View>
               
-              <View style={{ padding: 20, flexDirection: 'row', justifyContent:"center",flexWrap: 'wrap'}}>
-              <PieChart
-                data={percentageData}
-                width={470}
-                height={250}
-                chartConfig={chartConfig}
-                accessor="population"
-                backgroundColor="transparent"
-                hasLegend={true} 
-              />
+              <View style={{padding: 10, width: 'auto',}}>
+              <DonutChart data={expenses}/>
+
               </View>
+              
               <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('Expenses')}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
@@ -274,21 +298,9 @@ const Home = ({ navigation }) => {
               <Text style={{ fontSize: 20, color: '#144714' }}>Income</Text>
               
             </View>
-               <View style={{ padding: 20, flexDirection: 'row',justifyContent:"center", flexWrap: 'wrap'}}>
-              <PieChart
-                data={percentageData1}
-                width={470}
-                height={250}
-                chartConfig={chartConfig}
-                accessor="population"
-                backgroundColor="transparent"
-                hasLegend={true}
-              />
+               <View style={{ padding: 20, height: 'auto',}}>
+               <DonutChart data={income}/>
               </View>
-              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('Expenses')}}>
-                <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
-              </TouchableOpacity>
-            
               </View>
               )}
             </View>

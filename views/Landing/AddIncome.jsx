@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
@@ -8,6 +8,8 @@ import { Asset } from 'expo-asset'
 
 const AddIncome = () => {
   const navigation = useNavigation()
+  const screenWidth = Dimensions.get('window').width;
+  const margin = screenWidth === 360 ? 5 : 2.2;
   const openAddCategory = () => {
     navigation.navigate('Add Category', { destination: 'Add income' });
   };
@@ -158,7 +160,7 @@ const AddIncome = () => {
       <TouchableOpacity
       key={iconUrl}
       style={{
-        margin: 2.3,
+        margin: margin,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}

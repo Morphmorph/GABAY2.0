@@ -18,6 +18,7 @@ import AddCategory from './views/Landing/AddCategory';
 import ForecastSavings from './views/Landing/ForecastSavings';
 import AddExpenses from './views/Landing/AddExpenses';
 import AddIncome from './views/Landing/AddIncome';
+import InspectHistory from './views/Landing/InspectHistory';
 
 import UserContext from './api_server/context';
 
@@ -212,6 +213,23 @@ const App = () => {
           <Stack.Screen
             name="Income"
             component={InspectIncome}
+            options={{
+              headerShown: true,
+              animation: 'slide_from_bottom',
+              headerStyle: {
+                backgroundColor: '#144714', // Background color for the header
+                height: 80,
+              },
+              headerTintColor: '#E3B448', // Text color
+              headerTitleStyle: {
+                fontSize: 24, // Font size for the title
+                fontWeight: 'bold', // Font weight for the title
+              },
+            }}
+          />
+          <Stack.Screen
+            name="History"
+            component={InspectHistory}
             options={{
               headerShown: true,
               animation: 'slide_from_bottom',
