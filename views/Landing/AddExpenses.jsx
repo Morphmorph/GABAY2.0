@@ -376,7 +376,7 @@ const handlePreviousMonthSelection =(month) => {
     <TouchableOpacity
       key={index}
       style={{
-        margin: 2.2,
+        margin: margin,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl,1)}
@@ -423,7 +423,7 @@ const handlePreviousMonthSelection =(month) => {
     <TouchableOpacity
       key={index}
       style={{
-        margin: 2.1,
+        margin: margin,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl,2)}
@@ -471,7 +471,7 @@ const handlePreviousMonthSelection =(month) => {
     <TouchableOpacity
       key={index}
       style={{
-        margin: 2.3,
+        margin: margin,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl,3)}

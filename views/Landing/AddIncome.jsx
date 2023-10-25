@@ -183,7 +183,7 @@ const AddIncome = () => {
       <TouchableOpacity
       key={index}
       style={{
-        margin: 2.3,
+        margin: margin,
         alignItems: 'center',
       }}
       onPress={() => {toggleIconSelection(iconUrl) }}

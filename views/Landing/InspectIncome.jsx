@@ -8,7 +8,7 @@ import icon1 from '../../assets/Icon/income/i1.png';
 const InspectExpenses = () => {
   return (
     <View style={Style.common}>
-      <ScrollView>
+    <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>
         <View style={{ margin: 5, padding: 10, backgroundColor: '#CBD18F', borderRadius: 5 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <View style={{ backgroundColor: '#144714', borderRadius: 10, flexDirection: 'row', flex: 1 }}>
