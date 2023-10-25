@@ -4,7 +4,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from '../Style';
 import icon1 from '../../assets/Icon/necessities/n1.png';
 
-const InspectExpenses = () => {
+const InspectHistory = () => {
   return (
     <View style={Style.common}>
       <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>
@@ -29,4 +29,4 @@ const InspectExpenses = () => {
   );
 };
 
-export default InspectExpenses;
+export default InspectHistory;
