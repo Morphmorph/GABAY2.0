@@ -75,7 +75,6 @@ const AddExpenses = () => {
     require('../../assets/Icon/wants/w8.png'),
     require('../../assets/Icon/wants/w9.png'),
   ];
-  
   const wantsText = [
     'Gifts',
     'Gym',
@@ -322,9 +321,9 @@ const handlePreviousMonthSelection =(month) => {
 
       )
 
-      // Set the iconAssets state with the loaded assets
-      setIconAssets(loadedAssets)
-    }
+  //     // Set the iconAssets state with the loaded assets
+  //     setIconAssets(loadedAssets)
+  //   }
 
     loadIcons()
   }, [])
