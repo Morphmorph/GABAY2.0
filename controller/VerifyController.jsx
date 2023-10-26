@@ -41,7 +41,7 @@ export const useVerifyController = () => {
         
       }).catch((err)=>{
         setLoader(false)
-        console.log(err)
+        alert("Something Went Wrong! Check your Intertnet Connection")
       })
     }
   };

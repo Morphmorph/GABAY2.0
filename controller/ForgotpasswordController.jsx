@@ -60,7 +60,7 @@ export const useForgotPasswordController = () => {
           alert(`Password Updated! Yehey!`)
           
         }).catch((e)=>{
-          console.log(JSON.stringify({"password" : passwordData.confirmNewPassword}))
+          alert("Something Went Wrong! Check your Intertnet Connection" )
         })
       }
     };

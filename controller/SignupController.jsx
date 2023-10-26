@@ -79,7 +79,7 @@ const {setContext} = React.useContext(UserContext)
       }).catch((err)=>{
         console.log(err)
         SetLoader(false)
-        alert(err)
+        alert("Something Went Wrong! Check your Intertnet Connection")
       })
       
     }

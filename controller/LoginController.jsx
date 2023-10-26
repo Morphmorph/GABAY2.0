@@ -64,13 +64,11 @@ export const useLoginController = () => {
           alert(response.data.Warning)
           setNav(false)
           navigation.navigate('Pin')
-        }else{
-          alert(response.data.Warning)
         }
         SetLoader(false)
       }).catch((err)=>{
         SetLoader(false)
-        alert(response.data.Warning)
+        alert("Something Went Wrong! Check your Intertnet Connection")
       })
     }
   };
