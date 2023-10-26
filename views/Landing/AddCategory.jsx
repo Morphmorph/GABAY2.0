@@ -97,7 +97,7 @@ const AddCategory = ({route}) => {
     require('../../assets/Icon/Icons/c36.png'),
   ];
   
-  
+  console.log(iconPaths)
   const toggleIconSelection = (iconUrl) => {
     if (selectedIcons === iconUrl) {
       setSelectedIcons(null); // Deselect the currently selected icon

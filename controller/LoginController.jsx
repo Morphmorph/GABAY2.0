@@ -7,7 +7,7 @@ import React from 'react';
 export const useLoginController = () => {
   const navigation = useNavigation();
   const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader} = useLoginModel();
-  const {setNav} = React.useContext(UserContext)
+  const {setNav,setContext} = React.useContext(UserContext)
 
   const goToSignup = () => {
     navigation.navigate('Sign up');
@@ -47,12 +47,16 @@ export const useLoginController = () => {
         }
       }).then((response)=>{
         
+        console.log(response.data)
         // must set a loading svreen here from View like Setloading = false 
-        if(response.data.status == 200){
+        if(response.data.status === 200){
           // setContext({email:email})
+          setContext({email:response.data.user.email,id :response.data.user.id })
           alert(`Hello ${response.data.user.email}`)
           navigation.navigate('Incomes');
-        }else if(response.data.status == 100){
+
+        }else if(response.data.status=== 100){
+          setContext({email:response.data.user.email,id :response.data.user.id })
           navigation.navigate('Home')
         }
         
@@ -66,7 +70,7 @@ export const useLoginController = () => {
         SetLoader(false)
       }).catch((err)=>{
         SetLoader(false)
-        console.log(err)
+        alert(response.data.Warning)
       })
     }
   };

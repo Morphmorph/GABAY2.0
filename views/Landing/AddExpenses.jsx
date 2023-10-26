@@ -1,10 +1,12 @@
 import { View, Text, ScrollView, Modal, TouchableOpacity, Image } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import { useNavigation } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
+import UserContext from '../../api_server/context'
+
 
 const AddExpenses = () => {
   const navigation = useNavigation()
@@ -21,6 +23,14 @@ const AddExpenses = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
   const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
+  const {category} = useContext(UserContext)
+
+
+// console.log(iconAssets)
+
+
+// const itemss = require(`'${category.necessities[0].icon}'`)
+// console.log(itemss)
 
   const necessities = [
     require('../../assets/Icon/necessities/n9.png'),
@@ -33,6 +43,8 @@ const AddExpenses = () => {
     require('../../assets/Icon/necessities/n1.png'),
     require('../../assets/Icon/necessities/n8.png'),
   ];
+
+  // console.log(necessities)
   const necessitiesText = [
     'Maintenance',
     'Ensurance',
@@ -55,6 +67,7 @@ const AddExpenses = () => {
     require('../../assets/Icon/wants/w8.png'),
     require('../../assets/Icon/wants/w9.png'),
   ];
+ 
   const wantsText = [
     'Gifts',
     'Gym',
@@ -73,6 +86,7 @@ const AddExpenses = () => {
     require('../../assets/Icon/savings/s4.png'),
     require('../../assets/Icon/savings/s5.png'),
   ];
+  
   const savingsText = [
     'Emergency',
     'Long-term',
@@ -81,6 +95,7 @@ const AddExpenses = () => {
     'Education',
 
   ];
+
 
   
   const handleExpensesChange = (text) => {
@@ -172,23 +187,26 @@ const handlePreviousMonthSelection = (month) => {
     else if (!expensesError && !iconError) {
       console.log('amount: ',expenses)
       console.log('icon: ', selectedIcons)
+
       toggleModal(true);
     }
   };
 
-  useEffect(() => {
-    const loadIcons = async () => {
-      // Load and cache the icon assets
-      const loadedAssets = await Promise.all(
-        [...necessities, ...wants, ...savings].map((path) => Asset.fromModule(path).downloadAsync())
-      )
+  // useEffect(() => {
+  //   const loadIcons = async () => {
+  //     // Load and cache the icon assets
+  //     const loadedAssets = await Promise.all(
+  //       [...necessities, ...wants, ...savings].map((path) => {Asset.fromModule((path)).downloadAsync()
+  //       })
 
-      // Set the iconAssets state with the loaded assets
-      setIconAssets(loadedAssets)
-    }
+  //     )
 
-    loadIcons()
-  }, [])
+  //     // Set the iconAssets state with the loaded assets
+  //     setIconAssets(loadedAssets)
+  //   }
+
+  //   loadIcons()
+  // }, [])
 
   return (
     <View style={Style.common}>
@@ -230,9 +248,9 @@ const handlePreviousMonthSelection = (month) => {
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
-  {necessities.map((iconUrl, index) => (
+  {category.necessities.map((iconUrl, index) => (
     <TouchableOpacity
-      key={iconUrl}
+      key={index}
       style={{
         margin: 5,
         alignItems: 'center',
@@ -246,9 +264,10 @@ const handlePreviousMonthSelection = (month) => {
           borderRadius: 5,
         }}
       >
-        <Image source={iconUrl} style={{ width: 50, height: 50}} />
+        <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
+        {/* <Text>{iconUrl.icon}</Text> */}
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{necessitiesText[index]}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
             <TouchableOpacity
@@ -276,9 +295,9 @@ const handlePreviousMonthSelection = (month) => {
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: "space-between", flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
-  {wants.map((iconUrl, index) => (
+  {category.wants.map((iconUrl, index) => (
     <TouchableOpacity
-      key={iconUrl}
+      key={index}
       style={{
         margin: 5,
         alignItems: 'center',
@@ -292,9 +311,9 @@ const handlePreviousMonthSelection = (month) => {
           borderRadius: 5,
         }}
       >
-        <Image source={iconUrl} style={{ width: 50, height: 50}} />
+        <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{wantsText[index]}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
   <TouchableOpacity
@@ -324,9 +343,9 @@ const handlePreviousMonthSelection = (month) => {
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: "space-between", flexDirection: 'row', flexWrap: 'wrap', paddingVertical: 5 }}>
-  {savings.map((iconUrl, index) => (
+  {category.savings.map((iconUrl, index) => (
     <TouchableOpacity
-      key={iconUrl}
+      key={index}
       style={{
         margin: 5,
         alignItems: 'center',
@@ -340,9 +359,9 @@ const handlePreviousMonthSelection = (month) => {
           borderRadius: 5,
         }}
       >
-        <Image source={iconUrl} style={{ width: 50, height: 50}} />
+        <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{savingsText[index]}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
   <TouchableOpacity

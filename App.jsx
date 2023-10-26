@@ -39,6 +39,111 @@ const App = () => {
     otp:null
   })
 
+  const [category,setCategory] = useState({
+    necessities: [
+      {
+        icon: 17,
+        text: 'Maintenance',
+      },
+      {
+        icon: 18,
+        text: 'Ensurance',
+      },
+      {
+        icon: 19,
+        text: 'Rent',
+      },
+      {
+        icon: 20,
+        text: 'Child Care',
+      },
+      {
+        icon: 21,
+        text: 'Grocery',
+      },
+      {
+        icon: 22,
+        text: 'Utilities',
+      },
+      {
+        icon: 23,
+        text: 'Transport',
+      },
+      {
+        icon: 13,
+        text: 'Personal care',
+      },
+      {
+        icon: 24,
+        text: 'Medical',
+      },
+      // ... (other necessities)
+    ],
+    wants: [
+      {
+        icon: 25,
+        text: 'Gifts',
+      },
+      {
+        icon: 26,
+        text: 'Gym',
+      },
+      {
+        icon: 27,
+        text: 'Furnishing',
+      },
+      {
+        icon:28,
+        text: 'Electronincs',
+      },
+      {
+        icon: 29,
+        text: 'Hobbies',
+      },
+      {
+        icon: 30,
+        text: 'Travel',
+      },
+      {
+        icon: 31,
+        text: 'entertainment',
+      },
+      {
+        icon: 32,
+        text: 'Dining Out',
+      },
+      {
+        icon: 33,
+        text: 'Fashion',
+      },
+      // ... (other wants)
+    ],
+    savings: [
+      {
+        icon: 34,
+        text: 'Emergency',
+      },
+      {
+        icon: 35,
+        text: 'Long-term',
+      },
+      {
+        icon: 36,
+        text: 'Short-Term',
+      },
+      {
+        icon: 37,
+        text: 'Retirement',
+      },
+      {
+        icon: 38,
+        text: 'Education',
+      },
+      // ... (other savings)
+    ]
+  })
+  
+
   const [nav, setNav] = React.useState(false)
 
   
@@ -59,7 +164,7 @@ const App = () => {
       {isLoading ? (
           <LoadingScreen /> 
         ) : (
-<UserContext.Provider value={{context,setContext,nav,setNav}}>
+<UserContext.Provider value={{context,setContext,nav,setNav,category,setCategory}}>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
