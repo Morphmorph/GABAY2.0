@@ -1,18 +1,21 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
+import UserContext from '../../api_server/context'
+
 
 const AddCategory = ({route}) => {
   const navigation = useNavigation()
-  const { destination } = route.params;
+  const { destination,cat } = route.params;
   const [category, setCategory] = useState('')
   const [categoryError, setCategoryError] = useState(null)
   const [selectedIcons, setSelectedIcons] = useState(null);
   const [iconAssets, setIconAssets] = useState([])
   const [iconError, setIconError] = useState(null);
+  const {category1,setCategory1,incomeIcon,setIncomeIcon} = useContext(UserContext)
 
   const iconPaths = [
     require('../../assets/Icon/Icons/c1.png'),
@@ -97,7 +100,7 @@ const AddCategory = ({route}) => {
     require('../../assets/Icon/Icons/c36.png'),
   ];
   
-  console.log(iconPaths)
+  // console.log(iconPaths)
   const toggleIconSelection = (iconUrl) => {
     if (selectedIcons === iconUrl) {
       setSelectedIcons(null); // Deselect the currently selected icon
@@ -124,17 +127,38 @@ const AddCategory = ({route}) => {
     }
 
     else if (!categoryError && !iconError) {
-      navigation.navigate(destination);
-      console.log('Category:', category)
-      console.log('Icon:', selectedIcons)
+      const newCategory = {
+        icon: selectedIcons,
+        text: category,
+      }
+      
+console.log(newCategory)
+      
+      if(destination == "Add expenses"){
+        const updatedNecessities = [newCategory, ...category1[cat].slice(0, 11 - 1)];
+        setCategory1({ ...category1, [cat]: updatedNecessities });
+        navigation.navigate(destination);
+      }else if(destination == "Add income"){
+        const updatedNecessities = [newCategory, ...incomeIcon.income.slice(0, 17 - 1)];
+        setIncomeIcon({...incomeIcon,income:updatedNecessities})
+        navigation.navigate(destination);
+      }
+      
+    
+      
+     
+      // console.log('Icon:', selectedIcons)
+      // console.log(category1.necessities)
+
     }
   };
 
   useEffect(() => {
     const loadIcons = async () => {
       // Load and cache the icon assets
+      // console.log('Category:', selectedIcons)
       const loadedAssets = await Promise.all(
-        iconPaths.map((path) => Asset.fromModule(path).downloadAsync())
+        incomeIcon.income.map((path) => Asset.fromModule(path.icon).downloadAsync())
       )
 
       // Set the iconAssets state with the loaded assets
@@ -180,7 +204,7 @@ const AddCategory = ({route}) => {
       <View style={{height: 430, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
       {iconPaths.map((iconUrl, index) => (
       <TouchableOpacity
       key={iconUrl}

@@ -47,16 +47,20 @@ export const useLoginController = () => {
         }
       }).then((response)=>{
         
-        console.log(response.data)
+        // console.log(response.data)
         // must set a loading svreen here from View like Setloading = false 
         if(response.data.status === 200){
           // setContext({email:email})
-          setContext({email:response.data.user.email,id :response.data.user.id })
+          const data = {email:response.data.user.email,id :response.data.user.id }
+          setContext(data)
+
           alert(`Hello ${response.data.user.email}`)
           navigation.navigate('Incomes');
 
         }else if(response.data.status=== 100){
-          setContext({email:response.data.user.email,id :response.data.user.id })
+          const data = {email:response.data.user.email,id :response.data.user.id }
+
+          setContext(data)
           navigation.navigate('Home')
         }
         
@@ -64,6 +68,9 @@ export const useLoginController = () => {
           alert(response.data.Warning)
           setNav(false)
           navigation.navigate('Pin')
+        }
+        else{
+          alert(response.data.Warning)
         }
         SetLoader(false)
       }).catch((err)=>{

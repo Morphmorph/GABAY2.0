@@ -6,7 +6,7 @@ const Loader = ({visible = false,message = "Please wait.."}) => {
 const {height, width} = useWindowDimensions();
   return (
     visible && ( 
-    <View style={[style.container,{height: '100%', width}]}>
+    <View style={[style.container,{height: '100%', width,pointerEvents: 'none'}]}>
       <View style={style.loader}>
       <ActivityIndicator size ='large' color = 'blue'/>
         <Text style={{marginRight: 15, fontSize: 15}}> {message}</Text>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image, Modal, ScrollView} from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, Dimensions, TouchableOpacity, Image, Modal, ScrollView,BackHandler} from 'react-native';
 import Logo from '../../assets/logo/logo1.png';
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
@@ -7,13 +7,24 @@ import { Header, Icon } from 'react-native-elements';
 import Style from '../Style';
 import DonutChart from './DonutChart';
 import randomColor from 'randomcolor';
+import { axiosRequest} from '../../api_server/axios'
+import UserContext from '../../api_server/context';
 const Home = ({ navigation }) => {
+  
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAddOption, setSelectedAddOption] = useState('');
-  
+  const {context} = useContext(UserContext)
+  const [ddate,setDdate] = useState([])
+  const [page,setPage] = useState(0)
+  const [expense,setExpense] = useState([])
+
+  const screenWidth1 = Dimensions.get('window').width;
+  // console.log(screenWidth1)
+  const viewWidthPercentage = 80;
+  const viewWidth = (screenWidth1 * viewWidthPercentage) / 100;
   const expenses = [
     {
       key: 'food',
@@ -68,13 +79,65 @@ const Home = ({ navigation }) => {
       setIsModalVisible(!isModalVisible);
     };
 
-  
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, []);
+    const handlePress = () => {
+      const newpage = page + 1
+      const backpage = 0
+      if(page === Object.keys(ddate).length - 1){
+        setPage(backpage)
+      }else{
+        setPage(newpage);
+        // console.log(Object.keys(ddate).length)
+      }
+      
+    };
 
+    const api = () => {
+      axiosRequest.get(`gabay/same/month/year/${context.id}/`)
+        .then((response) => {
+          const date = {...response.data};
+          setDdate(date);
+          // console.log(ddate);
+          console.log(context);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+
+    const getData = (pagess) =>{
+      axiosRequest.get(`gabay/page/?date=${Object.keys(ddate).length > 0 ? pagess: null}&page=1`).then((response)=>{
+        setExpense(response.data)
+      }).catch((e)=>{
+        console.log(e)
+      })
+    }
+   
+    useEffect(() => {
+      const onFocus = async() => {
+        await api();
+       
+        getData(Object.keys(ddate).length > 0 ? ddate[page].date: null)
+        setTimeout(() => {
+        setIsLoading(false);
+          // if (!context.id) {
+          //   navigation.navigate('Log in');
+          // }
+        }, 3000 );
+      };
+  
+      const unsubscribe = navigation.addListener('focus', onFocus);
+  
+      return () => {
+        unsubscribe();
+        
+      };
+    }, [navigation, context,page,expense]);
+
+  useEffect(() => {
+      // console.log(page); // Log the updated page value separately
+      getData(Object.keys(ddate).length > 0 ? ddate[page].date: null)
+      
+    }, [page,ddate]);
   const screenWidth = Dimensions.get('window').width;
   const headerHeight = 70;
 
@@ -86,70 +149,7 @@ const Home = ({ navigation }) => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
   };
 
-  const data = [
-    {
-      name: 'School',
-      population: 3000,
-      color: '#E3B448',
-    },
-    {
-      name: 'Grocery',
-      population: 7000,
-      color: '#144714',
-    },
-    {
-      name: 'Utility ksdklad safdnaklsnd',
-      population: 4000,
-      color: '#CBD18F',
-    },
-    {
-      name: 'Savings',
-      population: 1000,
-      color: 'orange',
-    },
-    
-    {
-      name: 'Online',
-      population: 2000,
-      color: 'pink',
-    },
-  ];
-  const dataIncome = [
-    {
-      name: 'Salary',
-      population: 5000,
-      color: '#FF5733', 
-    },
-    {
-      name: 'Online',
-      population: 3000,
-      color: '#FFC300', 
-    },
-
-  ];
-  // Calculate the total population for percentage calculation
-  const totalPopulation = data.reduce((total, item) => total + item.population, 0);
-
-  // Update data to include percentages
-  const percentageData = data.map((item) => ({
-    name: item.name,
-    population: item.population,
-    color: randomColor({
-      luminosity: 'light',
-      hue: 'random',
-   }),
-    percentage: ((item.population / totalPopulation) * 100).toFixed(2),
-  }));
-
-  const totalPopulation1 = dataIncome.reduce((total, item) => total + item.population, 0);
-
-  // Update data to include percentages
-  const percentageData1 = dataIncome.map((item) => ({
-    name: item.name,
-    population: item.population,
-    color: item.color,
-    percentage: ((item.population / totalPopulation1) * 100).toFixed(2),
-  }));
+  
   return (
     
     <View style={Style.common}>
@@ -245,7 +245,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: '#E3B448' }}>Income</Text>
           </View>
 
-          <View style={{top: 30, alignSelf: 'center' }}>
+          <View style={{top: 30, alignSelf: 'center' ,display: Object.keys(ddate).length ? 'auto':'none'}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Text style={{ fontSize: 35, color: '#E3B448' }}>HISTORY</Text>
             <TouchableOpacity onPress={toggleOption}>
@@ -268,19 +268,20 @@ const Home = ({ navigation }) => {
             </View>
             {selectedOption === 'Income' && (
             
-            <View style={{ top: 10, backgroundColor: 'white', maxWidth:"auto",marginHorizontal:30, borderRadius: 10 }}>
-            <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
-              <TouchableOpacity onPress={() => { /* Add your logic here */ }}>
+            <View style={{ top: 10, backgroundColor: 'white', width:(Dimensions.get('window').width * 90 / 100),marginHorizontal:30, borderRadius: 10 ,}}>
+            <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingHorizontal: 20 }}>
+              <TouchableOpacity onPress={handlePress}>
               <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 20, color: '#144714' }}>January</Text>
-              <TouchableOpacity onPress={() => {}}>
+              <Text style={{ fontSize: 20, color: '#144714' }}>{Object.keys(ddate).length > 0 ?   new Date(ddate[page].date).toLocaleString('default', { month: 'long' }):console.log(ddate)}</Text>
+              <TouchableOpacity onPress={handlePress
+              }>
               <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />
               </TouchableOpacity>
             </View>
               
               <View style={{padding: 10, width: 'auto',}}>
-              <DonutChart data={expenses}/>
+              <DonutChart data={expense}/>
 
               </View>
               
@@ -292,7 +293,7 @@ const Home = ({ navigation }) => {
               
               )}
               {selectedOption === 'Expenses' && (
-               <View style={{ top: 10, backgroundColor: 'white', borderRadius: 10 }}>
+               <View style={{top: 10, backgroundColor: 'white', width:(Dimensions.get('window').width * 90 / 100),marginHorizontal:30, borderRadius: 10 }}>
                <View style={{ top: 10, alignItems: 'center'}}>
               
               <Text style={{ fontSize: 20, color: '#144714' }}>Income</Text>

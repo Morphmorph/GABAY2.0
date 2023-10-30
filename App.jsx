@@ -18,11 +18,10 @@ import AddCategory from './views/Landing/AddCategory';
 import ForecastSavings from './views/Landing/ForecastSavings';
 import AddExpenses from './views/Landing/AddExpenses';
 import AddIncome from './views/Landing/AddIncome';
-
 import UserContext from './api_server/context';
 import InspectHistory from './views/Landing/InspectHistory';
 
-import UserContext from './api_server/context';
+
 
 //TODO
 // 1. Alert sa pag transition kada button
@@ -42,7 +41,81 @@ const App = () => {
     otp:null
   })
 
-  const [category,setCategory] = useState({
+  const [incomeIcon,setIncomeIcon] = useState({
+    income : [
+    {
+      icon: 14,
+      text: 'Business',
+    },
+    {
+      icon: 19,
+      text: 'Investment',
+    },
+    {
+      icon: 20,
+      text: 'Annuities',
+    },
+    {
+      icon: 21,
+      text: 'Capital gain',
+    },
+    {
+      icon: 22,
+      text: 'Pension',
+    },
+    {
+      icon: 23,
+      text: 'Dividend',
+    },
+    {
+      icon: 24,
+      text: 'Rental',
+    },
+    {
+      icon: 25,
+      text: 'Freelancing',
+    },
+    {
+      icon: 26,
+      text: 'Vlogging',
+    },
+    {
+      icon: 27,
+      text: 'Employment',
+    },
+    {
+      icon: 28,
+      text: 'Interest',
+    },
+    {
+      icon: 29,
+      text: 'Online selling',
+    },
+    {
+      icon: 30,
+      text: 'Gifts',
+    },
+    {
+      icon: 31,
+      text: 'Commission',
+    },
+    {
+      icon: 32,
+      text: 'Sport',
+    },
+    {
+      icon: 33,
+      text: 'NFT Sales',
+    },
+    {
+      icon: 34,
+      text: 'Lottery',
+    }, ]
+})
+
+  
+
+  const [category1,setCategory1] = useState({
     necessities: [
       {
         icon: 17,
@@ -149,7 +222,9 @@ const App = () => {
 
   const [nav, setNav] = React.useState(false)
 
-  
+  const [transaction,setTransaction] = useState({})
+
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -167,9 +242,9 @@ const App = () => {
       {isLoading ? (
           <LoadingScreen /> 
         ) : (
-<UserContext.Provider value={{context,setContext,nav,setNav,category,setCategory}}>
+<UserContext.Provider value={{context,setContext,nav,setNav,category1,setCategory1,transaction,setTransaction,incomeIcon,setIncomeIcon}}>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="Log in"
           screenOptions={{
             headerShown: false,
             animation: 'slide_from_right',

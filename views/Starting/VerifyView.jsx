@@ -16,7 +16,7 @@ const Verify = () => {
   
   
   return (
-    <View style={Style.common}>
+    <View style={Style.common} pointerEvents ={loader ?  'none' : 'auto'}>
         <Loader visible ={loader} message = "Sending..."/>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>

@@ -1,23 +1,28 @@
 import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import { useNavigation } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
+import UserContext from '../../api_server/context'
+import randomColor from 'randomcolor'
+import { axiosRequest } from '../../api_server/axios'
 
 const AddIncome = () => {
+  
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 5 : 2.2;
   const openAddCategory = () => {
-    navigation.navigate('Add Category', { destination: 'Add income' });
+    navigation.navigate('Add Category', { destination: 'Add income',cat : null });
   };
   const [income, setIncome] = useState('')
   const [incomeError, setIncomeError] = useState(null)
   const [selectedIcons, setSelectedIcons] = useState(null);
   const [iconAssets, setIconAssets] = useState([])
   const [iconError, setIconError] = useState(null);
+  const {context,incomeIcon} = useContext(UserContext)
 
   const iconPaths = [
     require('../../assets/Icon/income/i1.png'),
@@ -38,25 +43,26 @@ const AddIncome = () => {
     require('../../assets/Icon/income/i16.png'),
     require('../../assets/Icon/income/i23.png'),
   ];
-  const iconTexts = [
-    'Business',
-    'Investment',
-    'Annuities',
-    'Capital gain',
-    'Pension',
-    'Dividend',
-    'Rental',
-    'Freelancing',
-    'Vlogging',
-    'Employment',
-    'Interest',
-    'Online selling',
-    'Gifts',
-    'Commission',
-    'Sport',
-    'NFT Sales',
-    'Lottery',
-  ];
+  // const iconTexts = [
+  //   'Business',
+  //   'Investment',
+  //   'Annuities',
+  //   'Capital gain',
+  //   'Pension',
+  //   'Dividend',
+  //   'Rental',
+  //   'Freelancing',
+  //   'Vlogging',
+  //   'Employment',
+  //   'Interest',
+  //   'Online selling',
+  //   'Gifts',
+  //   'Commission',
+  //   'Sport',
+  //   'NFT Sales',
+  //   'Lottery',
+  // ];
+
   
   const handleIncomeChange = (text) => {
     // Clear existing errors
@@ -81,7 +87,7 @@ const AddIncome = () => {
     }
   };
 
-  const startButtonPressed = () => {
+  const startButtonPressed = async() => {
     // Clear existing errors
     setIncomeError(null);
     setIconError(null); // Clear icon selection error
@@ -96,10 +102,27 @@ const AddIncome = () => {
       setIconError('no_icon_selected');
     }
 
-    else if (!incomeError && !iconError) {
+    else if (!incomeError && !iconError && income) {
       navigation.navigate('Home');
-      console.log('Income:', income)
+      console.log('Income:', parseInt(income.replace(/,/g, ''), 10))
       console.log('Icon:', selectedIcons)
+      // console.log('text:', iconTexts[selectedIcons])
+
+      Data = {
+        user : context.id,
+        title : selectedIcons.text,
+        amount : parseInt(income.replace(/,/g, ''), 10),
+        icon : selectedIcons.icon,
+        color : randomColor()
+      }
+
+      await  axiosRequest.post('gabay/add/',Data).then((response)=>{
+        alert(`Task Failed Sucessfully!`)
+        navigation.navigate('Home');
+
+      }).catch((e)=>{
+        console.log(Data)
+      })
     }
     
   };
@@ -108,7 +131,7 @@ const AddIncome = () => {
     const loadIcons = async () => {
       // Load and cache the icon assets
       const loadedAssets = await Promise.all(
-        iconPaths.map((path) => Asset.fromModule(path).downloadAsync())
+        incomeIcon.income.map((path) => Asset.fromModule(path.icon).downloadAsync())
       )
 
       // Set the iconAssets state with the loaded assets
@@ -157,14 +180,14 @@ const AddIncome = () => {
       <ScrollView 
       nestedScrollEnabled
       contentContainerStyle={{ backgroundColor: '#2b5627', flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,alignSelf:"center", justifyContent: 'center'}}>
-      {iconPaths.map((iconUrl, index) => (
+      {incomeIcon.income.map((iconUrl, index) => (
       <TouchableOpacity
-      key={iconUrl}
+      key={index}
       style={{
         margin: margin,
         alignItems: 'center',
       }}
-      onPress={() => toggleIconSelection(iconUrl)}
+      onPress={() => {toggleIconSelection(iconUrl) }}
     >
       <View
         style={{
@@ -173,9 +196,9 @@ const AddIncome = () => {
           borderRadius: 5,
         }}
       >
-        <Image source={iconUrl} style={{ width: 50, height: 50}} />
+        <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconTexts[index]}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
   <TouchableOpacity

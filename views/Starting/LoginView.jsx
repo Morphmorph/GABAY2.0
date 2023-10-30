@@ -9,9 +9,9 @@ import Loader from './actionLoader';
 const Login = () => {
   const { height } = useWindowDimensions();
   const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader } = useLoginController();
-
+  const bol = loader
   return (
-    <View style={Style.common}>
+    <View style={Style.common} pointerEvents ={bol ?  'none' : 'auto'}>
       <Loader visible={loader} message= "Signing in..."/>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
@@ -53,9 +53,9 @@ const Login = () => {
             Forgot password
           </Text>
         </Text>
-        <TouchableOpacity style={Style.signInButton} onPress={handleSignIn}>
+      <TouchableOpacity style={Style.signInButton} onPress={handleSignIn} disabled = {loader}>
           <Text style={Style.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> 
 
         <Text
           style={{

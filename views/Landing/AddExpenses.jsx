@@ -1,19 +1,22 @@
 import { View, Text, ScrollView, Modal, TouchableOpacity, Image, Dimensions} from 'react-native'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import { useNavigation } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
 import UserContext from '../../api_server/context'
+import randomColor from 'randomcolor'
+import { axiosRequest } from '../../api_server/axios'
+import Loader from '../Starting/actionLoader'
 
 
 const AddExpenses = () => {
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 5 : 2.2;
-  const openAddCategory = () => {
-    navigation.navigate('Add Category', { destination: 'Add expenses' });
+  const openAddCategory = (cat) => {
+    navigation.navigate('Add Category', { destination: 'Add expenses' ,cat :cat});
   };
   const [expenses, setExpenses] = useState('')
   const [expensesError, setExpensesError] = useState(null)
@@ -25,14 +28,17 @@ const AddExpenses = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
   const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
-  const {category} = useContext(UserContext)
-
+  const {category1,transaction,setTransaction,context} = useContext(UserContext)
+  const [legend,setLegend] = useState(null)
+  const [action,setAction] = useState(false)
 
 // console.log(iconAssets)
 
 
 // const itemss = require(`'${category.necessities[0].icon}'`)
-// console.log(itemss)
+// console.log(itemss)\
+
+
 
   const necessities = [
     require('../../assets/Icon/necessities/n9.png'),
@@ -69,7 +75,7 @@ const AddExpenses = () => {
     require('../../assets/Icon/wants/w8.png'),
     require('../../assets/Icon/wants/w9.png'),
   ];
- 
+  
   const wantsText = [
     'Gifts',
     'Gym',
@@ -89,7 +95,7 @@ const AddExpenses = () => {
     require('../../assets/Icon/savings/s5.png'),
     require('../../assets/Icon/Icons/c11.png'),
   ];
-  
+  // console.log(wants)
   const savingsText = [
     'Emergency',
     'Long-term',
@@ -100,6 +106,88 @@ const AddExpenses = () => {
 
   ];
 
+  const iconPaths = [
+    require('../../assets/Icon/Icons/c1.png'),
+    require('../../assets/Icon/Icons/c2.png'),
+    require('../../assets/Icon/Icons/c3.png'),
+    require('../../assets/Icon/Icons/c4.png'),
+    require('../../assets/Icon/Icons/c5.png'),
+    require('../../assets/Icon/Icons/c6.png'),
+    require('../../assets/Icon/Icons/c7.png'),
+    require('../../assets/Icon/wants/w1.png'),
+    require('../../assets/Icon/wants/w2.png'),
+    require('../../assets/Icon/wants/w3.png'),
+    require('../../assets/Icon/wants/w4.png'),
+    require('../../assets/Icon/wants/w5.png'),
+    require('../../assets/Icon/wants/w6.png'),
+    require('../../assets/Icon/wants/w7.png'),
+    require('../../assets/Icon/wants/w8.png'),
+    require('../../assets/Icon/wants/w9.png'),
+    require('../../assets/Icon/Icons/c8.png'),
+    require('../../assets/Icon/Icons/c9.png'),
+    require('../../assets/Icon/Icons/c11.png'),
+    require('../../assets/Icon/Icons/c12.png'),
+    require('../../assets/Icon/Icons/c13.png'),
+    require('../../assets/Icon/Icons/c14.png'),
+    require('../../assets/Icon/Icons/c15.png'),
+    require('../../assets/Icon/Icons/c16.png'),
+    require('../../assets/Icon/Icons/c17.png'),
+    require('../../assets/Icon/Icons/c18.png'),
+    require('../../assets/Icon/Icons/c19.png'),
+    require('../../assets/Icon/savings/s1.png'),
+    require('../../assets/Icon/savings/s2.png'),
+    require('../../assets/Icon/savings/s3.png'),
+    require('../../assets/Icon/savings/s4.png'),
+    require('../../assets/Icon/savings/s5.png'),
+    require('../../assets/Icon/Icons/c20.png'),
+    require('../../assets/Icon/Icons/c21.png'),
+    require('../../assets/Icon/Icons/c22.png'),
+    require('../../assets/Icon/Icons/c23.png'),
+    require('../../assets/Icon/income/i1.png'),
+    require('../../assets/Icon/income/i2.png'),
+    require('../../assets/Icon/income/i3.png'),
+    require('../../assets/Icon/income/i4.png'),
+    require('../../assets/Icon/income/i5.png'),
+    require('../../assets/Icon/income/i6.png'),
+    require('../../assets/Icon/income/i7.png'),
+    require('../../assets/Icon/income/i10.png'),
+    require('../../assets/Icon/income/i9.png'),
+    require('../../assets/Icon/income/i12.png'),
+    require('../../assets/Icon/income/i13.png'),
+    require('../../assets/Icon/income/i8.png'),
+    require('../../assets/Icon/Icons/c24.png'),
+    require('../../assets/Icon/Icons/c25.png'),
+    require('../../assets/Icon/Icons/c26.png'),
+    require('../../assets/Icon/Icons/c27.png'),
+    require('../../assets/Icon/Icons/c28.png'),
+    require('../../assets/Icon/Icons/c29.png'),
+    require('../../assets/Icon/Icons/c30.png'),
+    require('../../assets/Icon/necessities/n9.png'),
+    require('../../assets/Icon/necessities/n2.png'),
+    require('../../assets/Icon/necessities/n3.png'),
+    require('../../assets/Icon/necessities/n4.png'),
+    require('../../assets/Icon/income/i14.png'),
+    require('../../assets/Icon/income/i15.png'),
+    require('../../assets/Icon/income/i17.png'),
+    require('../../assets/Icon/income/i16.png'),
+    require('../../assets/Icon/income/i18.png'),
+    require('../../assets/Icon/income/i19.png'),
+    require('../../assets/Icon/income/i20.png'),
+    require('../../assets/Icon/income/i21.png'),
+    require('../../assets/Icon/income/i22.png'),
+    require('../../assets/Icon/income/i23.png'),
+    require('../../assets/Icon/necessities/n5.png'),
+    require('../../assets/Icon/necessities/n6.png'),
+    require('../../assets/Icon/necessities/n7.png'),
+    require('../../assets/Icon/necessities/n1.png'),
+    require('../../assets/Icon/necessities/n8.png'),
+    require('../../assets/Icon/Icons/c31.png'),
+    require('../../assets/Icon/Icons/c32.png'),
+    require('../../assets/Icon/Icons/c33.png'),
+    require('../../assets/Icon/Icons/c34.png'),
+    require('../../assets/Icon/Icons/c35.png'),
+    require('../../assets/Icon/Icons/c36.png'),
+  ];
 
   
   const handleExpensesChange = (text) => {
@@ -118,57 +206,71 @@ const AddExpenses = () => {
     setSelectedOption(option); // Set the selected option when the user selects an option in the modal
     setIsModalVisible(!isModalVisible);
     setPreviousMonthsVisible(false);
-
+    
     if (option === 'Current month') {
       const currentDate = new Date();
-      const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+      const currentMonth = currentDate.getMonth()
       const currentYear = currentDate.getFullYear(); // Get the current year
-      const selectedMonthWithYear = `${currentMonth} ${currentYear}`; 
+      const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Get the last day of the month
+
+      const selectedMonthWithYear = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(lastDayOfMonth).padStart(2, '0')}`; 
       setSelectedMonth(selectedMonthWithYear);
       setPreviousMonthsVisible(false);
-      navigation.navigate('Home', {
-        expenses: expenses,
-        selectedIcons: selectedIcons,
-        selectedMonth: selectedMonthWithYear,
-      });
+      const l = true
+      const update = {...transaction,date:selectedMonthWithYear,color:randomColor()}
+      setAction(l)
+      setTransaction(update)
+      api(update)
+      // navigation.navigate('Home', {
+      //   expenses: expenses,
+      //   selectedIcons: selectedIcons,
+      //   selectedMonth: selectedMonthWithYear,
+      // })
+    
       // Log the selected option
-      console.log('Selected Option: Current month');
-      console.log('Current Month:', selectedMonthWithYear);
+     
+
+      // console.log('Selected Option: Current month');
+      // console.log('Current Month:', selectedMonthWithYear);
     } else if (option === 'Previous month') {
       setPreviousMonthsVisible(true); // Display previous months options
     }
   };
-  const currentDate = new Date();
+const currentDate = new Date();
 const currentMonthIndex = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
 
 // Calculate previous months
 const previousMonths = [];
 for (let i = 0; i < currentMonthIndex; i++) {
-  const month = new Date(currentYear, i, 1).toLocaleString('default', { month: 'long' });
-  previousMonths.push(`${month} ${currentYear}`); // Include the year in each month
+  const lastDayOfMonth = new Date(currentYear, i + 1, 0);
+  const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+  previousMonths.push(formattedDate);
 }
 
-const handlePreviousMonthSelection = (month) => {
+const handlePreviousMonthSelection =(month) => {
   setSelectedPreviousMonth(month);
-  setPreviousMonthsVisible(false); 
-  navigation.navigate('Home', {
-    expenses: expenses,
-    selectedIcons: selectedIcons,
-    selectedMonth: month, // The selected month already includes the year
-  });
+  setPreviousMonthsVisible(false);
+  const l = true
+  const update = {...transaction,date:month,color: randomColor()}
+  setAction(l)
+  setTransaction(update)
+
+
   // Log the selected previous month
-  console.log('Selected Previous Month:', month);
+  api(update)
+
 };
 
+
   
-  
-  const toggleIconSelection = (iconUrl) => {
+  const toggleIconSelection = async (iconUrl,leg) => {
     if (selectedIcons === iconUrl) {
       setSelectedIcons(null); // Deselect the currently selected icon
       setIconError(iconUrl)
     } else {
       setSelectedIcons(iconUrl); // Select the new icon
+      setLegend(leg)
       setIconError(null)
     }
   };
@@ -188,32 +290,50 @@ const handlePreviousMonthSelection = (month) => {
       setIconError('no_icon_selected');
     }
 
-    else if (!expensesError && !iconError) {
-      console.log('amount: ',expenses)
-      console.log('icon: ', selectedIcons)
-
+    else if (!expensesError &&   !iconError) {
+      // console.log('amount: ',expenses)
+      // console.log('icon: ', selectedIcons)
+      setTransaction({...transaction,user:context.id,category: parseInt(legend),
+        amount:parseInt(expenses.replace(/,/g, ''), 10),
+      icon : selectedIcons.icon,description :selectedIcons.text})
       toggleModal(true);
     }
   };
 
-  // useEffect(() => {
-  //   const loadIcons = async () => {
-  //     // Load and cache the icon assets
-  //     const loadedAssets = await Promise.all(
-  //       [...necessities, ...wants, ...savings].map((path) => {Asset.fromModule((path)).downloadAsync()
-  //       })
+  const api = async(data) => {
+     await axiosRequest.post("gabay/transaction/",data).then((response)=>{
+      setAction(false)
+        navigation.navigate('Home')
 
-  //     )
+      }).catch((e)=>{
+        console.log(data)
+        setAction(false)
+      })
+  }
 
-  //     // Set the iconAssets state with the loaded assets
-  //     setIconAssets(loadedAssets)
-  //   }
 
-  //   loadIcons()
-  // }, [])
+  useEffect(() => {
+    const loadIcons = async () => {
+      // Load and cache the icon assets
+      // console.log(transaction);
+      const loadedAssets = await Promise.all(
+        [...category1.necessities, ...category1.wants, ...category1.savings].map((path) => {Asset.fromModule((path.icon)).downloadAsync()
+        })
+
+      )
+
+      // Set the iconAssets state with the loaded assets
+      setIconAssets(loadedAssets)
+    }
+
+    loadIcons()
+  }, [])
+
+
 
   return (
-    <View style={Style.common}>
+    <View style={Style.common} pointerEvents ={action ?  'none' : 'auto'}>
+      <Loader visible={action}/>
       <View>
         <View
           style={{
@@ -252,15 +372,15 @@ const handlePreviousMonthSelection = (month) => {
       <View style={{overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
-  {category.necessities.map((iconUrl, index) => (
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+  {category1.necessities.map((iconUrl, index) => (
     <TouchableOpacity
       key={index}
       style={{
         margin: margin,
         alignItems: 'center',
       }}
-      onPress={() => toggleIconSelection(iconUrl)}
+      onPress={() => toggleIconSelection(iconUrl,1)}
     >
       <View
         style={{
@@ -280,7 +400,7 @@ const handlePreviousMonthSelection = (month) => {
               margin: 2,
               alignItems: 'center',
             }}
-            onPress={openAddCategory}
+            onPress={()=> openAddCategory("necessities")}
           >
             <View
               style={{
@@ -299,15 +419,15 @@ const handlePreviousMonthSelection = (month) => {
       <View style={{ overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: "space-between", flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
-  {category.wants.map((iconUrl, index) => (
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+  {category1.wants.map((iconUrl, index) => (
     <TouchableOpacity
       key={index}
       style={{
         margin: margin,
         alignItems: 'center',
       }}
-      onPress={() => toggleIconSelection(iconUrl)}
+      onPress={() => toggleIconSelection(iconUrl,2)}
     >
       <View
         style={{
@@ -326,7 +446,7 @@ const handlePreviousMonthSelection = (month) => {
               margin: 2,
               alignItems: 'center',
             }}
-            onPress={openAddCategory}
+            onPress={()=>openAddCategory("wants")}
           >
             <View
               style={{
@@ -347,15 +467,15 @@ const handlePreviousMonthSelection = (month) => {
 
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: "space-between", flexDirection: 'row', flexWrap: 'wrap', paddingVertical: 5 }}>
-  {category.savings.map((iconUrl, index) => (
+      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+  {category1.savings.map((iconUrl, index) => (
     <TouchableOpacity
       key={index}
       style={{
         margin: margin,
         alignItems: 'center',
       }}
-      onPress={() => toggleIconSelection(iconUrl)}
+      onPress={() => toggleIconSelection(iconUrl,3)}
     >
       <View
         style={{
@@ -374,7 +494,7 @@ const handlePreviousMonthSelection = (month) => {
               margin: 2,
               alignItems: 'center',
             }}
-            onPress={openAddCategory}
+            onPress={()=>openAddCategory("savings")}
           >
             <View
               style={{
@@ -439,7 +559,7 @@ const handlePreviousMonthSelection = (month) => {
                 <ScrollView>
                   {previousMonths.map((month, index) => (
                     <TouchableOpacity
-                      key={month}
+                      key={index}
                       style={{
                         backgroundColor:
                           selectedMonth === month ? '#144714' : 'transparent',

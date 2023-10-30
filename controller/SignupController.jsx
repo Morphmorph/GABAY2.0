@@ -75,11 +75,14 @@ const {setContext} = React.useContext(UserContext)
         setContext({email:formData.email})
         SetLoader(false)
         setNav(false)
-        navigation.navigate('Verify');
+        if(response == 'Registered successfully!'){
+          navigation.navigate('Verify');
+        }
+       
       }).catch((err)=>{
-        console.log(err)
+        console.log(formData)
         SetLoader(false)
-        alert("Something Went Wrong! Check your Intertnet Connection")
+        // alert("Something Went Wrong! Check your Intertnet Connection")
       })
       
     }

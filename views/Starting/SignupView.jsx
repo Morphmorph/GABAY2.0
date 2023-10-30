@@ -28,7 +28,7 @@ const Signup = () => {
 
   return (
    
-    <View style={Style.common}>
+    <View style={Style.common} >
       <Loader visible ={loader} message="Registering..."/>
 
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
