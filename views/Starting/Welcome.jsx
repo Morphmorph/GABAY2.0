@@ -9,7 +9,7 @@ const Welcome = () => {
   const navigation = useNavigation();
 
   // Initialize animated values
-  const logoPositionY = new Animated.Value(height / 9);
+  const logoPositionY = new Animated.Value(height / 5);
   const textOpacity = new Animated.Value(-7);
 
   useEffect(() => {
@@ -54,21 +54,23 @@ const Welcome = () => {
         style={{
           textAlign: 'center',
           fontSize: 16,
-          marginTop: 30,
+          top: 10,
           color: '#144714',
           opacity: textOpacity, // Use the animated opacity value
         }}
       >
-        <Text style={[Style.textcolor, {fontSize: 50, fontWeight: 'bold', }]}>WELCOME{'\n'}</Text>
-        <Text onPress={Signin} style={{ color: '#E3B448', fontSize: 25}}>
-          Login
-        </Text>
-        <Text style={{ color: '#144714', fontSize: 18 }}>
-          {'\n'}or{'\n'}
-        </Text>
-        <Text onPress={Signup} style={{ color: '#E3B448', fontSize: 25 }}>
-         Register
-        </Text>
+        <View>
+        <Text style={[Style.textcolor, { fontSize: 50, fontWeight: 'bold' }]}>WELCOME{'\n'}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Text onPress={Signin} style={{ color: '#E3B448', fontSize: 25 }}>
+            Login
+          </Text>
+         
+          <Text onPress={Signup} style={{ color: '#E3B448', fontSize: 25 }}>
+            Register
+          </Text>
+          </View>
+        </View>
       </Animated.Text>
     </View>
   );

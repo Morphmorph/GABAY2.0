@@ -8,9 +8,8 @@ import Signup from './views/Starting/SignupView';
 import Verify from './views/Starting/VerifyView';
 import Pin from './views/Starting/PinView';
 import Home from './views/Landing/Home';
-import Welcome from './views/Starting/Welcome';
+// import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
-import LoadingScreen from './views/LoadingScreen';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
 import InspectExpenses from './views/Landing/InspectExpenses';
 import InspectIncome from './views/Landing/InspectIncome';
@@ -19,6 +18,7 @@ import ForecastSavings from './views/Landing/ForecastSavings';
 import AddExpenses from './views/Landing/AddExpenses';
 import AddIncome from './views/Landing/AddIncome';
 import InspectHistory from './views/Landing/InspectHistory';
+import OnboardingScreen from './views/OnboardingScreen';
 
 
 const statusBarStyle = 'light-content'; // Set your desired status bar style here
@@ -27,13 +27,6 @@ const statusBarBackgroundColor = '#CBD18F'; // Set your desired status bar backg
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 4000);
-  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#3A6B35' }}>
@@ -41,37 +34,53 @@ const App = () => {
         style={statusBarStyle}
         backgroundColor={statusBarBackgroundColor}
         translucent={true}
+        hidden={true}
       />
       <NavigationContainer>
-      {isLoading ? (
-          <LoadingScreen /> 
-        ) : (
+    
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="Onboarding"
           screenOptions={{
             headerShown: false,
-            animation: 'slide_from_right',
+            animation: 'fade',
           }}
         >
           <Stack.Screen
             name="Incomes"
             component={MonthlyIncome}
+            options={{
+              headerShown: false,
+              animation: 'fade',
+            }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Welcome"
             component={Welcome}
-          />
+          /> */}
           <Stack.Screen
             name="Log in"
             component={Login}
+           
+          />
+          <Stack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
           />
           <Stack.Screen
             name="Forgot password"
             component={Forgot}
+            options={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
           />
           <Stack.Screen
             name="Home"
             component={Home}
+            options={{
+              headerShown: false,
+              animation: 'flip',
+            }}
           />
           <Stack.Screen
             name="Expenses"
@@ -195,17 +204,29 @@ const App = () => {
           <Stack.Screen
             name="Sign up"
             component={Signup}
+            options={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
           />
           <Stack.Screen
             name="Verify"
             component={Verify}
+            options={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
           />
           <Stack.Screen
             name="Pin"
             component={Pin}
+            options={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
           />
         </Stack.Navigator>
-        )}
+       
       </NavigationContainer>
     </SafeAreaView>
   );
