@@ -1,13 +1,13 @@
 import { Dimensions, StyleSheet } from "react-native";
+const {width, height} = Dimensions.get('window');
 
 export const Style = StyleSheet.create({
 
     common: {
         flex: 1,
-        height: Dimensions.get('window').height,
-        width: Dimensions.get('window').width,
+        height: Dimensions.get('window'),
+        width: Dimensions.get('window'),
         backgroundColor: '#3A6B35',
-       
     },
     container: {
         alignItems: 'center',
@@ -24,7 +24,19 @@ export const Style = StyleSheet.create({
         marginTop: '40%',
         resizeMode: 'contain',
     },
-  
+    glass: {
+      margin: 5,
+      height: 155,
+      backgroundColor: 'rgba(0, 0, 0, 0.45)',
+      padding: 7,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: 'transparent',  // Change the border color to match the CSS
+      boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+      backdropFilter: 'blur(6.7px)',
+      WebkitBackdropFilter: 'blur(6.7px)',
+      
+    },
     signInButton: {
         backgroundColor: '#144714',
         paddingVertical: 10,
@@ -77,6 +89,10 @@ export const Style = StyleSheet.create({
       legendLabel: {
         fontSize: 16,
         color: '#144714',
+      },
+      lottie:{
+        width: width*0.9,
+        height: width
       },
       
 })

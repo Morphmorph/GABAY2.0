@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Image, Modal, ScrollView,BackHandler} from 'react-native';
 import Logo from '../../assets/logo/logo1.png';
+import Peso from '../../assets/Icon/peso.png'
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
 import { Header, Icon } from 'react-native-elements';
@@ -28,7 +29,7 @@ const Home = ({ navigation }) => {
   const expenses = [
     {
       key: 'food',
-      value: 500, // Replace with your actual expense data
+      value: 500, 
     },
     {
       key: 'utilities',
@@ -60,11 +61,11 @@ const Home = ({ navigation }) => {
     },
     {
       key: 'Employment',
-      value: 35000, 
+      value: 15000, 
     },
     {
       key: 'Freelancing',
-      value: 20000, 
+      value: 4000, 
     },
     
   ];
@@ -158,12 +159,13 @@ const Home = ({ navigation }) => {
         <LoadingScreen />
       ) : (
         <>
-        
+       
        <View>
+        
           <Header
             placement="left"
             centerComponent={
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
                 <Image source={Logo} style={{ width: 50, height: 50, marginRight: 5, marginLeft: -15, padding: 20 }} resizeMode="contain" />
                 <Text style={{
                   color: '#E3B448',
@@ -185,6 +187,7 @@ const Home = ({ navigation }) => {
             }
             containerStyle={{
               backgroundColor: '#144714',
+              borderColor: 'transparent',
               height: headerHeight,
             }}
           />
@@ -197,7 +200,7 @@ const Home = ({ navigation }) => {
                 marginTop: 2,
                 borderRadius: 5,
                 top: headerHeight,
-                right: 2,
+                right: 20,
                 width: 100,
                 height: 'auto',
                 zIndex: 1,
@@ -237,35 +240,39 @@ const Home = ({ navigation }) => {
             </View>
           )}
           
-          <View style={{ top: 10, alignSelf: 'center',  alignItems: 'center', paddingVertical: 10, backgroundColor: '#144714', height: 60, width: 200, borderRadius: 10, }}>
-            <View style={{ flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: '#CBD18F' }}>
-              <Iconn name="currency-php" style={{ fontSize: 20, color: '#E3B448' }} />
-              <Text style={{ fontWeight: '500', fontSize: 20, color: '#E3B448' }}>1,000,000</Text>
+         <View style={Style.glass}>
+            <View style={{ alignItems: 'center', backgroundColor: '#091F0A', borderRadius: 5}}>
+              <Text style={{ color: '#E3B448', fontSize: 25 }}>HISTORY</Text>
             </View>
-            <Text style={{ color: '#E3B448' }}>Income</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+              <View style={{ alignItems: 'center', width: 150, backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: selectedOption === 'Expenses' ? '#E3B448' : 'transparent', }}>
+                <View style={{ flexDirection: 'row', borderBottomWidth: 1 }}>
+                  <Image source={Peso} style={{ width: 20, height: 20 }} />
+                  <Text style={{ color: '#144714', fontSize: 20 }}> 20,000.00</Text>
+                </View>
+                <Text style={{ color: '#E3B448', fontSize: 12 }}>Income</Text>
+              </View>
+              <View style={{ alignItems: 'center', width: 150, backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: selectedOption === 'Income' ? '#E3B448' : 'transparent', }}>
+                <View style={{ flexDirection: 'row', borderBottomWidth: 1 }}>
+                  <Image source={Peso} style={{ width: 20, height: 20 }} />
+                  <Text style={{ color: '#144714', fontSize: 20 }}> 13,700.00</Text>
+                </View>
+                <Text style={{ color: '#E3B448', fontSize: 12 }}>Expenses</Text>
+              </View>
+            </View>
+          
+            <TouchableOpacity onPress={toggleOption}>
+            <View style={{ alignItems: 'center', backgroundColor: '#CBD18F', borderRadius: 5, flexDirection: 'row', justifyContent: 'space-between', padding: 5, top: 10}}>
+                <Text style={{ fontSize: 20, color: '#144714' }}>{selectedOption}</Text>
+                <Iconn name="swap-horizontal" style={{ fontSize: 25, color: '#144714', marginLeft: 2 }} />
+              </View>
+              </TouchableOpacity>
           </View>
 
-          <View style={{top: 30, alignSelf: 'center' }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Text style={{ fontSize: 35, color: '#E3B448' }}>HISTORY</Text>
-            <TouchableOpacity onPress={toggleOption}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: '#144714',
-                  height: 40,
-                  width: 110,
-                  paddingHorizontal: 5,
-                  borderRadius: 5,
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Text style={{ fontSize: 20, color: '#E3B448' }}>{selectedOption}</Text>
-                <Iconn name="swap-horizontal" style={{ fontSize: 25, color: '#E3B448', marginLeft: 2 }} />
-              </View>
-            </TouchableOpacity>
+          <View style={{top: 30, paddingHorizontal: 10}}>
+          
             </View>
+
             {selectedOption === 'Income' && (
             
             <View style={{ top: 10, backgroundColor: 'white', width:(Dimensions.get('window').width * 90 / 100),marginHorizontal:30, borderRadius: 10 ,}}>
@@ -285,8 +292,7 @@ const Home = ({ navigation }) => {
               <DonutChart data={expense}/>
 
               </View>
-              
-              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('Expenses')}}>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center',}} onPress={() => {navigation.navigate('Expenses')}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
             </View>: <View style={{justifyContent: 'space-evenly', alignItems: 'center' ,padding:10,width:'100%'}}>
@@ -306,9 +312,12 @@ const Home = ({ navigation }) => {
               <Text style={{ fontSize: 20, color: '#144714' }}>Income</Text>
               
             </View>
-               <View style={{ padding: 20, height: 'auto',}}>
+               <View style={{ padding: 20, }}>
                <DonutChart data={income}/>
               </View>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center',}} onPress={() => {navigation.navigate('Income')}}>
+                <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
+              </TouchableOpacity>
               </View>
               )}
             </View>
@@ -316,7 +325,7 @@ const Home = ({ navigation }) => {
           </View>
 
       
-      <View style={{ position: 'absolute', bottom: 10, left: 0, right: 0 }}>
+      <View style={{ position: 'absolute', bottom: 5, left: 0, right: 0 }}>
       <View style={{ flexDirection: 'row', backgroundColor: '#144714', height: 80, width: 250, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-around', borderRadius: 20 }}>
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
@@ -392,5 +401,5 @@ const Home = ({ navigation }) => {
   );
   
 };
-
 export default Home;
+
