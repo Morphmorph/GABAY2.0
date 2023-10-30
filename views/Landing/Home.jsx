@@ -245,7 +245,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: '#E3B448' }}>Income</Text>
           </View>
 
-          <View style={{top: 30, alignSelf: 'center' ,display: Object.keys(ddate).length ? 'auto':'none'}}>
+          <View style={{top: 30, alignSelf: 'center' }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Text style={{ fontSize: 35, color: '#E3B448' }}>HISTORY</Text>
             <TouchableOpacity onPress={toggleOption}>
@@ -269,6 +269,7 @@ const Home = ({ navigation }) => {
             {selectedOption === 'Income' && (
             
             <View style={{ top: 10, backgroundColor: 'white', width:(Dimensions.get('window').width * 90 / 100),marginHorizontal:30, borderRadius: 10 ,}}>
+            { Object.keys(ddate).length ? <View >
             <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingHorizontal: 20 }}>
               <TouchableOpacity onPress={handlePress}>
               <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
@@ -288,7 +289,13 @@ const Home = ({ navigation }) => {
               <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('Expenses')}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
-            
+            </View>: <View style={{justifyContent: 'space-evenly', alignItems: 'center' ,padding:10,width:'100%'}}>
+              <Image source={require('../../assets/logo/logo1.png')} style={{opacity:0.3,}}/>
+              <Text style={{ fontSize: 24, fontWeight: '300',fontStyle: 'italic', marginTop: 20, color: '#CBD18F' ,letterSpacing:2,textAlign:'center'}}>
+
+               History Graph Shown Here!
+              </Text>
+              </View>}
               </View>
               
               )}
@@ -305,6 +312,7 @@ const Home = ({ navigation }) => {
               </View>
               )}
             </View>
+            
           </View>
 
       
