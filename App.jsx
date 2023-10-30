@@ -435,7 +435,7 @@ const App = () => {
           />
         </Stack.Navigator>
         </UserContext.Provider>
-        )}
+        
       </NavigationContainer>
       
     </SafeAreaView>
