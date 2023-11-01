@@ -9,7 +9,7 @@ import UserContext from '../../api_server/context'
 
 const AddCategory = ({route}) => {
   const navigation = useNavigation()
-  const { destination,cat } = route.params;
+  const { destination,cat} = route.params;
   const [category, setCategory] = useState('')
   const [categoryError, setCategoryError] = useState(null)
   const [selectedIcons, setSelectedIcons] = useState(null);
@@ -158,7 +158,7 @@ console.log(newCategory)
       // Load and cache the icon assets
       // console.log('Category:', selectedIcons)
       const loadedAssets = await Promise.all(
-        incomeIcon.income.map((path) => Asset.fromModule(path.icon).downloadAsync())
+        iconPaths.map((path) => Asset.fromModule(path).downloadAsync())
       )
 
       // Set the iconAssets state with the loaded assets

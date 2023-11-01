@@ -13,7 +13,7 @@ export const useMonthlyIncomeController = () => {
       user : context.id,
       title : "Main",
       amount : parseInt(income.replace(/,/g, ''), 10),
-      icon : 1
+      icon : 36
     }
   
     const handleIncomeChange = (text) => {

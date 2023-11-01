@@ -52,7 +52,7 @@ const AddExpenses = () => {
     require('../../assets/Icon/necessities/n8.png'),
   ];
 
-  // console.log(necessities)
+  
   const necessitiesText = [
     'Maintenance',
     'Ensurance',
@@ -104,7 +104,7 @@ const AddExpenses = () => {
     'Vacation'
 
   ];
-
+  // console.log(savings)
   const iconPaths = [
     require('../../assets/Icon/Icons/c1.png'),
     require('../../assets/Icon/Icons/c2.png'),
@@ -305,7 +305,7 @@ const handlePreviousMonthSelection =(month) => {
         navigation.navigate('Home')
 
       }).catch((e)=>{
-        console.log(data)
+        console.log(JSON.stringify(data))
         setAction(false)
       })
   }
@@ -326,7 +326,7 @@ const handlePreviousMonthSelection =(month) => {
   //   }
 
     loadIcons()
-  }, [])
+    }}, [])
 
 
 

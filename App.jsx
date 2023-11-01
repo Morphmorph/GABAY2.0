@@ -120,101 +120,101 @@ const App = () => {
   const [category1,setCategory1] = useState({
     necessities: [
       {
-        icon: 17,
+        icon: 18,
         text: 'Maintenance',
       },
       {
-        icon: 18,
+        icon: 19,
         text: 'Ensurance',
       },
       {
-        icon: 19,
+        icon: 20,
         text: 'Rent',
       },
       {
-        icon: 20,
+        icon: 21,
         text: 'Child Care',
       },
       {
-        icon: 21,
+        icon: 22,
         text: 'Grocery',
       },
       {
-        icon: 22,
+        icon: 23,
         text: 'Utilities',
       },
       {
-        icon: 23,
+        icon: 24,
         text: 'Transport',
       },
       {
-        icon: 13,
+        icon: 14,
         text: 'Personal care',
       },
       {
-        icon: 24,
+        icon: 25,
         text: 'Medical',
       },
       // ... (other necessities)
     ],
     wants: [
       {
-        icon: 25,
+        icon: 26,
         text: 'Gifts',
       },
       {
-        icon: 26,
+        icon: 27,
         text: 'Gym',
       },
       {
-        icon: 27,
+        icon: 28,
         text: 'Furnishing',
       },
       {
-        icon:28,
+        icon:29,
         text: 'Electronincs',
       },
       {
-        icon: 29,
+        icon: 30,
         text: 'Hobbies',
       },
       {
-        icon: 30,
+        icon: 31,
         text: 'Travel',
       },
       {
-        icon: 31,
+        icon: 32,
         text: 'entertainment',
       },
       {
-        icon: 32,
+        icon: 33,
         text: 'Dining Out',
       },
       {
-        icon: 33,
+        icon: 34,
         text: 'Fashion',
       },
       // ... (other wants)
     ],
     savings: [
       {
-        icon: 34,
+        icon: 35,
         text: 'Emergency',
       },
       {
-        icon: 35,
+        icon: 36,
         text: 'Long-term',
       },
       {
-        icon: 36,
+        icon: 37,
         text: 'Short-Term',
       },
       {
-        icon: 37,
+        icon: 38,
         text: 'Retirement',
       },
       {
-        icon: 38,
+        icon: 39,
         text: 'Education',
       },
       // ... (other savings)
@@ -242,12 +242,10 @@ const App = () => {
         hidden={true}
       />
       <NavigationContainer>
-      {isLoading ? (
-          <LoadingScreen /> 
-        ) : (
+    
 <UserContext.Provider value={{context,setContext,nav,setNav,category1,setCategory1,transaction,setTransaction,incomeIcon,setIncomeIcon}}>
         <Stack.Navigator
-          initialRouteName="Onboarding"
+          initialRouteName={context.id ? "Home" :"Onboarding"}
           screenOptions={{
             headerShown: false,
             animation: 'fade',

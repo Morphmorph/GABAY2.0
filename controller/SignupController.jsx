@@ -75,7 +75,7 @@ const {setContext,setNav} = React.useContext(UserContext)
         setContext({email:formData.email})
         SetLoader(false)
         setNav(false)
-        if(response == 'Registered successfully!'){
+        if(response.data == 'Registered successfully!'){
           navigation.navigate('Verify');
         }
        
