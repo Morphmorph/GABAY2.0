@@ -5,6 +5,38 @@ import Style from '../Style';
 import icon1 from '../../assets/Icon/necessities/n1.png';
 
 const InspectExpenses = () => {
+  const wants = [
+    require('../../assets/Icon/wants/w1.png'),
+    require('../../assets/Icon/wants/w2.png'),
+    require('../../assets/Icon/wants/w3.png'),
+    require('../../assets/Icon/wants/w4.png'),
+    require('../../assets/Icon/wants/w5.png'),
+    require('../../assets/Icon/wants/w6.png'),
+    require('../../assets/Icon/wants/w7.png'),
+    require('../../assets/Icon/wants/w8.png'),
+    require('../../assets/Icon/wants/w9.png'),
+  ];
+  const necessities = [
+    require('../../assets/Icon/necessities/n9.png'),
+    require('../../assets/Icon/necessities/n2.png'),
+    require('../../assets/Icon/necessities/n3.png'),
+    require('../../assets/Icon/necessities/n4.png'),
+    require('../../assets/Icon/necessities/n5.png'),
+    require('../../assets/Icon/necessities/n6.png'),
+    require('../../assets/Icon/necessities/n7.png'),
+    require('../../assets/Icon/necessities/n1.png'),
+    require('../../assets/Icon/necessities/n8.png'),
+  ];
+
+  const savings = [
+    require('../../assets/Icon/savings/s1.png'),
+    require('../../assets/Icon/savings/s2.png'),
+    require('../../assets/Icon/savings/s3.png'),
+    require('../../assets/Icon/savings/s4.png'),
+    require('../../assets/Icon/savings/s5.png'),
+    require('../../assets/Icon/Icons/c11.png'),
+  ];
+  // console.log(icon1)
   return (
     <View style={Style.common}>
       <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>

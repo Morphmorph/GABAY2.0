@@ -43,7 +43,7 @@ function DonutChart({data}) {
     const numDigits = totalExpenseStr.replace(/,/g, '').length;
 
     if (numDigits >= 1 && numDigits <= 5) {
-      return 22;
+      return 20;
     } else if (numDigits === 6) {
       return 19;
     } else if (numDigits === 7) {
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   legendItem: {

@@ -17,9 +17,17 @@ import AddCategory from './views/Landing/AddCategory';
 import ForecastSavings from './views/Landing/ForecastSavings';
 import AddExpenses from './views/Landing/AddExpenses';
 import AddIncome from './views/Landing/AddIncome';
+import UserContext from './api_server/context';
 import InspectHistory from './views/Landing/InspectHistory';
 import OnboardingScreen from './views/OnboardingScreen';
 
+
+
+
+//TODO
+
+// 1. Alert sa pag transition kada button
+// 2.Forgot password nga mag type og unsa nga email ang sendan og another OTP nga input para Verify
 
 const statusBarStyle = 'light-content'; // Set your desired status bar style here
 const statusBarBackgroundColor = '#CBD18F'; // Set your desired status bar background color here
@@ -27,6 +35,203 @@ const statusBarBackgroundColor = '#CBD18F'; // Set your desired status bar backg
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [context,setContext] = React.useState({
+    id: null,
+    email: null,
+    otp:null
+  })
+
+  const [incomeIcon,setIncomeIcon] = useState({
+    income : [
+    {
+      icon: 14,
+      text: 'Business',
+    },
+    {
+      icon: 19,
+      text: 'Investment',
+    },
+    {
+      icon: 20,
+      text: 'Annuities',
+    },
+    {
+      icon: 21,
+      text: 'Capital gain',
+    },
+    {
+      icon: 22,
+      text: 'Pension',
+    },
+    {
+      icon: 23,
+      text: 'Dividend',
+    },
+    {
+      icon: 24,
+      text: 'Rental',
+    },
+    {
+      icon: 25,
+      text: 'Freelancing',
+    },
+    {
+      icon: 26,
+      text: 'Vlogging',
+    },
+    {
+      icon: 27,
+      text: 'Employment',
+    },
+    {
+      icon: 28,
+      text: 'Interest',
+    },
+    {
+      icon: 29,
+      text: 'Online selling',
+    },
+    {
+      icon: 30,
+      text: 'Gifts',
+    },
+    {
+      icon: 31,
+      text: 'Commission',
+    },
+    {
+      icon: 32,
+      text: 'Sport',
+    },
+    {
+      icon: 33,
+      text: 'NFT Sales',
+    },
+    {
+      icon: 34,
+      text: 'Lottery',
+    }, ]
+})
+
+  
+
+  const [category1,setCategory1] = useState({
+    necessities: [
+      {
+        icon: 18,
+        text: 'Maintenance',
+      },
+      {
+        icon: 19,
+        text: 'Ensurance',
+      },
+      {
+        icon: 20,
+        text: 'Rent',
+      },
+      {
+        icon: 21,
+        text: 'Child Care',
+      },
+      {
+        icon: 22,
+        text: 'Grocery',
+      },
+      {
+        icon: 23,
+        text: 'Utilities',
+      },
+      {
+        icon: 24,
+        text: 'Transport',
+      },
+      {
+        icon: 14,
+        text: 'Personal care',
+      },
+      {
+        icon: 25,
+        text: 'Medical',
+      },
+      // ... (other necessities)
+    ],
+    wants: [
+      {
+        icon: 26,
+        text: 'Gifts',
+      },
+      {
+        icon: 27,
+        text: 'Gym',
+      },
+      {
+        icon: 28,
+        text: 'Furnishing',
+      },
+      {
+        icon:29,
+        text: 'Electronincs',
+      },
+      {
+        icon: 30,
+        text: 'Hobbies',
+      },
+      {
+        icon: 31,
+        text: 'Travel',
+      },
+      {
+        icon: 32,
+        text: 'entertainment',
+      },
+      {
+        icon: 33,
+        text: 'Dining Out',
+      },
+      {
+        icon: 34,
+        text: 'Fashion',
+      },
+      // ... (other wants)
+    ],
+    savings: [
+      {
+        icon: 35,
+        text: 'Emergency',
+      },
+      {
+        icon: 36,
+        text: 'Long-term',
+      },
+      {
+        icon: 37,
+        text: 'Short-Term',
+      },
+      {
+        icon: 38,
+        text: 'Retirement',
+      },
+      {
+        icon: 39,
+        text: 'Education',
+      },
+      // ... (other savings)
+    ]
+  })
+  
+
+  const [nav, setNav] = React.useState(false)
+
+  const [transaction,setTransaction] = useState({})
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#3A6B35' }}>
@@ -38,8 +243,9 @@ const App = () => {
       />
       <NavigationContainer>
     
+<UserContext.Provider value={{context,setContext,nav,setNav,category1,setCategory1,transaction,setTransaction,incomeIcon,setIncomeIcon}}>
         <Stack.Navigator
-          initialRouteName="Onboarding"
+          initialRouteName={context.id ? "Home" :"Onboarding"}
           screenOptions={{
             headerShown: false,
             animation: 'fade',
@@ -226,8 +432,10 @@ const App = () => {
             }}
           />
         </Stack.Navigator>
-       
+        </UserContext.Provider>
+        
       </NavigationContainer>
+      
     </SafeAreaView>
   );
 };
