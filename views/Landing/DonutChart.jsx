@@ -29,7 +29,7 @@ const chartConfig = {
   },
 };
 
-function DonutChart({data}) {
+function DonutChart({data,total_sum}) {
   const [totalExpense, setTotalExpense] = useState(0);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ function DonutChart({data}) {
           <Labels />
         </PieChart>
         <View style={styles.centeredTextContainer}>
-          <Text style={[styles.centeredText, { fontSize: getFontSize() }]}>₱{totalExpense.toLocaleString()}</Text>
+          <Text style={[styles.centeredText, { fontSize: getFontSize(),color: totalExpense > total_sum ? 'red' :  '#144714'}]}>₱{totalExpense.toLocaleString()}</Text>
         </View>
       </View>
       <View style={styles.legend}>

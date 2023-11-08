@@ -43,6 +43,8 @@ const AddIncome = () => {
     require('../../assets/Icon/income/i16.png'),
     require('../../assets/Icon/income/i23.png'),
   ];
+
+  // console.log(iconPaths)
   // const iconTexts = [
   //   'Business',
   //   'Investment',

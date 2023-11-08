@@ -46,71 +46,71 @@ const App = () => {
   const [incomeIcon,setIncomeIcon] = useState({
     income : [
     {
-      icon: 14,
+      icon: 15,
       text: 'Business',
     },
     {
-      icon: 19,
+      icon: 53,
       text: 'Investment',
     },
     {
-      icon: 20,
+      icon: 54,
       text: 'Annuities',
     },
     {
-      icon: 21,
+      icon: 55,
       text: 'Capital gain',
     },
     {
-      icon: 22,
+      icon: 56,
       text: 'Pension',
     },
     {
-      icon: 23,
+      icon: 57,
       text: 'Dividend',
     },
     {
-      icon: 24,
+      icon: 58,
       text: 'Rental',
     },
     {
-      icon: 25,
+      icon: 59,
       text: 'Freelancing',
     },
     {
-      icon: 26,
+      icon: 60,
       text: 'Vlogging',
     },
     {
-      icon: 27,
+      icon: 61,
       text: 'Employment',
     },
     {
-      icon: 28,
+      icon: 62,
       text: 'Interest',
     },
     {
-      icon: 29,
+      icon: 63,
       text: 'Online selling',
     },
     {
-      icon: 30,
+      icon: 75,
       text: 'Gifts',
     },
     {
-      icon: 31,
+      icon: 76,
       text: 'Commission',
     },
     {
-      icon: 32,
+      icon: 77,
       text: 'Sport',
     },
     {
-      icon: 33,
+      icon: 78,
       text: 'NFT Sales',
     },
     {
-      icon: 34,
+      icon: 84,
       text: 'Lottery',
     }, ]
 })
@@ -120,31 +120,31 @@ const App = () => {
   const [category1,setCategory1] = useState({
     necessities: [
       {
-        icon: 18,
+        icon: 71,
         text: 'Maintenance',
       },
       {
-        icon: 19,
+        icon: 72,
         text: 'Ensurance',
       },
       {
-        icon: 20,
+        icon: 73,
         text: 'Rent',
       },
       {
-        icon: 21,
+        icon: 74,
         text: 'Child Care',
       },
       {
-        icon: 22,
+        icon: 85,
         text: 'Grocery',
       },
       {
-        icon: 23,
+        icon: 86,
         text: 'Utilities',
       },
       {
-        icon: 24,
+        icon: 87,
         text: 'Transport',
       },
       {
@@ -152,69 +152,69 @@ const App = () => {
         text: 'Personal care',
       },
       {
-        icon: 25,
+        icon: 88,
         text: 'Medical',
       },
       // ... (other necessities)
     ],
     wants: [
       {
-        icon: 26,
+        icon: 24,
         text: 'Gifts',
       },
       {
-        icon: 27,
+        icon: 25,
         text: 'Gym',
       },
       {
-        icon: 28,
+        icon: 26,
         text: 'Furnishing',
       },
       {
-        icon:29,
+        icon:27,
         text: 'Electronincs',
       },
       {
-        icon: 30,
+        icon: 28,
         text: 'Hobbies',
       },
       {
-        icon: 31,
+        icon: 29,
         text: 'Travel',
       },
       {
-        icon: 32,
+        icon: 30,
         text: 'entertainment',
       },
       {
-        icon: 33,
+        icon: 31,
         text: 'Dining Out',
       },
       {
-        icon: 34,
+        icon: 32,
         text: 'Fashion',
       },
       // ... (other wants)
     ],
     savings: [
       {
-        icon: 35,
+        icon: 44,
         text: 'Emergency',
       },
       {
-        icon: 36,
+        icon: 45,
         text: 'Long-term',
       },
       {
-        icon: 37,
+        icon: 46,
         text: 'Short-Term',
       },
       {
-        icon: 38,
+        icon: 47,
         text: 'Retirement',
       },
       {
-        icon: 39,
+        icon: 48,
         text: 'Education',
       },
       // ... (other savings)
