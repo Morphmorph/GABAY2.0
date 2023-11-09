@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Modal, TouchableOpacity, Image, Dimensions} from 'react-native'
+import { View, Text, ScrollView, Modal, TouchableOpacity, Image, Dimensions,Alert} from 'react-native'
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
@@ -14,7 +14,7 @@ import Loader from '../Starting/actionLoader'
 const AddExpenses = () => {
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width;
-  const margin = screenWidth === 360 ? 5 : 2.2;
+  const margin = screenWidth === 360 ? 6 : 2.2;
   const openAddCategory = (cat) => {
     navigation.navigate('Add Category', { destination: 'Add expenses' ,cat :cat});
   };
@@ -32,163 +32,6 @@ const AddExpenses = () => {
   const [legend,setLegend] = useState(null)
   const [action,setAction] = useState(false)
 
-// console.log(iconAssets)
-
-
-// const itemss = require(`'${category.necessities[0].icon}'`)
-// console.log(itemss)\
-
-
-
-  const necessities = [
-    require('../../assets/Icon/necessities/n9.png'),
-    require('../../assets/Icon/necessities/n2.png'),
-    require('../../assets/Icon/necessities/n3.png'),
-    require('../../assets/Icon/necessities/n4.png'),
-    require('../../assets/Icon/necessities/n5.png'),
-    require('../../assets/Icon/necessities/n6.png'),
-    require('../../assets/Icon/necessities/n7.png'),
-    require('../../assets/Icon/necessities/n1.png'),
-    require('../../assets/Icon/necessities/n8.png'),
-  ];
-
-  
-  const necessitiesText = [
-    'Maintenance',
-    'Ensurance',
-    'Rent',
-    'Child care',
-    'Grocery',
-    'Utilities',
-    'Transport',
-    'Personal care',
-    'Medical',
-  ];
-  const wants = [
-    require('../../assets/Icon/wants/w1.png'),
-    require('../../assets/Icon/wants/w2.png'),
-    require('../../assets/Icon/wants/w3.png'),
-    require('../../assets/Icon/wants/w4.png'),
-    require('../../assets/Icon/wants/w5.png'),
-    require('../../assets/Icon/wants/w6.png'),
-    require('../../assets/Icon/wants/w7.png'),
-    require('../../assets/Icon/wants/w8.png'),
-    require('../../assets/Icon/wants/w9.png'),
-  ];
-  const wantsText = [
-    'Gifts',
-    'Gym',
-    'Furnishing',
-    'Electronincs',
-    'Hobbies',
-    'Travel',
-    'Entertainment',
-    'Dining out',
-    'Fashion',
-  ];
-  const savings = [
-    require('../../assets/Icon/savings/s1.png'),
-    require('../../assets/Icon/savings/s2.png'),
-    require('../../assets/Icon/savings/s3.png'),
-    require('../../assets/Icon/savings/s4.png'),
-    require('../../assets/Icon/savings/s5.png'),
-    require('../../assets/Icon/Icons/c11.png'),
-  ];
-  // console.log(wants)
-  const savingsText = [
-    'Emergency',
-    'Long-term',
-    'Short-term',
-    'Retirement',
-    'Education',
-    'Vacation'
-
-  ];
-  // console.log(savings)
-  const iconPaths = [
-    require('../../assets/Icon/Icons/c1.png'),
-    require('../../assets/Icon/Icons/c2.png'),
-    require('../../assets/Icon/Icons/c3.png'),
-    require('../../assets/Icon/Icons/c4.png'),
-    require('../../assets/Icon/Icons/c5.png'),
-    require('../../assets/Icon/Icons/c6.png'),
-    require('../../assets/Icon/Icons/c7.png'),
-    require('../../assets/Icon/wants/w1.png'),
-    require('../../assets/Icon/wants/w2.png'),
-    require('../../assets/Icon/wants/w3.png'),
-    require('../../assets/Icon/wants/w4.png'),
-    require('../../assets/Icon/wants/w5.png'),
-    require('../../assets/Icon/wants/w6.png'),
-    require('../../assets/Icon/wants/w7.png'),
-    require('../../assets/Icon/wants/w8.png'),
-    require('../../assets/Icon/wants/w9.png'),
-    require('../../assets/Icon/Icons/c8.png'),
-    require('../../assets/Icon/Icons/c9.png'),
-    require('../../assets/Icon/Icons/c11.png'),
-    require('../../assets/Icon/Icons/c12.png'),
-    require('../../assets/Icon/Icons/c13.png'),
-    require('../../assets/Icon/Icons/c14.png'),
-    require('../../assets/Icon/Icons/c15.png'),
-    require('../../assets/Icon/Icons/c16.png'),
-    require('../../assets/Icon/Icons/c17.png'),
-    require('../../assets/Icon/Icons/c18.png'),
-    require('../../assets/Icon/Icons/c19.png'),
-    require('../../assets/Icon/savings/s1.png'),
-    require('../../assets/Icon/savings/s2.png'),
-    require('../../assets/Icon/savings/s3.png'),
-    require('../../assets/Icon/savings/s4.png'),
-    require('../../assets/Icon/savings/s5.png'),
-    require('../../assets/Icon/Icons/c20.png'),
-    require('../../assets/Icon/Icons/c21.png'),
-    require('../../assets/Icon/Icons/c22.png'),
-    require('../../assets/Icon/Icons/c23.png'),
-    require('../../assets/Icon/income/i1.png'),
-    require('../../assets/Icon/income/i2.png'),
-    require('../../assets/Icon/income/i3.png'),
-    require('../../assets/Icon/income/i4.png'),
-    require('../../assets/Icon/income/i5.png'),
-    require('../../assets/Icon/income/i6.png'),
-    require('../../assets/Icon/income/i7.png'),
-    require('../../assets/Icon/income/i10.png'),
-    require('../../assets/Icon/income/i9.png'),
-    require('../../assets/Icon/income/i12.png'),
-    require('../../assets/Icon/income/i13.png'),
-    require('../../assets/Icon/income/i8.png'),
-    require('../../assets/Icon/Icons/c24.png'),
-    require('../../assets/Icon/Icons/c25.png'),
-    require('../../assets/Icon/Icons/c26.png'),
-    require('../../assets/Icon/Icons/c27.png'),
-    require('../../assets/Icon/Icons/c28.png'),
-    require('../../assets/Icon/Icons/c29.png'),
-    require('../../assets/Icon/Icons/c30.png'),
-    require('../../assets/Icon/necessities/n9.png'),
-    require('../../assets/Icon/necessities/n2.png'),
-    require('../../assets/Icon/necessities/n3.png'),
-    require('../../assets/Icon/necessities/n4.png'),
-    require('../../assets/Icon/income/i14.png'),
-    require('../../assets/Icon/income/i15.png'),
-    require('../../assets/Icon/income/i17.png'),
-    require('../../assets/Icon/income/i16.png'),
-    require('../../assets/Icon/income/i18.png'),
-    require('../../assets/Icon/income/i19.png'),
-    require('../../assets/Icon/income/i20.png'),
-    require('../../assets/Icon/income/i21.png'),
-    require('../../assets/Icon/income/i22.png'),
-    require('../../assets/Icon/income/i23.png'),
-    require('../../assets/Icon/necessities/n5.png'),
-    require('../../assets/Icon/necessities/n6.png'),
-    require('../../assets/Icon/necessities/n7.png'),
-    require('../../assets/Icon/necessities/n1.png'),
-    require('../../assets/Icon/necessities/n8.png'),
-    require('../../assets/Icon/Icons/c31.png'),
-    require('../../assets/Icon/Icons/c32.png'),
-    require('../../assets/Icon/Icons/c33.png'),
-    require('../../assets/Icon/Icons/c34.png'),
-    require('../../assets/Icon/Icons/c35.png'),
-    require('../../assets/Icon/Icons/c36.png'),
-  ];
-
-  
   const handleExpensesChange = (text) => {
     // Clear existing errors
     setExpensesError(null)
@@ -300,12 +143,31 @@ const handlePreviousMonthSelection =(month) => {
   };
 
   const api = async(data) => {
-     await axiosRequest.post("gabay/transaction/",data).then((response)=>{
+     await axiosRequest.post("gabay/transaction/",data,{
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    },).then((response)=>{
       setAction(false)
-        navigation.navigate('Home')
+        // navigation.navigate('Home')
+      Alert.alert("Successfully Added!",`${data.description} value of ${data.amount}`,
+        [
+    {
+      text: "Continue",
+      onPress: () =>  navigation.navigate('Home'),
+      style: "yes"
+    },
+    {
+      text: "Add more",
+      onPress: () => console.log('Do nothing'),
+      style: "no"
+    }
+    ]
+       )  
 
       }).catch((e)=>{
-        console.log(JSON.stringify(data))
+        console.log(e)
         setAction(false)
       })
   }
@@ -388,7 +250,7 @@ const handlePreviousMonthSelection =(month) => {
         }}
       >
         <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
-        {/* <Text>{iconUrl.icon}</Text> */}
+        
       </View>
       <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
     </TouchableOpacity>
@@ -530,7 +392,7 @@ const handlePreviousMonthSelection =(month) => {
                 <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448'}}>What month is this expenses? </Text>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: '#CBD18F',
+                    backgroundColor: '#A2A869',
                     padding: 10,
                     borderRadius: 5,
                     justifyContent: 'center',
@@ -543,7 +405,7 @@ const handlePreviousMonthSelection =(month) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: '#CBD18F',
+                    backgroundColor: '#A2A869',
                     padding: 10,
                     borderRadius: 5,
                     justifyContent: 'center',

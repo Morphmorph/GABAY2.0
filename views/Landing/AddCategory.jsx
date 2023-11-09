@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
@@ -9,6 +9,8 @@ import UserContext from '../../api_server/context'
 
 const AddCategory = ({route}) => {
   const navigation = useNavigation()
+  const screenWidth = Dimensions.get('window').width;
+  const margin = screenWidth === 360 ? 6 : 2.2;
   const { destination,cat} = route.params;
   const [category, setCategory] = useState('')
   const [categoryError, setCategoryError] = useState(null)
@@ -209,7 +211,7 @@ console.log(newCategory)
       <TouchableOpacity
       key={iconUrl}
       style={{
-        margin: 2.3,
+        margin: margin,
         alignItems: 'center',
       }}
       onPress={() => toggleIconSelection(iconUrl)}

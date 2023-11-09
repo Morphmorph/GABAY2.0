@@ -43,9 +43,10 @@ export const useLoginController = () => {
       SetLoader(true)
       await axiosRequest.post("auth/login/",JSON.stringify(inputs),{
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((response)=>{
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      },).then((response)=>{
         
         // console.log(response.data)
         // must set a loading svreen here from View like Setloading = false 
@@ -61,7 +62,7 @@ export const useLoginController = () => {
           const data = {email:response.data.user.email,id :response.data.user.id }
 
           setContext(data)
-          navigation.navigate('Home')
+          navigation.navigate('Homescreen')
         }
         
         else if(response.data.status == 401){
@@ -75,6 +76,7 @@ export const useLoginController = () => {
         SetLoader(false)
       }).catch((err)=>{
         SetLoader(false)
+        console.log(err)
         alert("Something Went Wrong! Check your Intertnet Connection")
       })
     }

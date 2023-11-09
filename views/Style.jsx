@@ -12,6 +12,7 @@ export const Style = StyleSheet.create({
     container: {
         alignItems: 'center',
         marginTop: '20%',
+        width: '100%'
     },
     textcolor: {
         color: '#CBD18F',
@@ -27,7 +28,7 @@ export const Style = StyleSheet.create({
     glass: {
       margin: 5,
       height: 155,
-      backgroundColor: 'rgba(0, 0, 0, 0.45)',
+      backgroundColor: '#144714',
       padding: 7,
       borderRadius: 10,
       borderWidth: 1,
@@ -42,6 +43,8 @@ export const Style = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
+        width: '80%',
+        alignItems: 'center'
     },
     signInButtonText: {
         color: '#CBD18F',
@@ -68,7 +71,7 @@ export const Style = StyleSheet.create({
         borderTopRightRadius: 20,
       },
       modalButton: {
-        backgroundColor: '#CBD18F',
+        backgroundColor: '#A2A869',
         borderRadius: 5,
         paddingVertical: 10,
         marginTop: 10,

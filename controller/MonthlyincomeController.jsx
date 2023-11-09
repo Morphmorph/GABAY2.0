@@ -40,7 +40,7 @@ export const useMonthlyIncomeController = () => {
       
         axiosRequest.post('gabay/add/',Data).then((response)=>{
           alert(`Task Failed Sucessfully!`)
-          navigation.navigate('Home');
+          navigation.navigate('Homescreen');
 
         }).catch((e)=>{
           console.log(Data)

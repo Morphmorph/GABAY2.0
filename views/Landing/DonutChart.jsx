@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
 import { Circle, G, Text as SvgText } from 'react-native-svg';
 
-
-
-const chartWidth = 250; // Adjust the width
-const chartHeight = 250; // Adjust the height
+const chartWidth = 220; // Adjust the width
+const chartHeight = 220; // Adjust the height
 const chartRadius = chartWidth / 2;
 
 const { width, height } = Dimensions.get('window');
 
-  // Calculate the font size based on the screen resolution
+// Calculate the font size based on the screen resolution
 const fontSize = width === 360 && height === 720 ? 24 : 10;
-const marginRight = width === 360 && height === 720 ?  5 : 10;
+const marginRight = width === 360 && height === 720 ? 5 : 10;
 
 const chartConfig = {
   color: (index) => {
@@ -29,7 +27,7 @@ const chartConfig = {
   },
 };
 
-function DonutChart({data}) {
+function DonutChart({ data, total_sum }) {
   const [totalExpense, setTotalExpense] = useState(0);
 
   useEffect(() => {
@@ -71,7 +69,7 @@ function DonutChart({data}) {
 
       return (
         <G key={index}>
-          {data.value / totalExpense * 180 >= minAngle && ( 
+          {data.value / totalExpense * 180 >= minAngle && (
             <SvgText
               x={textX}
               y={textY}
@@ -89,6 +87,13 @@ function DonutChart({data}) {
     });
   };
 
+  const legendItems = data.map((value, index) => (
+    <View key={index} style={styles.legendItem}>
+      <View style={[styles.legendColorBox, { backgroundColor: chartConfig.color(index) }]} />
+      <Text style={styles.legendText}>{value.key}</Text>
+    </View>
+  ));
+
   return (
     <View style={styles.container}>
       <View style={styles.chartContainer}>
@@ -101,24 +106,18 @@ function DonutChart({data}) {
           <Labels />
         </PieChart>
         <View style={styles.centeredTextContainer}>
-          <Text style={[styles.centeredText, { fontSize: getFontSize() }]}>₱{totalExpense.toLocaleString()}</Text>
+          <Text style={[styles.centeredText, { fontSize: getFontSize(), color: totalExpense > total_sum ? 'red' : '#144714' }]}>₱{totalExpense.toLocaleString()}</Text>
         </View>
       </View>
-      <View style={styles.legend}>
-        {data.map((value, index) => (
-          <View key={index} style={styles.legendItem}>
-            <View style={[styles.legendColorBox, { backgroundColor: chartConfig.color(index) }]} />
-            <Text style={styles.legendText}>{value.key}</Text>
-          </View>
-        ))}
-      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.legend}>{legendItems}</View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    
     alignItems: 'center',
   },
   chartContainer: {
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 80,
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: '#CBD18F',
     borderRadius: 5,
     zIndex: 2,
   },
@@ -147,13 +146,10 @@ const styles = StyleSheet.create({
     color: '#144714'
   },
   legend: {
-    margin: 10,
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   legendItem: {
+    paddingTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: marginRight,

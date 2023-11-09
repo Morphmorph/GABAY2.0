@@ -40,6 +40,14 @@ const ForecastSavings = () => {
       key: 'March',
       value: 2500, 
     },
+    {
+      key: 'April',
+      value: 9000, 
+    },
+    {
+      key: 'May',
+      value: 1500, 
+    },
     
   ];
 
@@ -49,7 +57,7 @@ const ForecastSavings = () => {
       <View>
         <View
           style={{
-            top: 20,
+            top: 30,
             alignSelf: 'center',
             backgroundColor: '#2b5127',
             paddingTop: 5,
@@ -74,17 +82,17 @@ const ForecastSavings = () => {
           <Text style={{ top: -10, textAlign: 'center', color: '#E3B448' }}>Year</Text>
         </View>
       </View>
-      <View style={{ top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
+      <View style={{ top: 50, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
         <Text style={{ color: '#E3B448', paddingVertical: 5 }}>Forecast Savings</Text>
       </View>
-      <View style={{ top: 30, backgroundColor: 'white',  width: 'auto', alignContent: 'center', borderRadius: 10, margin: 10}}>
+      <View style={{top: 30, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,  top: 66}}>
               
-              <View style={{padding: 10, width: 'auto',}}>
+              <View style={{padding: 20, marginBottom: 20,}}>
               <DonutChart data={history}/>
 
               </View>
               
-              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History')}}>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10,  width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History')}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
             

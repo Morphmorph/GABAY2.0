@@ -13,7 +13,7 @@ const AddIncome = () => {
   
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width;
-  const margin = screenWidth === 360 ? 5 : 2.2;
+  const margin = screenWidth === 360 ? 6 : 2.2;
   const openAddCategory = () => {
     navigation.navigate('Add Category', { destination: 'Add income',cat : null });
   };
@@ -24,46 +24,6 @@ const AddIncome = () => {
   const [iconError, setIconError] = useState(null);
   const {context,incomeIcon} = useContext(UserContext)
 
-  const iconPaths = [
-    require('../../assets/Icon/income/i1.png'),
-    require('../../assets/Icon/income/i2.png'),
-    require('../../assets/Icon/income/i3.png'),
-    require('../../assets/Icon/income/i4.png'),
-    require('../../assets/Icon/income/i5.png'),
-    require('../../assets/Icon/income/i6.png'),
-    require('../../assets/Icon/income/i7.png'),
-    require('../../assets/Icon/income/i10.png'),
-    require('../../assets/Icon/income/i9.png'),
-    require('../../assets/Icon/income/i12.png'),
-    require('../../assets/Icon/income/i13.png'),
-    require('../../assets/Icon/income/i8.png'),
-    require('../../assets/Icon/income/i14.png'),
-    require('../../assets/Icon/income/i15.png'),
-    require('../../assets/Icon/income/i17.png'),
-    require('../../assets/Icon/income/i16.png'),
-    require('../../assets/Icon/income/i23.png'),
-  ];
-  // const iconTexts = [
-  //   'Business',
-  //   'Investment',
-  //   'Annuities',
-  //   'Capital gain',
-  //   'Pension',
-  //   'Dividend',
-  //   'Rental',
-  //   'Freelancing',
-  //   'Vlogging',
-  //   'Employment',
-  //   'Interest',
-  //   'Online selling',
-  //   'Gifts',
-  //   'Commission',
-  //   'Sport',
-  //   'NFT Sales',
-  //   'Lottery',
-  // ];
-
-  
   const handleIncomeChange = (text) => {
     // Clear existing errors
     setIncomeError(null)
@@ -178,7 +138,7 @@ const AddIncome = () => {
       <View style={{ top: 30, height: 280, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,alignSelf:"center", justifyContent: 'center'}}>
+      contentContainerStyle={{ backgroundColor: '#2b5627', flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,alignSelf:"center", justifyContent: 'flex-start'}}>
       {incomeIcon.income.map((iconUrl, index) => (
       <TouchableOpacity
       key={index}
