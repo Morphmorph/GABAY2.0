@@ -44,7 +44,7 @@ const InspectExpenses = ({route}) => {
       <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>
         <View style={{ margin: 5, padding: 10, backgroundColor: '#CBD18F', borderRadius: 5 }}>
           <Text style={{ color: '#144714', fontSize: 17, top: -5, alignSelf: 'center' }}>{date}</Text>
-         {expense.map((data,index)=>(<View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between',padding:1 }}>
+         {expense.map((data,index)=>(<View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between',paddingVertical: 5}}>
             <View style={{ backgroundColor: '#144714', borderRadius: 10, flexDirection: 'row', flex: 1 }}>
               <Image source={parseInt(data.icon,10)} style={{ width: 80, height: 80, margin: 10, backgroundColor: '#3A6B35', borderRadius: 10 }} />
               <View style={{ flexDirection: 'column', alignSelf: 'center', marginRight: 10, borderLeftWidth: 2, borderColor: '#E3B448', backgroundColor: '#3A6B35', borderBottomRightRadius: 5, borderTopRightRadius: 5, flex: 1 }}>
