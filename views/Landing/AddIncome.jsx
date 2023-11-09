@@ -24,25 +24,25 @@ const AddIncome = () => {
   const [iconError, setIconError] = useState(null);
   const {context,incomeIcon} = useContext(UserContext)
 
-  const iconPaths = [
-    require('../../assets/Icon/income/i1.png'),
-    require('../../assets/Icon/income/i2.png'),
-    require('../../assets/Icon/income/i3.png'),
-    require('../../assets/Icon/income/i4.png'),
-    require('../../assets/Icon/income/i5.png'),
-    require('../../assets/Icon/income/i6.png'),
-    require('../../assets/Icon/income/i7.png'),
-    require('../../assets/Icon/income/i10.png'),
-    require('../../assets/Icon/income/i9.png'),
-    require('../../assets/Icon/income/i12.png'),
-    require('../../assets/Icon/income/i13.png'),
-    require('../../assets/Icon/income/i8.png'),
-    require('../../assets/Icon/income/i14.png'),
-    require('../../assets/Icon/income/i15.png'),
-    require('../../assets/Icon/income/i17.png'),
-    require('../../assets/Icon/income/i16.png'),
-    require('../../assets/Icon/income/i23.png'),
-  ];
+  // const iconPaths = [
+  //   // require('../GABAY2.0/assets/Icon/income/i1.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i2.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i3.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i4.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i5.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i6.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i7.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i10.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i9.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i12.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i13.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i8.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i14.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i15.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i17.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i16.png'),
+  //   // require('../GABAY2.0/assets/Icon/income/i23.png'),
+  // ];
 
   // console.log(iconPaths)
   // const iconTexts = [

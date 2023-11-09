@@ -46,71 +46,71 @@ const App = () => {
   const [incomeIcon,setIncomeIcon] = useState({
     income : [
     {
-      icon: 15,
+      icon: require('../GABAY2.0/assets/Icon/income/i1.png'),
       text: 'Business',
     },
     {
-      icon: 53,
+      icon: require('../GABAY2.0/assets/Icon/income/i2.png'),
       text: 'Investment',
     },
     {
-      icon: 54,
+      icon:  require('../GABAY2.0/assets/Icon/income/i3.png'),
       text: 'Annuities',
     },
     {
-      icon: 55,
+      icon: require('../GABAY2.0/assets/Icon/income/i4.png'),
       text: 'Capital gain',
     },
     {
-      icon: 56,
+      icon: require('../GABAY2.0/assets/Icon/income/i5.png'),
       text: 'Pension',
     },
     {
-      icon: 57,
+      icon: require('../GABAY2.0/assets/Icon/income/i6.png'),
       text: 'Dividend',
     },
     {
-      icon: 58,
+      icon: require('../GABAY2.0/assets/Icon/income/i7.png'),
       text: 'Rental',
     },
     {
-      icon: 59,
+      icon: require('../GABAY2.0/assets/Icon/income/i10.png'),
       text: 'Freelancing',
     },
     {
-      icon: 60,
+      icon: require('../GABAY2.0/assets/Icon/income/i9.png'),
       text: 'Vlogging',
     },
     {
-      icon: 61,
+      icon: require('../GABAY2.0/assets/Icon/income/i12.png'),
       text: 'Employment',
     },
     {
-      icon: 62,
+      icon: require('../GABAY2.0/assets/Icon/income/i13.png'),
       text: 'Interest',
     },
     {
-      icon: 63,
+      icon: require('../GABAY2.0/assets/Icon/income/i8.png'),
       text: 'Online selling',
     },
     {
-      icon: 75,
+      icon: require('../GABAY2.0/assets/Icon/income/i14.png'),
       text: 'Gifts',
     },
     {
-      icon: 76,
+      icon: require('../GABAY2.0/assets/Icon/income/i15.png'),
       text: 'Commission',
     },
     {
-      icon: 77,
+      icon: require('../GABAY2.0/assets/Icon/income/i17.png'),
       text: 'Sport',
     },
     {
-      icon: 78,
+      icon: require('../GABAY2.0/assets/Icon/income/i16.png'),
       text: 'NFT Sales',
     },
     {
-      icon: 84,
+      icon: require('../GABAY2.0/assets/Icon/income/i23.png'),
       text: 'Lottery',
     }, ]
 })
@@ -120,101 +120,101 @@ const App = () => {
   const [category1,setCategory1] = useState({
     necessities: [
       {
-        icon: 71,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n9.png'),
         text: 'Maintenance',
       },
       {
-        icon: 72,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n2.png'),
         text: 'Ensurance',
       },
       {
-        icon: 73,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n3.png'),
         text: 'Rent',
       },
       {
-        icon: 74,
+        icon:  require('../GABAY2.0/assets/Icon/necessities/n4.png'),
         text: 'Child Care',
       },
       {
-        icon: 85,
+        icon:  require('../GABAY2.0/assets/Icon/necessities/n5.png'),
         text: 'Grocery',
       },
       {
-        icon: 86,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n6.png'),
         text: 'Utilities',
       },
       {
-        icon: 87,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n7.png'),
         text: 'Transport',
       },
       {
-        icon: 14,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n1.png'),
         text: 'Personal care',
       },
       {
-        icon: 88,
+        icon: require('../GABAY2.0/assets/Icon/necessities/n8.png'),
         text: 'Medical',
       },
       // ... (other necessities)
     ],
     wants: [
       {
-        icon: 24,
+        icon: require('../GABAY2.0/assets/Icon/wants/w1.png'),
         text: 'Gifts',
       },
       {
-        icon: 25,
+        icon: require('../GABAY2.0/assets/Icon/wants/w2.png'),
         text: 'Gym',
       },
       {
-        icon: 26,
+        icon: require('../GABAY2.0/assets/Icon/wants/w3.png'),
         text: 'Furnishing',
       },
       {
-        icon:27,
+        icon:require('../GABAY2.0/assets/Icon/wants/w4.png'),
         text: 'Electronincs',
       },
       {
-        icon: 28,
+        icon: require('../GABAY2.0/assets/Icon/wants/w5.png'),
         text: 'Hobbies',
       },
       {
-        icon: 29,
+        icon: require('../GABAY2.0/assets/Icon/wants/w6.png'),
         text: 'Travel',
       },
       {
-        icon: 30,
+        icon: require('../GABAY2.0/assets/Icon/wants/w7.png'),
         text: 'entertainment',
       },
       {
-        icon: 31,
+        icon: require('../GABAY2.0/assets/Icon/wants/w8.png'),
         text: 'Dining Out',
       },
       {
-        icon: 32,
+        icon: require('../GABAY2.0/assets/Icon/wants/w9.png'),
         text: 'Fashion',
       },
       // ... (other wants)
     ],
     savings: [
       {
-        icon: 44,
+        icon: require('../GABAY2.0/assets/Icon/savings/s1.png'),
         text: 'Emergency',
       },
       {
-        icon: 45,
+        icon: require('../GABAY2.0/assets/Icon/savings/s2.png'),
         text: 'Long-term',
       },
       {
-        icon: 46,
+        icon: require('../GABAY2.0/assets/Icon/savings/s3.png'),
         text: 'Short-Term',
       },
       {
-        icon: 47,
+        icon: require('../GABAY2.0/assets/Icon/savings/s4.png'),
         text: 'Retirement',
       },
       {
-        icon: 48,
+        icon: require('../GABAY2.0/assets/Icon/savings/s5.png'),
         text: 'Education',
       },
       // ... (other savings)

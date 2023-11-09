@@ -26,7 +26,6 @@ export const Style = StyleSheet.create({
     },
     glass: {
       margin: 5,
-      height: 155,
       backgroundColor: 'rgba(0, 0, 0, 0.45)',
       padding: 7,
       borderRadius: 10,
