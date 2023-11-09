@@ -4,7 +4,9 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from '../Style';
 import icon1 from '../../assets/Icon/necessities/n1.png';
 
-const InspectExpenses = () => {
+const InspectExpenses = ({route}) => {
+
+  const {expense,date} = route.params
   const wants = [
     require('../../assets/Icon/wants/w1.png'),
     require('../../assets/Icon/wants/w2.png'),
@@ -41,20 +43,20 @@ const InspectExpenses = () => {
     <View style={Style.common}>
       <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>
         <View style={{ margin: 5, padding: 10, backgroundColor: '#CBD18F', borderRadius: 5 }}>
-          <Text style={{ color: '#144714', fontSize: 17, top: -5, alignSelf: 'center' }}>January 2023</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ color: '#144714', fontSize: 17, top: -5, alignSelf: 'center' }}>{date}</Text>
+         {expense.map((data,index)=>(<View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between',padding:1 }}>
             <View style={{ backgroundColor: '#144714', borderRadius: 10, flexDirection: 'row', flex: 1 }}>
-              <Image source={icon1} style={{ width: 80, height: 80, margin: 10, backgroundColor: '#3A6B35', borderRadius: 10 }} />
+              <Image source={parseInt(data.icon,10)} style={{ width: 80, height: 80, margin: 10, backgroundColor: '#3A6B35', borderRadius: 10 }} />
               <View style={{ flexDirection: 'column', alignSelf: 'center', marginRight: 10, borderLeftWidth: 2, borderColor: '#E3B448', backgroundColor: '#3A6B35', borderBottomRightRadius: 5, borderTopRightRadius: 5, flex: 1 }}>
                 <View style={{ paddingVertical: 10 }}>
-                  <Text style={{ color: '#E3B448', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> School </Text>
+                  <Text style={{ color: '#E3B448', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> {data.key} </Text>
                 </View>
                 <View style={{ borderTopWidth: 1, borderColor: '#E3B448', paddingVertical: 10 }}>
-                  <Text style={{ color: '#E3B448', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> <Iconn name="currency-php" style={{ fontSize: 15 }} /> 1,000</Text>
+                  <Text style={{ color: '#E3B448', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> <Iconn name="currency-php" style={{ fontSize: 15 }} /> {data.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                 </View>
               </View>
             </View>
-          </View>
+          </View>))}
         </View>
       </ScrollView>
     </View>

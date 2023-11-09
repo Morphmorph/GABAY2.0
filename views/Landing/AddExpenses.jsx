@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Modal, TouchableOpacity, Image, Dimensions} from 'react-native'
+import { View, Text, ScrollView, Modal, TouchableOpacity, Image, Dimensions,Alert} from 'react-native'
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
@@ -52,7 +52,6 @@ const AddExpenses = () => {
     require('../../assets/Icon/necessities/n8.png'),
   ];
 
-  
   const necessitiesText = [
     'Maintenance',
     'Ensurance',
@@ -300,12 +299,31 @@ const handlePreviousMonthSelection =(month) => {
   };
 
   const api = async(data) => {
-     await axiosRequest.post("gabay/transaction/",data).then((response)=>{
+     await axiosRequest.post("gabay/transaction/",data,{
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    },).then((response)=>{
       setAction(false)
-        navigation.navigate('Home')
+        // navigation.navigate('Home')
+      Alert.alert("Successfully Added!",`${data.description} value of ${data.amount}`,
+        [
+    {
+      text: "Continue",
+      onPress: () =>  navigation.navigate('Home'),
+      style: "yes"
+    },
+    {
+      text: "Add more",
+      onPress: () => console.log('Do nothing'),
+      style: "no"
+    }
+    ]
+       )  
 
       }).catch((e)=>{
-        console.log(JSON.stringify(data))
+        console.log(e)
         setAction(false)
       })
   }

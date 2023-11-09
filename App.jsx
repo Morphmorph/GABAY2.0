@@ -3,12 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Animated, Dimensions, Image, Platform, View, TouchableOpacity, Text, Modal } from 'react-native';
+import 'react-native-gesture-handler';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Style from './views/Style';
 import Login from './views/Starting/LoginView';
 import Signup from './views/Starting/SignupView';
 import Verify from './views/Starting/VerifyView';
 import Pin from './views/Starting/PinView';
 import Home from './views/Landing/Home';
-// import Welcome from './views/Starting/Welcome';
 import Forgot from './views/Starting/ForgotpasswordView';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
 import InspectExpenses from './views/Landing/InspectExpenses';
@@ -20,9 +24,9 @@ import AddIncome from './views/Landing/AddIncome';
 import UserContext from './api_server/context';
 import InspectHistory from './views/Landing/InspectHistory';
 import OnboardingScreen from './views/OnboardingScreen';
-
-
-
+import Add from './views/Landing/Add';
+import { FontAwesome5 } from '@expo/vector-icons';
+import plus from './assets/Icon/plus.png';
 
 //TODO
 
@@ -33,6 +37,7 @@ const statusBarStyle = 'light-content'; // Set your desired status bar style her
 const statusBarBackgroundColor = '#CBD18F'; // Set your desired status bar background color here
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,71 +51,71 @@ const App = () => {
   const [incomeIcon,setIncomeIcon] = useState({
     income : [
     {
-      icon: 14,
+      icon: 15,
       text: 'Business',
     },
     {
-      icon: 19,
+      icon: 53,
       text: 'Investment',
     },
     {
-      icon: 20,
+      icon: 54,
       text: 'Annuities',
     },
     {
-      icon: 21,
+      icon: 55,
       text: 'Capital gain',
     },
     {
-      icon: 22,
+      icon: 56,
       text: 'Pension',
     },
     {
-      icon: 23,
+      icon: 57,
       text: 'Dividend',
     },
     {
-      icon: 24,
+      icon: 58,
       text: 'Rental',
     },
     {
-      icon: 25,
+      icon: 59,
       text: 'Freelancing',
     },
     {
-      icon: 26,
+      icon: 60,
       text: 'Vlogging',
     },
     {
-      icon: 27,
+      icon: 61,
       text: 'Employment',
     },
     {
-      icon: 28,
+      icon: 62,
       text: 'Interest',
     },
     {
-      icon: 29,
+      icon: 63,
       text: 'Online selling',
     },
     {
-      icon: 30,
+      icon: 75,
       text: 'Gifts',
     },
     {
-      icon: 31,
+      icon: 76,
       text: 'Commission',
     },
     {
-      icon: 32,
+      icon: 77,
       text: 'Sport',
     },
     {
-      icon: 33,
+      icon: 78,
       text: 'NFT Sales',
     },
     {
-      icon: 34,
+      icon: 84,
       text: 'Lottery',
     }, ]
 })
@@ -120,31 +125,31 @@ const App = () => {
   const [category1,setCategory1] = useState({
     necessities: [
       {
-        icon: 18,
+        icon: 71,
         text: 'Maintenance',
       },
       {
-        icon: 19,
+        icon: 72,
         text: 'Ensurance',
       },
       {
-        icon: 20,
+        icon: 73,
         text: 'Rent',
       },
       {
-        icon: 21,
+        icon: 74,
         text: 'Child Care',
       },
       {
-        icon: 22,
+        icon: 85,
         text: 'Grocery',
       },
       {
-        icon: 23,
+        icon: 86,
         text: 'Utilities',
       },
       {
-        icon: 24,
+        icon: 87,
         text: 'Transport',
       },
       {
@@ -152,69 +157,69 @@ const App = () => {
         text: 'Personal care',
       },
       {
-        icon: 25,
+        icon: 88,
         text: 'Medical',
       },
       // ... (other necessities)
     ],
     wants: [
       {
-        icon: 26,
+        icon: 24,
         text: 'Gifts',
       },
       {
-        icon: 27,
+        icon: 25,
         text: 'Gym',
       },
       {
-        icon: 28,
+        icon: 26,
         text: 'Furnishing',
       },
       {
-        icon:29,
+        icon:27,
         text: 'Electronincs',
       },
       {
-        icon: 30,
+        icon: 28,
         text: 'Hobbies',
       },
       {
-        icon: 31,
+        icon: 29,
         text: 'Travel',
       },
       {
-        icon: 32,
+        icon: 30,
         text: 'entertainment',
       },
       {
-        icon: 33,
+        icon: 31,
         text: 'Dining Out',
       },
       {
-        icon: 34,
+        icon: 32,
         text: 'Fashion',
       },
       // ... (other wants)
     ],
     savings: [
       {
-        icon: 35,
+        icon: 44,
         text: 'Emergency',
       },
       {
-        icon: 36,
+        icon: 45,
         text: 'Long-term',
       },
       {
-        icon: 37,
+        icon: 46,
         text: 'Short-Term',
       },
       {
-        icon: 38,
+        icon: 47,
         text: 'Retirement',
       },
       {
-        icon: 39,
+        icon: 48,
         text: 'Education',
       },
       // ... (other savings)
@@ -245,7 +250,7 @@ const App = () => {
     
 <UserContext.Provider value={{context,setContext,nav,setNav,category1,setCategory1,transaction,setTransaction,incomeIcon,setIncomeIcon}}>
         <Stack.Navigator
-          initialRouteName={context.id ? "Home" :"Onboarding"}
+          initialRouteName={context.id ? "Homescreen" :"Onboarding"}
           screenOptions={{
             headerShown: false,
             animation: 'fade',
@@ -259,14 +264,15 @@ const App = () => {
               animation: 'fade',
             }}
           />
-          {/* <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-          /> */}
+
           <Stack.Screen
             name="Log in"
             component={Login}
            
+          />
+           <Stack.Screen
+            name="Homescreen"
+            component={Homescreen}
           />
           <Stack.Screen
             name="Onboarding"
@@ -280,14 +286,7 @@ const App = () => {
               animation: 'slide_from_right',
             }}
           />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              headerShown: false,
-              animation: 'flip',
-            }}
-          />
+          
           <Stack.Screen
             name="Expenses"
             component={InspectExpenses}
@@ -356,23 +355,7 @@ const App = () => {
               },
             }}
           />
-          <Stack.Screen
-            name="Forecast savings"
-            component={ForecastSavings}
-            options={{
-              headerShown: true,
-              animation: 'slide_from_bottom',
-              headerStyle: {
-                backgroundColor: '#144714', // Background color for the header
-                height: 80,
-              },
-              headerTintColor: '#E3B448', // Text color
-              headerTitleStyle: {
-                fontSize: 24, // Font size for the title
-                fontWeight: 'bold', // Font weight for the title
-              },
-            }}
-          />
+          
           <Stack.Screen
             name="Add expenses"
             component={AddExpenses}
@@ -432,6 +415,7 @@ const App = () => {
             }}
           />
         </Stack.Navigator>
+        
         </UserContext.Provider>
         
       </NavigationContainer>
@@ -439,5 +423,177 @@ const App = () => {
     </SafeAreaView>
   );
 };
+
+function Homescreen({ navigation }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedAddOption, setSelectedAddOption] = useState('');
+  const toggleModal = (option) => {
+    setSelectedAddOption(option);
+    if (selectedAddOption === 'expenses') {
+      setSelectedAddOption('income');
+    } else {
+      setSelectedAddOption('expenses');
+    }
+    setIsModalVisible(!isModalVisible);
+  };
+  
+  return (
+    <View style={Style.common}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => {
+          setIsModalVisible(!isModalVisible);
+        }}
+      >
+        <View style={Style.modalContainer}>
+          <View style={Style.modalContent}>
+        
+            <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448',}}>Select an option:</Text>
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => {
+                
+                setIsModalVisible(!isModalVisible);
+                if (selectedAddOption == 'expenses') {
+                  navigation.navigate('Add expenses'); 
+                }
+              }}
+            >
+              <Text style={Style.modalButtonText}>Add Expenses</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => {
+                
+                setIsModalVisible(!isModalVisible);
+                if (selectedAddOption == 'income') {
+                  navigation.navigate('Add income'); 
+                }
+              }}
+            >
+              <Text style={Style.modalButtonText}>Add Income</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[Style.modalButton, Style.modalCancelButton]}
+              onPress={() => setIsModalVisible(!isModalVisible)}
+            >
+              <Text style={{color: '#CBD18F', fontSize: 18,}}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            backgroundColor: '#144714',
+            position: 'absolute',
+            bottom: 10,
+            marginHorizontal: 20,
+            height: 60,
+            borderRadius: 10,
+            borderColor: '#144714',
+            shadowColor: '#000',
+            shadowOpacity: 0.06,
+            shadowOffset: { width: 10, height: 10 },
+            paddingHorizontal: 1,
+          },
+        }}
+      >
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: true,
+            animation: 'slide_from_right',
+            headerStyle: {
+              backgroundColor: '#144714', // Background color for the header
+              height: 70,
+            },
+            headerTintColor: '#E3B448', // Text color
+            headerTitleStyle: {
+              fontSize: 24, // Font size for the title
+              fontWeight: 'bold', // Font weight for the title
+            },
+            headerTitle: () => (
+              <View style={{ flexDirection: 'row', alignItems: 'center', left: -5, }}>
+              <Image
+                source={require('./assets/logo/logo1.png')} 
+                style={{ width: 60, height: 60 }} 
+                resizeMode="contain"
+              />
+              <Text style={{color: '#E3B448', fontSize: 45,}}>GABAY</Text>
+              </View>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.openDrawer()}>
+                <FontAwesome5
+                  name="bars"
+                  size={30}
+                  color="#E3B448"
+                  style={{ right: 20 }}
+                />
+              </TouchableOpacity>
+            ),
+            tabBarIcon: ({ focused }) => (
+              <View style={{ position: 'absolute', top: 10, left: 45 }}>
+                <FontAwesome5
+                  name="home"
+                  size={30}
+                  color={focused ? '#E3B448' : '#CBD18F'}
+                />
+              </View>
+            ),
+          }}
+        />
+       
+
+        <Tab.Screen
+          name="Forecast Savings"
+          component={ForecastSavings}
+          options={{
+            headerShown: true,
+            animation: 'slide_from_right',
+            headerStyle: {
+              backgroundColor: '#144714', // Background color for the header
+              height: 70,
+            },
+            headerTintColor: '#E3B448', // Text color
+            headerTitleStyle: {
+              fontSize: 24, // Font size for the title
+              fontWeight: 'bold', // Font weight for the title
+            },
+            
+            tabBarIcon: ({ focused }) => (
+              <View style={{ position: 'absolute', top: 10, right: 45}}>
+                <FontAwesome5
+                  name="crosshairs"
+                  size={30}
+                  color={focused ? '#E3B448' : '#CBD18F'}
+                />
+              </View>
+            ),
+          }}
+        />
+      </Tab.Navigator>
+      <View style={{ position: 'absolute', width: 55, height: 55, bottom: -10, backgroundColor: '#144714', borderRadius: 30, justifyContent: 'center', alignSelf: 'center', alignItems: 'center', marginBottom: Platform.OS == 'android' ? 50 : 30}}>
+              <TouchableOpacity
+               onPress={() => toggleModal('expenses')}
+              style={{ width: 50, height: 50, }}  
+            >
+          <Image source={plus} style={{ width: 50, height: 50 }} />
+        </TouchableOpacity>
+        
+      </View>
+      
+    </View>
+  );
+}
+
+
+
 
 export default App;

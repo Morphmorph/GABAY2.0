@@ -40,6 +40,14 @@ const ForecastSavings = () => {
       key: 'March',
       value: 2500, 
     },
+    {
+      key: 'April',
+      value: 9000, 
+    },
+    {
+      key: 'May',
+      value: 1500, 
+    },
     
   ];
 
@@ -77,14 +85,14 @@ const ForecastSavings = () => {
       <View style={{ top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
         <Text style={{ color: '#E3B448', paddingVertical: 5 }}>Forecast Savings</Text>
       </View>
-      <View style={{ top: 30, backgroundColor: 'white',  width: 'auto', alignContent: 'center', borderRadius: 10, margin: 10}}>
+      <View style={{top: 30, backgroundColor: 'white', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
               
-              <View style={{padding: 10, width: 'auto',}}>
+              <View style={{padding: 20, }}>
               <DonutChart data={history}/>
 
               </View>
               
-              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: 'auto', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History')}}>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#CBD18F', paddingVertical: 10,  width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History')}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
             
