@@ -57,7 +57,7 @@ const ForecastSavings = () => {
       <View>
         <View
           style={{
-            top: 30,
+            top: 20,
             alignSelf: 'center',
             backgroundColor: '#2b5127',
             paddingTop: 5,
@@ -65,6 +65,7 @@ const ForecastSavings = () => {
             paddingHorizontal: 20,
             marginHorizontal: 40,
             borderRadius: 5,
+            width: '80%'
           }}
         >
           <CustomInput
@@ -83,9 +84,35 @@ const ForecastSavings = () => {
         </View>
       </View>
       <View style={{ top: 50, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
-        <Text style={{ color: '#E3B448', paddingVertical: 5 }}>Forecast Savings</Text>
+      <View
+        style={{
+          alignItems: 'center',
+          bottom: 20,
+          alignSelf: 'center',
+          width: '100%',
+          paddingHorizontal: 20,
+        }}
+      >
+        <View style={{ width: '45%' }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#A2A869',
+              padding: 10,
+              borderRadius: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%', 
+            }}
+            onPress={{}}
+          >
+            <Text style={{ color: '#144714', fontSize: 18,}}>Forecast</Text>
+          </TouchableOpacity>
+        </View>
+        
       </View>
-      <View style={{top: 30, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,  top: 66}}>
+       
+      </View>
+      <View style={{backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,  top: 50}}>
               
               <View style={{padding: 20, marginBottom: 20,}}>
               <DonutChart data={history}/>
@@ -97,35 +124,7 @@ const ForecastSavings = () => {
               </TouchableOpacity>
             
               </View>
-      
 
-      <View
-        style={{
-          alignItems: 'center',
-          position: 'absolute',
-          bottom: 20,
-          alignSelf: 'center',
-          width: '100%',
-          paddingHorizontal: 20,
-        }}
-      >
-        <View style={{ width: '45%' }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#CBD18F',
-              padding: 10,
-              borderRadius: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%', // Set the width to 100% for the inner View
-            }}
-            onPress={{}}
-          >
-            <Text style={{ color: '#144714', fontSize: 18,}}>Forecast</Text>
-          </TouchableOpacity>
-        </View>
-        
-      </View>
     </View>
   )
 }

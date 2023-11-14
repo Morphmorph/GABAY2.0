@@ -9,7 +9,7 @@ import UserContext from '../../api_server/context'
 import randomColor from 'randomcolor'
 import { axiosRequest } from '../../api_server/axios'
 import Loader from '../Starting/actionLoader'
-
+import ModalMessage from '../Modal'
 
 const AddExpenses = () => {
   const navigation = useNavigation()
@@ -18,6 +18,8 @@ const AddExpenses = () => {
   const openAddCategory = (cat) => {
     navigation.navigate('Add Category', { destination: 'Add expenses' ,cat :cat});
   };
+  const [showModalMessage, setShowModalMessage] = useState(false);
+
   const [expenses, setExpenses] = useState('')
   const [expensesError, setExpensesError] = useState(null)
   const [selectedIcons, setSelectedIcons] = useState(null);
@@ -142,35 +144,29 @@ const handlePreviousMonthSelection =(month) => {
     }
   };
 
-  const api = async(data) => {
-     await axiosRequest.post("gabay/transaction/",data,{
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    },).then((response)=>{
-      setAction(false)
-        // navigation.navigate('Home')
-      Alert.alert("Successfully Added!",`${data.description} value of ${data.amount}`,
-        [
-    {
-      text: "Continue",
-      onPress: () =>  navigation.navigate('Home'),
-      style: "yes"
-    },
-    {
-      text: "Add more",
-      onPress: () => console.log('Do nothing'),
-      style: "no"
-    }
-    ]
-       )  
+  const api = async (data) => {
+    try {
+      const response = await axiosRequest.post("gabay/transaction/", data, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      setAction(false);
+  
+      // Show the modal message upon successful submission
+      setShowModalMessage(true);
+      setTimeout(() => {
+        // Navigate to the home screen
+        navigation.navigate('Home');
+      }, 2000);
 
-      }).catch((e)=>{
-        console.log(e)
-        setAction(false)
-      })
-  }
+    } catch (error) {
+      console.log(error);
+      setAction(false);
+    }
+  };
 
 
   useEffect(() => {
@@ -206,6 +202,7 @@ const handlePreviousMonthSelection =(month) => {
             paddingHorizontal: 20,
             marginHorizontal: 40,
             borderRadius: 5,
+            width: '80%'
           }}
         >
           <CustomInput
@@ -566,6 +563,7 @@ const handlePreviousMonthSelection =(month) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage showAutomatically={showModalMessage} message="Expenses Successfully Added!"/>
     </View>
   )
 }

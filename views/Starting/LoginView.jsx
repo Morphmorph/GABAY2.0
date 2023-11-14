@@ -16,7 +16,7 @@ const Login = () => {
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
         <Text style={Style.textcolor}>SIGN IN</Text>
-
+        
         <CustomInput
           iconName="email"
           placeholder="Email"

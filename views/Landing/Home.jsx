@@ -14,8 +14,6 @@ const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedAddOption, setSelectedAddOption] = useState('');
   const {context} = useContext(UserContext)
   const [ddate,setDdate] = useState([])
   const [page,setPage] = useState(0)
@@ -143,13 +141,7 @@ const Home = ({ navigation }) => {
      
       
     }, [page,ddate]);
-  const screenWidth = Dimensions.get('window').width;
-  const headerHeight = 70;
 
-  const toggleDropdown = async() => {
-    setIsDropdownVisible(!isDropdownVisible);
-  };
-  
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
   };
@@ -168,22 +160,14 @@ const Home = ({ navigation }) => {
             <View style={{ alignItems: 'center', backgroundColor: '#E3B448', borderRadius: 5}}>
               <Text style={{ color: '#144714', fontSize: 25 }}>HISTORY</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-              <View style={{ alignItems: 'center', width: 150, backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: selectedOption === 'Expenses' ? '#E3B448' : 'transparent', }}>
-                <View style={{ flexDirection: 'row', borderBottomWidth: 1 }}>
+            
+              <View style={{ marginTop: 10, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+                <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: 1, alignItems: 'center', borderColor: '#144714', justifyContent: 'center'}}>
                   <Image source={Peso} style={{ width: 20, height: 20 }} />
-                  <Text style={{ color: '#144714', fontSize: 20 }}> {incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.00</Text>
+                  <Text style={{ color: '#CBD18F', fontSize: 20 }}> {incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.00</Text>
                 </View>
                 <Text style={{ color: '#E3B448', fontSize: 12}}>Income</Text>
               </View>
-              <View style={{ alignItems: 'center', width: 150, backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: selectedOption === 'Income' ? '#E3B448' : 'transparent', }}>
-                <View style={{ flexDirection: 'row', borderBottomWidth: 1 }}>
-                  <Image source={Peso} style={{ width: 20, height: 20 }} />
-                  <Text style={{ color: '#144714', fontSize: 20 }}> 13,700.00</Text>
-                </View>
-                <Text style={{ color: '#E3B448', fontSize: 12 }}>Savings</Text>
-              </View>
-            </View>
           
             <TouchableOpacity onPress={toggleOption}>
             <View style={{ alignItems: 'center', backgroundColor: '#CBD18F', borderRadius: 5, flexDirection: 'row', justifyContent: 'space-between', padding: 5, marginVertical: 10}}>
@@ -251,10 +235,9 @@ const Home = ({ navigation }) => {
       )}
           
     </View>
-   
   );
-  
-  
 };
+
+Home.navigationOptions
 export default Home;
 
