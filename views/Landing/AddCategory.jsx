@@ -6,7 +6,6 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
 import UserContext from '../../api_server/context'
 
-
 const AddCategory = ({route}) => {
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width;
@@ -183,6 +182,7 @@ console.log(newCategory)
             paddingHorizontal: 20,
             marginHorizontal: 40,
             borderRadius: 5,
+            width: '80%'
           }}
         >
           <CustomInput

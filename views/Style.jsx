@@ -12,7 +12,8 @@ export const Style = StyleSheet.create({
     container: {
         alignItems: 'center',
         marginTop: '20%',
-        width: '100%'
+        width: '100%',
+        paddingHorizontal: 20
     },
     textcolor: {
         color: '#CBD18F',

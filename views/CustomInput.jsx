@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#144714',
     marginBottom: '5%',
-    width: '80%',
   },
   icon: {
     fontSize: 20,

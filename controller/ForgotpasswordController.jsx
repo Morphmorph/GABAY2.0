@@ -54,11 +54,11 @@ export const useForgotPasswordController = () => {
       ) {
         // Clear the password error when all conditions are met
         setErrors((prevErrors) => ({ ...prevErrors, newPassword: null }));
-        // navigation.navigate('Log in');
+       
         await axiosRequest.put(`auth/new/password/${context.email}/`,{"password" : passwordData.confirmNewPassword})
         .then((response)=>{
           alert(`Password Updated! Yehey!`)
-          
+          navigation.navigate('Log in');
         }).catch((e)=>{
           alert("Something Went Wrong! Check your Intertnet Connection" )
         })

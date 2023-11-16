@@ -1,106 +1,91 @@
-import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
-import React, { useState, useEffect, useContext } from 'react'
-import Plus from '../../assets/Icon/plus.png'
-import Style from '../Style'
-import CustomInput from '../CustomInput'
-import { useNavigation } from '@react-navigation/native'
-import { Asset } from 'expo-asset'
-import UserContext from '../../api_server/context'
-import randomColor from 'randomcolor'
-import { axiosRequest } from '../../api_server/axios'
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native';
+import Plus from '../../assets/Icon/plus.png';
+import Style from '../Style';
+import CustomInput from '../CustomInput';
+import { useNavigation } from '@react-navigation/native';
+import { Asset } from 'expo-asset';
+import UserContext from '../../api_server/context';
+import { axiosRequest } from '../../api_server/axios';
+import ModalMessage from '../Modal';
 
 const AddIncome = () => {
-  
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 6 : 2.2;
   const openAddCategory = () => {
     navigation.navigate('Add Category', { destination: 'Add income',cat : null });
   };
-  const [income, setIncome] = useState('')
-  const [incomeError, setIncomeError] = useState(null)
+  // Declare state variables
+  const [income, setIncome] = useState('');
+  const [incomeError, setIncomeError] = useState(null);
   const [selectedIcons, setSelectedIcons] = useState(null);
-  const [iconAssets, setIconAssets] = useState([])
+  const [iconAssets, setIconAssets] = useState([]);
   const [iconError, setIconError] = useState(null);
-  const {context,incomeIcon} = useContext(UserContext)
+  const { context, incomeIcon } = useContext(UserContext);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleIncomeChange = (text) => {
-    // Clear existing errors
-    setIncomeError(null)
-
-    // Remove non-digit characters
-    const numericValue = text.replace(/[^0-9]/g, '')
-
-    // Format the numeric value with commas
-    const formattedIncome = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-    setIncome(formattedIncome)
-  }
+    setIncomeError(null);
+    const numericValue = text.replace(/[^0-9]/g, '');
+    const formattedIncome = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    setIncome(formattedIncome);
+  };
 
   const toggleIconSelection = (iconUrl) => {
     if (selectedIcons === iconUrl) {
-      setSelectedIcons(null); // Deselect the currently selected icon
-      setIconError(iconUrl)
+      setSelectedIcons(null);
+      setIconError(iconUrl);
     } else {
-      setSelectedIcons(iconUrl); // Select the new icon
-      setIconError(null)
+      setSelectedIcons(iconUrl);
+      setIconError(null);
     }
   };
 
-  const startButtonPressed = async() => {
-    // Clear existing errors
+  const startButtonPressed = async () => {
     setIncomeError(null);
-    setIconError(null); // Clear icon selection error
-
-    // Validate income
+    setIconError(null);
+  
     if (!income) {
       setIncomeError('Required');
     }
-
-    // Validate icon selection
+  
     if (!selectedIcons) {
       setIconError('no_icon_selected');
-    }
-
-    else if (!incomeError && !iconError && income) {
-      navigation.navigate('Home');
-      console.log('Income:', parseInt(income.replace(/,/g, ''), 10))
-      console.log('Icon:', selectedIcons)
-      // console.log('text:', iconTexts[selectedIcons])
-
-      Data = {
-        user : context.id,
-        title : selectedIcons.text,
-        amount : parseInt(income.replace(/,/g, ''), 10),
-        icon : selectedIcons.icon,
-        color : randomColor()
+    } else if (!incomeError && !iconError && income) {
+      try {
+        const Data = {
+          user: context.id,
+          title: selectedIcons.text,
+          amount: parseInt(income.replace(/,/g, ''), 10),
+          icon: selectedIcons.icon,
+        };
+  
+        // Perform the async operation and wait for it to complete
+        const response = await axiosRequest.post('gabay/add/', Data);
+  
+        // Show success modal after the request is complete
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          // Navigate to the home screen
+          navigation.navigate('Home');
+        }, 2000);
+      } catch (error) {
+        console.log('Error:', error);
       }
-
-      await  axiosRequest.post('gabay/add/',Data).then((response)=>{
-        alert(`Task Failed Sucessfully!`)
-        navigation.navigate('Home');
-
-      }).catch((e)=>{
-        console.log(Data)
-      })
     }
-    
   };
 
   useEffect(() => {
     const loadIcons = async () => {
-      // Load and cache the icon assets
       const loadedAssets = await Promise.all(
         incomeIcon.income.map((path) => Asset.fromModule(path.icon).downloadAsync())
-      )
+      );
+      setIconAssets(loadedAssets);
+    };
 
-      // Set the iconAssets state with the loaded assets
-      setIconAssets(loadedAssets)
-    }
-
-    loadIcons()
-  }, [])
-
+    loadIcons();
+  }, []);
   return (
     <View style={Style.common}>
       <View>
@@ -114,6 +99,7 @@ const AddIncome = () => {
             paddingHorizontal: 20,
             marginHorizontal: 40,
             borderRadius: 5,
+            width: '80%'
           }}
         >
           <CustomInput
@@ -226,6 +212,7 @@ const AddIncome = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage visible={showSuccessModal} showAutomatically={showSuccessModal} message="Income added successfully!" />
     </View>
   )
 }

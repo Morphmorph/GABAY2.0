@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3A6B35', // You can customize the background color
+    backgroundColor: '#3A6B35',
   },
 });
 
