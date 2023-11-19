@@ -6,17 +6,23 @@ import CustomInput from '../CustomInput';
 import { useLoginController } from '../../controller/LoginController'; // Import the controller
 import Loader from './actionLoader';
 
-const Login = () => {
+const Login = ({navigation}) => {
+  const handleTOS = () => {
+    navigation.navigate('Terms of Service');
+  };
+  const handlePP = () => {
+    navigation.navigate('Privacy Policy');
+  };
   const { height } = useWindowDimensions();
-  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader } = useLoginController();
+  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn, loader, SetLoader } = useLoginController();
   const bol = loader
   return (
-    <View style={Style.common} pointerEvents ={bol ?  'none' : 'auto'}>
-      <Loader visible={loader} message= "Signing in..."/>
+    <View style={Style.common} pointerEvents={bol ? 'none' : 'auto'}>
+      <Loader visible={loader} message="Signing in..." />
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
         <Text style={Style.textcolor}>SIGN IN</Text>
-        
+
         <CustomInput
           iconName="email"
           placeholder="Email"
@@ -53,9 +59,9 @@ const Login = () => {
             Forgot password
           </Text>
         </Text>
-      <TouchableOpacity style={Style.signInButton} onPress={handleSignIn} disabled = {loader}>
+        <TouchableOpacity style={Style.signInButton} onPress={handleSignIn} disabled={loader}>
           <Text style={Style.signInButtonText}>Sign In</Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
 
         <Text
           style={{
@@ -70,6 +76,18 @@ const Login = () => {
             Register
           </Text>
         </Text>
+      </View>
+      <View style={Style.footer}>
+        <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
+        <View style={Style.footerLinks}>
+          <TouchableOpacity onPress={handleTOS}>
+            <Text style={Style.footerLinkText}>Terms of Service</Text>
+          </TouchableOpacity>
+          <Text style={Style.footerText}> | </Text>
+          <TouchableOpacity onPress={handlePP}>
+            <Text style={Style.footerLinkText}>Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

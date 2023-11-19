@@ -7,7 +7,7 @@ import { useSignupController } from '../../controller/SignupController'; // Impo
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from './actionLoader';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   const { height } = useWindowDimensions();
   const {
   formData,
@@ -25,7 +25,12 @@ const Signup = () => {
   SetLoader
 
   } = useSignupController();
-
+  const handleTOS = () => {
+    navigation.navigate('Terms of Service');
+  };
+  const handlePP = () => {
+    navigation.navigate('Privacy Policy');
+  };
   return (
    
     <View style={Style.common} >
@@ -129,6 +134,18 @@ const Signup = () => {
             Login
           </Text>
         </Text>
+      </View>
+      <View style={Style.footer}>
+        <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
+        <View style={Style.footerLinks}>
+          <TouchableOpacity onPress={handleTOS}>
+            <Text style={Style.footerLinkText}>Terms of Service</Text>
+          </TouchableOpacity>
+          <Text style={Style.footerText}> | </Text>
+          <TouchableOpacity onPress={handlePP}>
+            <Text style={Style.footerLinkText}>Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
    

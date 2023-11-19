@@ -6,7 +6,13 @@ import CustomInput from '../CustomInput';
 import { useForgotPasswordController } from '../../controller/ForgotpasswordController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ForgotPasswordView = () => {
+const ForgotPasswordView = ({navigation}) => {
+  const handleTOS = () => {
+    navigation.navigate('Terms of Service');
+  };
+  const handlePP = () => {
+    navigation.navigate('Privacy Policy');
+  };
   const { height } = useWindowDimensions();
   const {
     passwordData,
@@ -110,6 +116,18 @@ const ForgotPasswordView = () => {
             Cancel
           </Text>
         </Text>
+      </View>
+      <View style={Style.footer}>
+        <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
+        <View style={Style.footerLinks}>
+          <TouchableOpacity onPress={handleTOS}>
+            <Text style={Style.footerLinkText}>Terms of Service</Text>
+          </TouchableOpacity>
+          <Text style={Style.footerText}> | </Text>
+          <TouchableOpacity onPress={handlePP}>
+            <Text style={Style.footerLinkText}>Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

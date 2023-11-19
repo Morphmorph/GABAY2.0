@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { Animated, Dimensions, StyleSheet, Image, Platform, View, TouchableOpacity, Text, Modal } from 'react-native';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -29,6 +30,10 @@ import OnboardingScreen from './views/OnboardingScreen';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import plus from './assets/Icon/plus.png';
+import Settings from './views/Landing/Settings';
+
+import PrivacyPolicy from './views/Starting/PrivacyPolicy';
+import TermsOfService from './views/Starting/TermsofService';
 
 
 
@@ -415,6 +420,58 @@ const App = () => {
               }}
             />
             <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+            
+            <Stack.Screen
+              name="Privacy Policy"
+              component={PrivacyPolicy}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+            <Stack.Screen
+              name="Terms of Service"
+              component={TermsOfService}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+            <Stack.Screen
               name="Sign up"
               component={Signup}
               options={{
@@ -620,7 +677,12 @@ function Homescreen({ navigation }) {
   );
 }
 
-function CustomDrawerContent({  }) {
+function CustomDrawerContent({}) {
+  const navigation = useNavigation();
+
+  const navigateToScreen = (screenName) => {
+    navigation.navigate(screenName);
+  };
 
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -663,10 +725,10 @@ function CustomDrawerContent({  }) {
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
-      <TouchableOpacity onPress={() => navigateToScreen('Forecast Savings')}>
+      <TouchableOpacity onPress={() => navigateToScreen('Settings')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, }}>
-          <FontAwesome5 name="crosshairs" size={30} color={'#CBD18F'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Forecast Savings</Text>
+        <AntDesign name="setting" size={30} color={'#CBD18F'} />
+          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Settings</Text>
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
