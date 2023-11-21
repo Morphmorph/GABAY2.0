@@ -770,9 +770,9 @@ function CustomDrawerContent({}) {
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
 
       <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 50, backgroundColor: '#A2A869', borderRadius: 10}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 80, backgroundColor: '#A2A869', borderRadius: 5}}>
           <AntDesign name="logout" size={30} color={'#144714'} />
-          <Text style={{ color: '#144714', fontSize: 16, padding: 20 }}>Logout</Text>
+          <Text style={{ color: '#144714', fontSize: 16, padding: 15 }}>Logout</Text>
         </View>
       </TouchableOpacity>
       <Modal

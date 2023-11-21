@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
 
         <Text style={styles.subheading}>4. Security Measures</Text>
         <Text style={styles.paragraph}>
-          We take reasonable measures to protect the security of your personal
+          We take reasonable measures to protect the security of your personal and non-personal
           information. However, please be aware that no method of transmission
           over the internet or electronic storage is completely secure, and we
           cannot guarantee absolute security.
