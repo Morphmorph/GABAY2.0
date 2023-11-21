@@ -54,7 +54,6 @@ export const Style = StyleSheet.create({
     },
     glass: {
       margin: 5,
-      height: 155,
       backgroundColor: '#144714',
       padding: 7,
       borderRadius: 10,

@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
-  const { context } = useContext(UserContext)
+  const { context,setTotalIncome } = useContext(UserContext)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
   const [expense, setExpense] = useState([])
@@ -104,6 +104,7 @@ const Home = ({ navigation }) => {
   const getIncome = () => {
     axiosRequest.get(`gabay/user/income/?user=${context.id}`).then((response) => {
       setIncomes(response.data)
+      setTotalIncome(response.data.total_amount)
     }).catch((e) => {
       console.log(e)
     })
@@ -168,13 +169,16 @@ const Home = ({ navigation }) => {
                 </View>
                 <Text style={{ color: '#E3B448', fontSize: 12 }}>Income</Text>
               </View>
-
-              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center', backgroundColor: '#CBD18F', paddingVertical: 5, marginVertical: 10, borderRadius: 5, marginRight: 50, }}>
-                <Text style={{ fontSize: 20, color: '#144714' }}>{selectedOption}</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center', backgroundColor: '#CBD18F', paddingVertical: 5, marginVertical: 10, borderRadius: 5,maxWidth:'100%' }}>
+                <Text style={{ fontSize: 20, color: '#144714',width:'90%' ,textAlign:'center'}}>{selectedOption}</Text>
               </View>
-              <TouchableOpacity onPress={toggleOption} style={{ position: 'absolute', right: 8, bottom: 5 }}>
+              <View>
+              <TouchableOpacity onPress={toggleOption} >
                 <Iconn name="swap-vertical-circle-outline" style={{ fontSize: 40, color: '#E3B448', }} />
               </TouchableOpacity>
+              </View>
+              </View>
             </View>
 
             <View style={{ top: 30, paddingHorizontal: 10 }}>

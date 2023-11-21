@@ -1,10 +1,12 @@
 import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native'
 import DonutChart from './DonutChart'
+import { axiosRequest } from '../../api_server/axios';
+import UserContext from '../../api_server/context';
 
 const ForecastSavings = () => {
   const navigation = useNavigation()
@@ -14,6 +16,9 @@ const ForecastSavings = () => {
   const [income, setIncome] = useState('')
   const [incomeError, setIncomeError] = useState(null)
   const [selectedOption, setSelectedOption] = useState('Year');
+  const [forecast,setForcast] = useState([])
+  const {context,totalincome} = useContext(UserContext)
+  const [value,setValue] = useState()
 
   const handleIncomeChange = (text) => {
     // Clear existing errors
@@ -55,6 +60,19 @@ const ForecastSavings = () => {
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Year' ? 'Month' : 'Year');
   };
+
+  const Forecast = async() =>{
+      axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}`)
+      .then((response)=>{
+        data = response.data.avarage
+        setForcast(data)
+        setValue(response.data.forecast)
+        console.log(response.data.forecast)
+      })
+  }
+
+  
+
  
   return (
     <View style={Style.common}>
@@ -83,11 +101,15 @@ const ForecastSavings = () => {
               setIncomeError(null)
             }}
           />
-          <View style={{top: -10, flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style={{ textAlign: 'center', color: '#E3B448'}}>{selectedOption}</Text>
-          <TouchableOpacity onPress={toggleOption} style={{position: 'absolute', right: 0}}>
+          <View style={{top: -10, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center',}}>
+          <Text style={{ textAlign: 'center', color: '#E3B448',width:"100%"}}>{selectedOption}</Text>
+          </View>
+          <View>
+          <TouchableOpacity onPress={toggleOption}>
           <Icon name="swap-vertical-circle-outline" style={{ fontSize: 20, color: '#E3B448',}} />
           </TouchableOpacity>
+          </View>
           </View>
         </View>
       </View>
@@ -111,7 +133,7 @@ const ForecastSavings = () => {
               alignItems: 'center',
               width: '100%', 
             }}
-            onPress={{}}
+            onPress={Forecast}
           >
             <Text style={{ color: '#144714', fontSize: 18,}}>Forecast</Text>
           </TouchableOpacity>
@@ -123,7 +145,7 @@ const ForecastSavings = () => {
       <View style={{backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,  top: 50}}>
               
               <View style={{padding: 20, marginBottom: 20,}}>
-              <DonutChart data={history}/>
+              <DonutChart data={forecast} predict = {value}/>
 
               </View>
               

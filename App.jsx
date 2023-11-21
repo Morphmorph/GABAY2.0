@@ -60,6 +60,8 @@ const App = () => {
     otp: null
   })
 
+  const [totalincome,setTotalIncome] = React.useState()
+
   const [incomeIcon, setIncomeIcon] = useState({
     income: [
       {
@@ -266,7 +268,7 @@ const App = () => {
       />
       <NavigationContainer>
 
-        <UserContext.Provider value={{ context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon }}>
+        <UserContext.Provider value={{ context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome}}>
           <Stack.Navigator
             initialRouteName={context.id ? "Homescreen" : "Onboarding"}
             screenOptions={{

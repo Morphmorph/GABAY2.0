@@ -27,7 +27,7 @@ const chartConfig = {
   },
 };
 
-function DonutChart({ data, total_sum }) {
+function DonutChart({ data, total_sum,predict = null }) {
   const [totalExpense, setTotalExpense] = useState(0);
 
   useEffect(() => {
@@ -37,17 +37,17 @@ function DonutChart({ data, total_sum }) {
   }, [data]);
 
   const getFontSize = () => {
-    const totalExpenseStr = totalExpense.toLocaleString();
+    const totalExpenseStr = predict ? predict.toLocaleString():totalExpense.toLocaleString();
     const numDigits = totalExpenseStr.replace(/,/g, '').length;
 
     if (numDigits >= 1 && numDigits <= 5) {
-      return 20;
+      return 17;
     } else if (numDigits === 6) {
-      return 19;
+      return 15;
     } else if (numDigits === 7) {
-      return 16;
+      return 14;
     } else {
-      return 14; // for 8+ digits
+      return 13; // for 8+ digits
     }
   };
   const pieData = data.map((item, index) => ({
@@ -106,7 +106,7 @@ function DonutChart({ data, total_sum }) {
           <Labels />
         </PieChart>
         <View style={styles.centeredTextContainer}>
-          <Text style={[styles.centeredText, { fontSize: getFontSize(), color: totalExpense > total_sum ? 'red' : '#144714' }]}>₱{totalExpense.toLocaleString()}</Text>
+          <Text style={[styles.centeredText, { fontSize: getFontSize(), color: totalExpense > total_sum ? 'red' : '#144714' }]}>₱{predict ? predict.toLocaleString():totalExpense.toLocaleString()}</Text>
         </View>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
