@@ -137,7 +137,7 @@ const ForecastSavings = () => {
         
       </View>
       <View style={{ top: 10, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, marginBottom: 20}}>
-      <Text style={{ color: '#E3B448', fontSize: 21, }}>Forecasted Savings</Text>
+      <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
       </View>
       <View style={{backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,}}>
               
