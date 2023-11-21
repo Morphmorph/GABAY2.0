@@ -103,11 +103,11 @@ const ForecastSavings = () => {
           />
           <View style={{top: -10, flexDirection: 'row', justifyContent: 'space-evenly'}}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center',}}>
-          <Text style={{ textAlign: 'center', color: '#E3B448',width:"100%"}}>{selectedOption}</Text>
+          <Text style={{ textAlign: 'center', color: '#E3B448', width:"100%",}}>{selectedOption}</Text>
           </View>
           <View>
           <TouchableOpacity onPress={toggleOption}>
-          <Icon name="swap-vertical-circle-outline" style={{ fontSize: 20, color: '#E3B448',}} />
+          <Icon name="swap-vertical-circle-outline" style={{ fontSize: 20, color: '#E3B448', right: 5,}} />
           </TouchableOpacity>
           </View>
           </View>
