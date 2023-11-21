@@ -163,7 +163,7 @@ const Home = ({ navigation }) => {
               </View>
 
               <View style={{ marginTop: 10, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
-                <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: 1, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
+                <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
                   <Image source={Peso} style={{ width: 20, height: 20 }} />
                   <Text style={{ color: '#CBD18F', fontSize: 20 }}> {incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.00</Text>
                 </View>
@@ -181,13 +181,13 @@ const Home = ({ navigation }) => {
               </View>
             </View>
 
-            <View style={{ top: 30, paddingHorizontal: 10 }}>
+            <View style={{ borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10, marginVertical: 5, alignItems: 'center',}}>
 
             </View>
 
             {selectedOption === 'Income' && (
 
-              <View style={{ top: 10, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
+              <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
                 {Object.keys(ddate).length ? <View >
                   <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                     <TouchableOpacity onPress={handlePress}>
@@ -218,7 +218,7 @@ const Home = ({ navigation }) => {
 
             )}
             {selectedOption === 'Expenses' && (
-              <View style={{ top: 10, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
+              <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
                 <View style={{ top: 10, alignItems: 'center' }}>
 
                   <Text style={{ fontSize: 20, color: '#144714' }}>Income</Text>
