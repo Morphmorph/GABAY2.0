@@ -4,37 +4,58 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from '../Style';
 import icon1 from '../../assets/Icon/necessities/n1.png';
 import CustomInput from '../CustomInput';
+import { axiosRequest } from '../../api_server/axios'
 
-const InspectExpenses = ({ route, editMode, setEditMode  }) => {
+const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
   const { expense, date } = route.params;
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [id,setId] = useState()
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = (data) => {
     setIsDeleteModalVisible(!isDeleteModalVisible);
+    setId(data.id)
   };
   const toggleEditModal = (data) => {
     setSelectedExpense(data);
     setTitle(data.key);
     setAmount(data.value.toString());
+    setId(data.id)
     setEditModalVisible(!isEditModalVisible);
   };
 
-  const handleEdit = () => {
+  const handleEdit = async() => {
     // Implement your edit logic here
     // You can use the selectedExpense state to get the details of the expense being edited
     // Close the modal after editing
+    await axiosRequest.put(`gabay/transaction/edit/${id}/`,{
+      "description": title,
+      "amount": parseInt(amount)
+  }).then((response)=>{
+    console.log('success')
+    navigation.navigate('Home')
+  }).catch(e=>{
+    console.log('failed')
+  })
+
     setEditModalVisible(false);
     setEditMode(false);
+    
   };
 
-  const handleDelete = () => {
+  const handleDelete = async() => {
     // Implement your delete logic here
     // You can use the selectedExpense state to get the details of the expense being deleted
     // Close the modal after deleting
+    await axiosRequest.delete(`gabay/transaction/edit/${id}/`).then((response)=>{
+    console.log('success')
+    navigation.navigate('Home')
+  }).catch(e=>{
+    console.log('failed')
+  })
     setEditModalVisible(false); 
     setEditMode(false);
     setIsDeleteModalVisible(false)
