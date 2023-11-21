@@ -34,6 +34,8 @@ import Settings from './views/Landing/Settings';
 
 import PrivacyPolicy from './views/Starting/PrivacyPolicy';
 import TermsOfService from './views/Starting/TermsofService';
+import Help from './views/Landing/Help';
+import About from './views/Landing/About';
 
 
 
@@ -472,6 +474,40 @@ const App = () => {
               }}
             />
             <Stack.Screen
+              name="Help"
+              component={Help}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+            <Stack.Screen
+              name="About"
+              component={About}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+            <Stack.Screen
               name="Sign up"
               component={Signup}
               options={{
@@ -733,10 +769,10 @@ function CustomDrawerContent({}) {
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
 
-      <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', padding: 10, bottom: 10 }} onPress={toggleModal1}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, }}>
-          <AntDesign name="logout" size={30} color={'#CBD18F'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Logout</Text>
+      <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 50, backgroundColor: '#A2A869', borderRadius: 10}}>
+          <AntDesign name="logout" size={30} color={'#144714'} />
+          <Text style={{ color: '#144714', fontSize: 16, padding: 20 }}>Logout</Text>
         </View>
       </TouchableOpacity>
       <Modal

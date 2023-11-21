@@ -11,7 +11,11 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
+  const toggleDeleteModal = () => {
+    setIsDeleteModalVisible(!isDeleteModalVisible);
+  };
   const toggleEditModal = (data) => {
     setSelectedExpense(data);
     setTitle(data.key);
@@ -33,6 +37,7 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
     // Close the modal after deleting
     setEditModalVisible(false); 
     setEditMode(false);
+    setIsDeleteModalVisible(false)
   };
   const wants = [
     require('../../assets/Icon/wants/w1.png'),
@@ -80,7 +85,7 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
                 <TouchableOpacity onPress={() => toggleEditModal(data)}>
                   <Iconn name="pencil" size={20} color="#CBD18F" style={{ marginRight: 10 }} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDelete(data)}>
+                <TouchableOpacity onPress={() => toggleDeleteModal(data)}>
                   <Iconn name="delete" size={20} color="red" />
                 </TouchableOpacity>
               </View>
@@ -134,10 +139,52 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
           </View>
         </View>
       </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isDeleteModalVisible}
+        onRequestClose={() => {
+          setIsDeleteModalVisible(!isDeleteModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to delete this?</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.yesButton} onPress={handleDelete}>
+                <Text style={styles.buttonText}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.noButton} onPress={toggleDeleteModal}>
+                <Text style={styles.buttonText2}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: '#3A6B35',
+    borderRadius: 10,
+    width: '90%',
+    padding: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#E3B448'
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
