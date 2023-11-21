@@ -19,7 +19,33 @@ export const Style = StyleSheet.create({
         color: '#CBD18F',
         marginBottom: '5%',
     },
-    
+    footer: {
+      backgroundColor: 'transparent', // Set your desired background color
+      padding: 5,
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
+    footerText: {
+      color: '#144714',
+      textAlign: 'center',
+      justifyContent: 'center',
+      fontSize: 12,
+      marginBottom: 5,
+    },
+    footerLinks: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      top: -5,
+    },
+    footerLinkText: {
+      color: '#E3B448', // Set the color you want for clickable links
+      fontSize: 12,
+     marginHorizontal: 5,
+      textDecorationLine: 'none',
+    },
     logo: {
         width: 'auto',
         height: 'auto',
