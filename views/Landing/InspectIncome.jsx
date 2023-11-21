@@ -5,12 +5,17 @@ import Style from '../Style';
 import icon1 from '../../assets/Icon/income/i1.png';
 import CustomInput from '../CustomInput';
 
-const InspectExpenses = ({ route, editMode, setEditMode  }) => {
+const InspectExpenses = ({ route, editMode, setEditMode }) => {
   const { income } = route.params;
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setIsDeleteModalVisible(!isDeleteModalVisible);
+  };
 
   const toggleEditModal = (data) => {
     setSelectedExpense(data);
@@ -31,29 +36,30 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
     // Implement your delete logic here
     // You can use the selectedExpense state to get the details of the expense being deleted
     // Close the modal after deleting
-    setEditModalVisible(false); 
+    setEditModalVisible(false);
     setEditMode(false);
+    setIsDeleteModalVisible(false)
   };
   return (
     <View style={Style.common}>
-    <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>
-    <View style={{top: 10, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 10, height: 'auto', }}>
+        <View style={{ top: 10, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', }}>
           <Text style={{ color: '#E3B448', fontSize: 17, top: -5, alignSelf: 'center' }}>[ Income ]</Text>
-          </View>
-          <View style={{ margin: 10, padding: 10,  backgroundColor: '#CBD18F', borderRadius: 5 }}>
-         {income.map((data,index)=>( <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5}}>
-         {editMode && (
+        </View>
+        <View style={{ margin: 10, padding: 10, backgroundColor: '#CBD18F', borderRadius: 5 }}>
+          {income.map((data, index) => (<View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5 }}>
+            {editMode && (
               <View style={{ flexDirection: 'row', position: 'absolute', zIndex: 9999, top: 10, right: 10, }}>
                 <TouchableOpacity onPress={() => toggleEditModal(data)}>
                   <Iconn name="pencil" size={20} color="#CBD18F" style={{ marginRight: 10 }} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDelete(data)}>
+                <TouchableOpacity onPress={() => toggleDeleteModal(data)}>
                   <Iconn name="delete" size={20} color="red" />
                 </TouchableOpacity>
               </View>
             )}
-         <View style={{ backgroundColor: '#144714', borderRadius: 5, flexDirection: 'row', flex: 1,}}>
-              <Image source={parseInt(data.icon,10)} style={{ width: 80, height: 80, margin: 10, backgroundColor: 'transparent', borderRadius: 10 }} />
+            <View style={{ backgroundColor: '#144714', borderRadius: 5, flexDirection: 'row', flex: 1, }}>
+              <Image source={parseInt(data.icon, 10)} style={{ width: 80, height: 80, margin: 10, backgroundColor: 'transparent', borderRadius: 10 }} />
               <View style={{ flexDirection: 'column', alignSelf: 'center', marginRight: 10, borderLeftWidth: 2, borderColor: '#E3B448', backgroundColor: '#144714', borderBottomRightRadius: 5, borderTopRightRadius: 5, flex: 1 }}>
                 <View style={{ paddingVertical: 10 }}>
                   <Text style={{ color: '#CBD18F', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> {data.key} </Text>
@@ -76,7 +82,7 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
       >
         <View style={Style.modalContainer}>
           <View style={Style.modalContent}>
-          <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Update record:</Text>
+            <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Update record:</Text>
             <CustomInput
               iconName="application-outline"
               placeholder="Title"
@@ -101,10 +107,50 @@ const InspectExpenses = ({ route, editMode, setEditMode  }) => {
           </View>
         </View>
       </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isDeleteModalVisible}
+        onRequestClose={toggleDeleteModal}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to delete this?</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.yesButton} onPress={handleDelete}>
+                <Text style={styles.buttonText}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.noButton} onPress={toggleDeleteModal}>
+                <Text style={styles.buttonText2}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: '#3A6B35',
+    borderRadius: 10,
+    width: '90%',
+    padding: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#E3B448'
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',

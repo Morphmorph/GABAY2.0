@@ -9,7 +9,7 @@ const TermsofService = () => {
         <View style={[Style.common]}>
             <ScrollView style={{ paddingTop: 10 }}>
                 <Text style={[styles.paragraph, {marginTop: -10}]}>
-                    Welcome to <Text style={{color: '#E3B448'}}>GABAY</Text>, the forecasting system mobile application. By using
+                    Welcome to <Text style={{color: '#E3B448'}}>GABAY</Text>, the savings forecasting system mobile application. By using
                     GABAY, you agree to comply with and be bound by the following terms and
                     conditions:
                 </Text>

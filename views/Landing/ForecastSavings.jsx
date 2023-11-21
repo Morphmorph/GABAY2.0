@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'rea
 import React, { useState, useEffect } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native'
 import DonutChart from './DonutChart'
 
@@ -12,7 +13,8 @@ const ForecastSavings = () => {
   
   const [income, setIncome] = useState('')
   const [incomeError, setIncomeError] = useState(null)
-  
+  const [selectedOption, setSelectedOption] = useState('Year');
+
   const handleIncomeChange = (text) => {
     // Clear existing errors
     setIncomeError(null)
@@ -50,7 +52,9 @@ const ForecastSavings = () => {
     },
     
   ];
-
+  const toggleOption = () => {
+    setSelectedOption(selectedOption === 'Year' ? 'Month' : 'Year');
+  };
  
   return (
     <View style={Style.common}>
@@ -70,17 +74,21 @@ const ForecastSavings = () => {
         >
           <CustomInput
             iconName="calendar"
-            placeholder="Year"
+            placeholder={selectedOption}
             keyboardType="numeric"
             value={income}
             onChangeText={handleIncomeChange}
             error={incomeError}
             onFocus={() => {
-              // Clear income error on focus
               setIncomeError(null)
             }}
           />
-          <Text style={{ top: -10, textAlign: 'center', color: '#E3B448' }}>Year</Text>
+          <View style={{top: -10, flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style={{ textAlign: 'center', color: '#E3B448'}}>{selectedOption}</Text>
+          <TouchableOpacity onPress={toggleOption} style={{position: 'absolute', right: 0}}>
+          <Icon name="swap-vertical-circle-outline" style={{ fontSize: 20, color: '#E3B448',}} />
+          </TouchableOpacity>
+          </View>
         </View>
       </View>
       <View style={{ top: 50, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
