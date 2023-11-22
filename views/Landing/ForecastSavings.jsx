@@ -76,16 +76,14 @@ const ForecastSavings = () => {
  
   return (
     <View style={Style.common}>
-      <View>
+      <View style={{marginBottom: 40,}}>
         <View
           style={{
             top: 20,
             alignSelf: 'center',
             backgroundColor: '#2b5127',
             paddingTop: 5,
-            paddingBottom: -70,
             paddingHorizontal: 20,
-            marginHorizontal: 40,
             borderRadius: 5,
             width: '80%'
           }}
@@ -101,7 +99,7 @@ const ForecastSavings = () => {
               setIncomeError(null)
             }}
           />
-          <View style={{top: -10, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <View style={{top: -10, flexDirection: 'row', justifyContent: 'space-evenly',}}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center',}}>
           <Text style={{ textAlign: 'center', color: '#E3B448', width:"100%",}}>{selectedOption}</Text>
           </View>
@@ -113,11 +111,9 @@ const ForecastSavings = () => {
           </View>
         </View>
       </View>
-      <View style={{ top: 50, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center',}}>
       <View
         style={{
           alignItems: 'center',
-          bottom: 20,
           alignSelf: 'center',
           width: '100%',
           paddingHorizontal: 20,
@@ -140,9 +136,10 @@ const ForecastSavings = () => {
         </View>
         
       </View>
-       
+      <View style={{ top: 10, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, marginBottom: 20}}>
+      <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
       </View>
-      <View style={{backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,  top: 50}}>
+      <View style={{backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,}}>
               
               <View style={{padding: 20, marginBottom: 20,}}>
               <DonutChart data={forecast} predict = {value}/>
