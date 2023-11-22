@@ -76,10 +76,10 @@ const ForecastSavings = () => {
  
   return (
     <View style={Style.common}>
-      <View style={{marginBottom: 40,}}>
+      <View style={{marginBottom: 20,}}>
         <View
           style={{
-            top: 20,
+            top: 10,
             alignSelf: 'center',
             backgroundColor: '#2b5127',
             paddingTop: 5,
@@ -136,12 +136,12 @@ const ForecastSavings = () => {
         </View>
         
       </View>
-      <View style={{ top: 10, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, marginBottom: 20}}>
+      <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, }}>
       <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
       </View>
       <View style={{backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,}}>
               
-              <View style={{padding: 20, marginBottom: 20,}}>
+              <View style={{padding: 18.8, marginBottom: 20,}}>
               <DonutChart data={forecast} predict = {value}/>
 
               </View>
