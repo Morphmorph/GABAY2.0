@@ -96,6 +96,7 @@ const Home = ({ navigation }) => {
   const getData = (pagess) => {
     axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1`).then((response) => {
       setExpense(response.data)
+      // console.log(response.data)
     }).catch((e) => {
       console.log(e)
     })

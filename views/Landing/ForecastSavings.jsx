@@ -146,7 +146,7 @@ const ForecastSavings = () => {
 
               </View>
               
-              <TouchableOpacity style={{bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10,  width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History')}}>
+              <TouchableOpacity style={{bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10,  width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History',{details:forecast})}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
             

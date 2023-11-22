@@ -27,6 +27,8 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
     setEditModalVisible(!isEditModalVisible);
   };
 
+
+
   const handleEdit = async() => {
     // Implement your edit logic here
     // You can use the selectedExpense state to get the details of the expense being edited
@@ -92,6 +94,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
     require('../../assets/Icon/Icons/c11.png'),
   ];
   // console.log(icon1)
+  // console.log(expense)
   return (
     <View style={Style.common}>
       <ScrollView contentContainerStyle={{ paddingBottom: 10, height: 'auto', }}>
