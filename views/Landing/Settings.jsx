@@ -16,7 +16,9 @@ const Settings = ({navigation}) => {
   const handleAbout = () => {
     navigation.navigate('About');
   };
-
+  const handleCP = () => {
+    navigation.navigate('Change password');
+  };
   return (
     <View style={Style.common}>
       <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
