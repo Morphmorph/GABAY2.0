@@ -80,6 +80,18 @@ const Home = ({ navigation }) => {
 
   };
 
+  const handlePresslef = () => {
+    const newpage = 0;  // Swap values
+    const backpage = page - 1;  // Swap values
+  
+    if (page === 0) {  // Adjust condition
+      setPage(Object.keys(ddate).length - 1);
+    } else {
+      setPage(backpage);
+      // console.log(Object.keys(ddate).length)
+    }
+  };
+
   const api = () => {
     axiosRequest.get(`gabay/same/month/year/${context.id}/`)
       .then((response) => {
@@ -191,7 +203,7 @@ const Home = ({ navigation }) => {
               <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
                 {Object.keys(ddate).length ? <View >
                   <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                    <TouchableOpacity onPress={handlePress}>
+                    <TouchableOpacity onPress={handlePresslef}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
                     </TouchableOpacity>
                     <Text style={{ fontSize: 20, color: '#144714' }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate)}</Text>

@@ -68,6 +68,8 @@ const ForecastSavings = () => {
         setForcast(data)
         setValue(response.data.forecast)
         console.log(response.data.forecast)
+      }).catch(e=>{
+        alert("Something Went Wrong Need Some Modal!!")
       })
   }
 

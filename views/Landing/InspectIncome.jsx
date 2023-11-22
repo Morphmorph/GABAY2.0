@@ -4,17 +4,20 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from '../Style';
 import icon1 from '../../assets/Icon/income/i1.png';
 import CustomInput from '../CustomInput';
+import { axiosRequest } from '../../api_server/axios';
 
-const InspectExpenses = ({ route, editMode, setEditMode }) => {
+const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
   const { income } = route.params;
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [id,setId] = useState()
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = (data) => {
     setIsDeleteModalVisible(!isDeleteModalVisible);
+    setId(data.id)
   };
 
   const toggleEditModal = (data) => {
@@ -22,24 +25,47 @@ const InspectExpenses = ({ route, editMode, setEditMode }) => {
     setTitle(data.key);
     setAmount(data.value.toString());
     setEditModalVisible(!isEditModalVisible);
+    setId(data.id)
+    console.log(data)
   };
 
-  const handleEdit = () => {
+  const handleEdit = async() => {
     // Implement your edit logic here
     // You can use the selectedExpense state to get the details of the expense being edited
     // Close the modal after editing
+    await axiosRequest.put(`gabay/add/edit/${id}/`,{
+      "title": title,
+      "amount": parseInt(amount)
+  }).then((response)=>{
+    console.log('success')
+    navigation.navigate('Home')
+  }).catch(e=>{
+    console.log('failed')
+  })
+
+    setEditModalVisible(false);
+    setEditMode(false);
+    
     setEditModalVisible(false);
     setEditMode(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async() => {
     // Implement your delete logic here
     // You can use the selectedExpense state to get the details of the expense being deleted
     // Close the modal after deleting
+    await axiosRequest.delete(`gabay/add/edit/${id}/`).then((response)=>{
+    console.log('success')
+    navigation.navigate('Home')
+  }).catch(e=>{
+    console.log('failed')
+  })
     setEditModalVisible(false);
     setEditMode(false);
     setIsDeleteModalVisible(false)
   };
+
+  console.log(income)
   return (
     <View style={Style.common}>
       <ScrollView contentContainerStyle={{ paddingBottom: 10, height: 'auto', }}>

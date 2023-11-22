@@ -66,7 +66,9 @@ export const useLoginController = () => {
         }
         
         else if(response.data.status == 401){
+          // Change this alert to model
           alert(response.data.Warning)
+
           setNav(false)
           navigation.navigate('Pin')
         }
