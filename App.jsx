@@ -558,6 +558,7 @@ function DrawerScreen({ }) {
         },
         headerTintColor: '#E3B448',
         drawerActiveBackgroundColor: 'red',
+        headerTitleAlign: 'center',
         headerTitle: () => (
           <View style={{flex: 1, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <Image
