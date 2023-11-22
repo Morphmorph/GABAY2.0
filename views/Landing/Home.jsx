@@ -172,7 +172,7 @@ const Home = ({ navigation }) => {
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',  marginTop: 5, maxWidth:'100%'}}>
               <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, backgroundColor: '#CBD18F', borderRadius: 5,}}>
-                <Text style={{ fontSize: 20, color: '#144714',width:'89%' ,textAlign:'center'}}>{selectedOption}</Text>
+                <Text style={{ fontSize: 20, color: '#144714',width:'85.5%' ,textAlign:'center'}}>{selectedOption}</Text>
               </View>
               <View>
               <TouchableOpacity onPress={toggleOption} >
