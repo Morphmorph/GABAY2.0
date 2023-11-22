@@ -17,7 +17,9 @@ export const useSignupController = () => {
     hasNumber,
     hasSymbol,
     loader,
-    SetLoader
+    SetLoader,
+    showModalMessage,
+    setShowModalMessage
   } = useSignupModel();
 
 
@@ -70,14 +72,16 @@ const {setContext,setNav} = React.useContext(UserContext)
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then((response)=>{
-        alert(response.data)
+      }).then(()=>{
+       
         setContext({email:formData.email})
         SetLoader(false)
         setNav(false)
-        if(response.data == 'Registered successfully!'){
+        setShowModalMessage(true);
+         setTimeout(() => {
+          // Navigate to the home screen
           navigation.navigate('Verify');
-        }
+        }, 800);
        
       }).catch((err)=>{
         console.log(formData)
@@ -116,6 +120,8 @@ const {setContext,setNav} = React.useContext(UserContext)
     goToSignin,
     handleSignUp,
     loader,
-    SetLoader
+    SetLoader,
+    showModalMessage,
+    setShowModalMessage
   };
 };

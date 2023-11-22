@@ -4,10 +4,11 @@ import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { usePinController } from '../../controller/PinController'; // Import the controller
+import ModalMessage from '../Modal';
 
 const Pin = ({navigation}) => {
   const { height } = useWindowDimensions();
-  const { pin, setPin, pinError, setPinError, handleVerify, reSend } = usePinController();
+  const { pin, setPin, pinError, setPinError, handleVerify, reSend, showModalMessage, setShowModalMessage } = usePinController();
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
   };
@@ -63,6 +64,7 @@ const Pin = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage showAutomatically={showModalMessage} message="Your account is verified successfully!"/>
     </View>
   );
 };

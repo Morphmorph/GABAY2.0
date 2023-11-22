@@ -12,7 +12,8 @@ export const useForgotPasswordModel = () => {
       const [isLowercase, setIsLowercase] = useState(false);
       const [hasNumber, setHasNumber] = useState(false);
       const [hasSymbol, setHasSymbol] = useState(false);
-    
+      const [showModalMessage, setShowModalMessage] = useState(false);
+
       useEffect(() => {
         if (passwordData.newPassword) {
           setIsPasswordValid(isValidPassword(passwordData.newPassword));
@@ -43,5 +44,7 @@ export const useForgotPasswordModel = () => {
         isLowercase,
         hasNumber,
         hasSymbol,
+        showModalMessage,
+        setShowModalMessage
       };
 };

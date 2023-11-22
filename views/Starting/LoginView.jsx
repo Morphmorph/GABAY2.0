@@ -5,6 +5,7 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useLoginController } from '../../controller/LoginController'; // Import the controller
 import Loader from './actionLoader';
+import ModalMessage from '../Modal';
 
 const Login = ({navigation}) => {
   const handleTOS = () => {
@@ -14,7 +15,7 @@ const Login = ({navigation}) => {
     navigation.navigate('Privacy Policy');
   };
   const { height } = useWindowDimensions();
-  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn, loader, SetLoader } = useLoginController();
+  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn, loader, SetLoader, showModalMessage, setShowModalMessage } = useLoginController();
   const bol = loader
   return (
     <View style={Style.common} pointerEvents={bol ? 'none' : 'auto'}>
@@ -89,6 +90,7 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage showAutomatically={showModalMessage} message="Welcome to GABAY!"/>
     </View>
   );
 };

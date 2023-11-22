@@ -6,6 +6,7 @@ import CustomInput from '../CustomInput';
 import { useSignupController } from '../../controller/SignupController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from './actionLoader';
+import ModalMessage from '../Modal';
 
 const Signup = ({navigation}) => {
   const { height } = useWindowDimensions();
@@ -22,8 +23,9 @@ const Signup = ({navigation}) => {
   goToSignin,
   handleSignUp,
   loader,
-  SetLoader
-
+  SetLoader,
+  showModalMessage,
+  setShowModalMessage
   } = useSignupController();
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
@@ -147,6 +149,7 @@ const Signup = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage showAutomatically={showModalMessage} message="Please verify your account!"/>
     </View>
    
   );

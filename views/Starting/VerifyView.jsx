@@ -7,12 +7,12 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useVerifyController } from '../../controller/VerifyController'; // Import the controller
 import Loader from './actionLoader';
-
+import ModalMessage from '../Modal';
 
 
 const Verify = ({navigation}) => {
   const { height } = useWindowDimensions();
-  const { email, setEmail, emailError, setEmailError, handleVerify, reSend,loader,setLoader } = useVerifyController();
+  const { email, setEmail, emailError, setEmailError, handleVerify, reSend,loader,setLoader, showModalMessage, setShowModalMessage } = useVerifyController();
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
   };
@@ -69,6 +69,7 @@ const Verify = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage showAutomatically={showModalMessage} message="The OTP already sent in your gmail!"/>
     </View>
   );
 };

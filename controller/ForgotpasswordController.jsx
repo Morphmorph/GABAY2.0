@@ -16,6 +16,8 @@ export const useForgotPasswordController = () => {
         isLowercase,
         hasNumber,
         hasSymbol,
+        showModalMessage,
+        setShowModalMessage
     } = useForgotPasswordModel();
 
     const {context} = React.useContext(UserContext)
@@ -56,9 +58,12 @@ export const useForgotPasswordController = () => {
         setErrors((prevErrors) => ({ ...prevErrors, newPassword: null }));
        
         await axiosRequest.put(`auth/new/password/${context.email}/`,{"password" : passwordData.confirmNewPassword})
-        .then((response)=>{
-          alert(`Password Updated! Yehey!`)
-          navigation.navigate('Log in');
+        .then(()=>{
+          setShowModalMessage(true);
+          setTimeout(() => {
+           // Navigate to the home screen
+           navigation.navigate('Log in');
+         }, 1800);
         }).catch((e)=>{
           alert("Something Went Wrong! Check your Intertnet Connection" )
         })
@@ -88,5 +93,7 @@ export const useForgotPasswordController = () => {
       hasSymbol,
       goToSignin,
       handleUpdatePassword,
+      showModalMessage,
+      setShowModalMessage
     };
 };

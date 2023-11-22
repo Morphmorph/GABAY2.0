@@ -4,9 +4,10 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useMonthlyIncomeController } from '../../controller/MonthlyincomeController'; // Correct the import path
 import LoadingScreen from '../LoadingScreen';
+import ModalMessage from '../Modal';
 
 const MonthlyIncome = () => {
-  const { income, incomeError, setIncomeError, handleIncomeChange, startButtonPressed } = useMonthlyIncomeController();
+  const { income, incomeError, setIncomeError, handleIncomeChange, startButtonPressed, showModalMessage, setShowModalMessage } = useMonthlyIncomeController();
   const [isLoading, setIsLoading] = useState(true);
 
   // Use useEffect to mimic component lifecycle behavior
@@ -42,9 +43,11 @@ const MonthlyIncome = () => {
             <TouchableOpacity style={Style.signInButton} onPress={startButtonPressed}>
               <Text style={Style.signInButtonText}>Start</Text>
             </TouchableOpacity>
-          </View>
+            <ModalMessage showAutomatically={showModalMessage} message="Main income added successfully!"/>
+          </View>   
         </View>
       )}
+      
     </>
   );
 };

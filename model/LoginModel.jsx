@@ -7,7 +7,7 @@ export const useLoginModel = () => {
   });
 
   const [loader,SetLoader] = useState(false)
-
+  const [showModalMessage, setShowModalMessage] = useState(false);
   
 
   const [errors, setErrors] = useState({});
@@ -17,5 +17,5 @@ export const useLoginModel = () => {
     return emailRegex.test(email);
   };
 
-  return { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader};
+  return { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, showModalMessage, setShowModalMessage};
 };

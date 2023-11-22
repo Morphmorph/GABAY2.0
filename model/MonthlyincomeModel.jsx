@@ -3,6 +3,6 @@ import { useState } from 'react';
 export const useMonthlyIncomeModel = () => {
   const [income, setIncome] = useState('');
   const [incomeError, setIncomeError] = useState(null);
-
-  return { income, setIncome, incomeError, setIncomeError };
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  return { income, setIncome, incomeError, setIncomeError, showModalMessage, setShowModalMessage };
 };

@@ -3,6 +3,6 @@ import { useState } from 'react';
 export const usePinModel = () => {
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState(null);
-
-  return { pin, setPin, pinError, setPinError };
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  return { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage};
 };

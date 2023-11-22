@@ -5,6 +5,7 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useForgotPasswordController } from '../../controller/ForgotpasswordController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ModalMessage from '../Modal';
 
 const ForgotPasswordView = ({navigation}) => {
   const handleTOS = () => {
@@ -25,6 +26,8 @@ const ForgotPasswordView = ({navigation}) => {
     setErrors,
     goToSignin,
     handleUpdatePassword,
+    showModalMessage,
+    setShowModalMessage
   } = useForgotPasswordController();
 
   return (
@@ -129,6 +132,7 @@ const ForgotPasswordView = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!"/>
     </View>
   );
 };

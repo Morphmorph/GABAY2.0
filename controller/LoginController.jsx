@@ -4,11 +4,11 @@ import { useLoginModel } from '../model/LoginModel'; // Import the model
 import UserContext from '../api_server/context';
 import React from 'react';
 
+
 export const useLoginController = () => {
   const navigation = useNavigation();
-  const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader} = useLoginModel();
+  const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, setShowModalMessage, showModalMessage} = useLoginModel();
   const {setNav,setContext} = React.useContext(UserContext)
-
   const goToSignup = () => {
     navigation.navigate('Sign up');
   };
@@ -49,14 +49,17 @@ export const useLoginController = () => {
       },).then((response)=>{
         
         // console.log(response.data)
-        // must set a loading svreen here from View like Setloading = false 
+        // must set a loading screen here from View like Setloading = false 
         if(response.data.status === 200){
           // setContext({email:email})
           const data = {email:response.data.user.email,id :response.data.user.id }
           setContext(data)
 
-          alert(`Hello ${response.data.user.email}`)
+         setShowModalMessage(true);
+         setTimeout(() => {
+          // Navigate to the home screen
           navigation.navigate('Incomes');
+        }, 1500);
 
         }else if(response.data.status=== 100){
           const data = {email:response.data.user.email,id :response.data.user.id }
@@ -82,5 +85,5 @@ export const useLoginController = () => {
     }
   };
 
-  return { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader };
+  return { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader, showModalMessage, setShowModalMessage };
 };

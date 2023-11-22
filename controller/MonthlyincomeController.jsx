@@ -8,7 +8,7 @@ import UserContext from '../api_server/context';
 export const useMonthlyIncomeController = () => {
     const {context} = React.useContext(UserContext)
     const navigation = useNavigation();
-    const { income, setIncome, incomeError, setIncomeError } = useMonthlyIncomeModel();
+    const { income, setIncome, incomeError, setIncomeError, showModalMessage, setShowModalMessage } = useMonthlyIncomeModel();
     const Data = {
       user : context.id,
       title : "Main",
@@ -39,8 +39,11 @@ export const useMonthlyIncomeController = () => {
       } else {
       
         axiosRequest.post('gabay/add/',Data).then((response)=>{
-          alert(`Task Failed Sucessfully!`)
+          setShowModalMessage(true);
+         setTimeout(() => {
+          // Navigate to the home screen
           navigation.navigate('Homescreen');
+        }, 1500);
 
         }).catch((e)=>{
           console.log(Data)
@@ -48,5 +51,5 @@ export const useMonthlyIncomeController = () => {
       }
     };
   
-    return { income, setIncome, incomeError, setIncomeError, handleIncomeChange, startButtonPressed };
+    return { income, setIncome, incomeError, setIncomeError, handleIncomeChange, startButtonPressed,showModalMessage, setShowModalMessage };
   };
