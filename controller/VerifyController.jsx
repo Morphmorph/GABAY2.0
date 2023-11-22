@@ -3,6 +3,7 @@ import React from 'react';
 import { useVerifyModel } from '../model/VerifyModel'; // Import the model
 import { axiosRequest } from '../api_server/axios';
 import UserContext from '../api_server/context';
+
 export const useVerifyController = () => {
   const navigation = useNavigation();
   const { email, setEmail, emailError, setEmailError,loader,setLoader, showModalMessage, setShowModalMessage} = useVerifyModel();
@@ -33,11 +34,6 @@ export const useVerifyController = () => {
           
           setContext({email:email})
           setShowModalMessage(true);
-         setTimeout(() => {
-          // Navigate to the home screen
-          navigation.navigate('Pin');
-        }, 800);
-       
         }else{
           alert(response.data.Warning)
         }

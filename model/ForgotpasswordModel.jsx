@@ -13,6 +13,7 @@ export const useForgotPasswordModel = () => {
       const [hasNumber, setHasNumber] = useState(false);
       const [hasSymbol, setHasSymbol] = useState(false);
       const [showModalMessage, setShowModalMessage] = useState(false);
+      const [loader,setLoader] = useState(false)
 
       useEffect(() => {
         if (passwordData.newPassword) {
@@ -45,6 +46,8 @@ export const useForgotPasswordModel = () => {
         hasNumber,
         hasSymbol,
         showModalMessage,
-        setShowModalMessage
+        setShowModalMessage,
+        loader,
+        setLoader
       };
 };

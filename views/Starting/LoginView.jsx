@@ -61,7 +61,7 @@ const Login = ({navigation}) => {
           </Text>
         </Text>
         <TouchableOpacity style={Style.signInButton} onPress={handleSignIn} disabled={loader}>
-          <Text style={Style.signInButtonText}>Sign In</Text>
+          <Text style={Style.signInButtonText}>Sign in</Text>
         </TouchableOpacity>
 
         <Text
@@ -90,7 +90,7 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Welcome to GABAY!"/>
+      <ModalMessage showAutomatically={showModalMessage} message="WELCOME TO GABAY!" icon={<Image source={require('../../assets/logo/logo1.png')} style={{ width: 200, height: 200 }} resizeMode="contain"/>} navigateToScreen="Incomes"/>  
     </View>
   );
 };

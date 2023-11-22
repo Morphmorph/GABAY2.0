@@ -4,18 +4,24 @@ import Plus from '../../assets/Icon/plus.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import UserContext from '../../api_server/context';
 import { axiosRequest } from '../../api_server/axios';
 import ModalMessage from '../Modal';
+import Loader from '../Starting/actionLoader';
 
 const AddIncome = () => {
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 6 : 2.2;
   const openAddCategory = () => {
-    navigation.navigate('Add Category', { destination: 'Add income',cat : null });
+    navigation.navigate('Add Category', { destination: 'Add income', cat: null });
   };
+
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [showLoader, setShowLoader] = useState(false); // Add loader state
+
   // Declare state variables
   const [income, setIncome] = useState('');
   const [incomeError, setIncomeError] = useState(null);
@@ -23,7 +29,6 @@ const AddIncome = () => {
   const [iconAssets, setIconAssets] = useState([]);
   const [iconError, setIconError] = useState(null);
   const { context, incomeIcon } = useContext(UserContext);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleIncomeChange = (text) => {
     setIncomeError(null);
@@ -45,33 +50,35 @@ const AddIncome = () => {
   const startButtonPressed = async () => {
     setIncomeError(null);
     setIconError(null);
-  
+
     if (!income) {
       setIncomeError('Required');
     }
-  
+
     if (!selectedIcons) {
       setIconError('no_icon_selected');
     } else if (!incomeError && !iconError && income) {
       try {
+        setShowLoader(true); // Show loader before making the API request
+
         const Data = {
           user: context.id,
           title: selectedIcons.text,
           amount: parseInt(income.replace(/,/g, ''), 10),
           icon: selectedIcons.icon,
         };
-  
+
         // Perform the async operation and wait for it to complete
         const response = await axiosRequest.post('gabay/add/', Data);
-  
+
+        // Hide loader after the request is complete
+        setShowLoader(false);
+
         // Show success modal after the request is complete
-        setShowSuccessModal(true);
-        setTimeout(() => {
-          // Navigate to the home screen
-          navigation.navigate('Home');
-        }, 2000);
+        setShowModalMessage(true);
       } catch (error) {
         console.log('Error:', error);
+        setShowLoader(false); // Hide loader in case of an error
       }
     }
   };
@@ -86,8 +93,10 @@ const AddIncome = () => {
 
     loadIcons();
   }, []);
+
   return (
     <View style={Style.common}>
+       <Loader visible={showLoader} message="Adding..." />
       <View>
         <View
           style={{
@@ -212,7 +221,7 @@ const AddIncome = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage visible={showSuccessModal} showAutomatically={showSuccessModal} message="Income added successfully!" />
+      <ModalMessage showAutomatically={showModalMessage} message="Income successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home"/>
     </View>
   )
 }

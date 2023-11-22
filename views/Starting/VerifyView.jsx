@@ -5,6 +5,7 @@ import { View, Text, Image, useWindowDimensions, TouchableOpacity } from 'react-
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useVerifyController } from '../../controller/VerifyController'; // Import the controller
 import Loader from './actionLoader';
 import ModalMessage from '../Modal';
@@ -69,7 +70,7 @@ const Verify = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="The OTP already sent in your gmail!"/>
+      <ModalMessage showAutomatically={showModalMessage} message="The OTP already sent to your gmail!" icon={<MaterialCommunityIcons name="email-alert" size={200} color="#E3B448" />} navigateToScreen="Pin"/>
     </View>
   );
 };

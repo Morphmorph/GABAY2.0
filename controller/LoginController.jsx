@@ -56,10 +56,7 @@ export const useLoginController = () => {
           setContext(data)
 
          setShowModalMessage(true);
-         setTimeout(() => {
-          // Navigate to the home screen
-          navigation.navigate('Incomes');
-        }, 1500);
+         
 
         }else if(response.data.status=== 100){
           const data = {email:response.data.user.email,id :response.data.user.id }

@@ -31,7 +31,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import plus from './assets/Icon/plus.png';
 import Settings from './views/Landing/Settings';
-
+import Loader from './views/Starting/actionLoader';
 import PrivacyPolicy from './views/Starting/PrivacyPolicy';
 import TermsOfService from './views/Starting/TermsofService';
 import Help from './views/Landing/Help';
@@ -727,6 +727,8 @@ function CustomDrawerContent({}) {
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAddOption, setSelectedAddOption] = useState('');
+  const [loader,setLoader] = useState(false)
+
   const toggleModal = (option) => {
     setSelectedAddOption(option);
     if (selectedAddOption === 'expenses') {
@@ -741,16 +743,25 @@ function CustomDrawerContent({}) {
   };
 
   const handleLogout = () => {
-    navigateToScreen('Log in');
+   
   };
 
-  const handleLogoutConfirmed = () => {
+  const handleLogoutConfirmed = async () => {
     toggleModal1(); // Close the logout modal
-    handleLogout(); // Perform the logout action
+    setLoader(true); // Show the loading indicator
+  
+    // Simulate an asynchronous logout process
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Replace this with your actual logout logic
+  
+    // Once the logout process is complete, navigate to the login screen and hide the loader
+    handleLogout(); 
+    setLoader(false);
+    navigateToScreen('Log in');
   };
   return (
 
-    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', padding: 10, justifyContent: 'flex-start' }}>
+    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', paddingHorizontal: 10, justifyContent: 'flex-start' }}>
+      <Loader visible ={loader} message="Logging out..."/>
       <TouchableOpacity onPress={() => navigateToScreen('HomeDrawer')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
           <FontAwesome5 name="home" size={30} color={'#CBD18F'} />

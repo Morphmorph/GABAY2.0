@@ -6,6 +6,7 @@ import CustomInput from '../CustomInput'
 import { useNavigation } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
 import UserContext from '../../api_server/context'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import randomColor from 'randomcolor'
 import { axiosRequest } from '../../api_server/axios'
 import Loader from '../Starting/actionLoader'
@@ -33,6 +34,7 @@ const AddExpenses = () => {
   const {category1,transaction,setTransaction,context} = useContext(UserContext)
   const [legend,setLegend] = useState(null)
   const [action,setAction] = useState(false)
+
 
   const handleExpensesChange = (text) => {
     // Clear existing errors
@@ -140,6 +142,7 @@ const handlePreviousMonthSelection =(month) => {
       setTransaction({...transaction,user:context.id,category: parseInt(legend),
         amount:parseInt(expenses.replace(/,/g, ''), 10),
       icon : selectedIcons.icon,description :selectedIcons.text})
+     
       toggleModal(true);
     }
   };
@@ -152,15 +155,11 @@ const handlePreviousMonthSelection =(month) => {
           'Content-Type': 'application/json',
         },
       });
-  
+      
       setAction(false);
   
       // Show the modal message upon successful submission
       setShowModalMessage(true);
-      setTimeout(() => {
-        // Navigate to the home screen
-        navigation.navigate('Home');
-      }, 2000);
 
     } catch (error) {
       console.log(error);
@@ -190,7 +189,8 @@ const handlePreviousMonthSelection =(month) => {
 
   return (
     <View style={Style.common} pointerEvents ={action ?  'none' : 'auto'}>
-      <Loader visible={action}/>
+      
+      <Loader visible={action} message="Adding..."/>
       <View>
         <View
           style={{
@@ -563,7 +563,7 @@ const handlePreviousMonthSelection =(month) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Expenses Successfully Added!"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home"/>
     </View>
   )
 }

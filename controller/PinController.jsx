@@ -7,7 +7,7 @@ import { axiosRequest } from '../api_server/axios';
 
 export const usePinController = () => {
   const navigation = useNavigation();
-  const { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage } = usePinModel();
+  const { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage,loader,setLoader } = usePinModel();
   const {context,nav} = React.useContext(UserContext)
   const reSend = () => {
     navigation.navigate('Verify');
@@ -21,6 +21,7 @@ export const usePinController = () => {
     if (!pin) {
       setPinError('PIN is required');
     }  else {
+      setLoader(true)
       await axiosRequest.post("auth/verify/",JSON.stringify({email : context.email,otp : pin}),{
         headers: {
           'Content-Type': 'application/json'
@@ -28,19 +29,16 @@ export const usePinController = () => {
       }).then((response)=>{
         console.log(response.data)
         if(response.data.status == 200 ){
+          setLoader(false)
           setShowModalMessage(true);
-         setTimeout(() => {
-          // Navigate to the home screen
-          navigation.navigate('Log in');
-        }, 1800);
+        navigation.navigate('Log in')
         }else if(response.data.status == 208 && nav){
+          setLoader(false)
           setShowModalMessage(true);
-         setTimeout(() => {
-          // Navigate to the home screen
-          navigation.navigate('Forgot password');
-        }, 1800);
+          navigation.navigate('Forgot password')
         }
         else{
+          setLoader(false)
           setPinError('Wrong PIN');
         }
         
@@ -56,5 +54,5 @@ export const usePinController = () => {
     return viPin.test(pin);
   };
 
-  return { pin, setPin, pinError, setPinError, handleVerify, reSend, setShowModalMessage, showModalMessage };
+  return { pin, setPin, pinError, setPinError, handleVerify, reSend, setShowModalMessage, showModalMessage, loader, setLoader };
 };

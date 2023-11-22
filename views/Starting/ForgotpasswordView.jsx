@@ -3,9 +3,11 @@ import { View, Text, Image, useWindowDimensions, TouchableOpacity } from 'react-
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForgotPasswordController } from '../../controller/ForgotpasswordController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalMessage from '../Modal';
+import Loader from './actionLoader';
 
 const ForgotPasswordView = ({navigation}) => {
   const handleTOS = () => {
@@ -27,11 +29,14 @@ const ForgotPasswordView = ({navigation}) => {
     goToSignin,
     handleUpdatePassword,
     showModalMessage,
-    setShowModalMessage
+    setShowModalMessage,
+    loader,
+    setLoader
   } = useForgotPasswordController();
 
   return (
     <View style={Style.common}>
+      <Loader visible ={loader} message="Updating..."/>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
         <Text style={Style.textcolor}>FORGOT PASSWORD</Text>
@@ -132,7 +137,7 @@ const ForgotPasswordView = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!" icon={<MaterialCommunityIcons name="lock-check" size={200} color="#E3B448" />} navigateToScreen="Log in"/>
     </View>
   );
 };

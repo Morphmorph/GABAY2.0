@@ -149,7 +149,7 @@ const ForecastSavings = () => {
               <TouchableOpacity style={{bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10,  width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center'}} onPress={() => {navigation.navigate('History',{details:forecast})}}>
                 <Text style={{color: '#144714', fontSize: 18, }}>View details</Text>
               </TouchableOpacity>
-              </View>: <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%' }}>
+              </View>: <View style={{ justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: 13, width: '100%' }}>
                   <Image source={require('../../assets/logo/logo1.png')} style={{ top: 20, opacity: 0.3, width: 170 }} resizeMode='contain' />
                   <Text style={{ fontSize: 24, fontWeight: '400', fontStyle: 'italic', marginTop: 60.5, color: '#144714', opacity: 0.3, letterSpacing: 2, textAlign: 'center' }}>
 

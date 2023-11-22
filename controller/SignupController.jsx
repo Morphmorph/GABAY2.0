@@ -78,11 +78,6 @@ const {setContext,setNav} = React.useContext(UserContext)
         SetLoader(false)
         setNav(false)
         setShowModalMessage(true);
-         setTimeout(() => {
-          // Navigate to the home screen
-          navigation.navigate('Verify');
-        }, 800);
-       
       }).catch((err)=>{
         console.log(formData)
         SetLoader(false)

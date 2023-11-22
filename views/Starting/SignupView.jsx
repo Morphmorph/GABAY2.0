@@ -3,6 +3,7 @@ import { View, Text, Image, useWindowDimensions, TouchableOpacity,KeyboardAvoidi
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSignupController } from '../../controller/SignupController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from './actionLoader';
@@ -149,7 +150,7 @@ const Signup = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Please verify your account!"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Please verify your account!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#E3B448" />} navigateToScreen="Verify"/>
     </View>
    
   );

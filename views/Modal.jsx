@@ -1,46 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Modal, Image, Text, Animated, TouchableOpacity } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+// ModalMessage.js
 
-const ModalPoup = ({ visible, children, }) => {
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Modal, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+const ModalPoup = ({ visible, children }) => {
   const [showModal, setShowModal] = useState(visible);
-  const scaleValue = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     toggleModal();
   }, [visible]);
 
   const toggleModal = () => {
-    if (visible) {
-      setShowModal(true);
-      Animated.spring(scaleValue, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      setTimeout(() => setShowModal(false), 200);
-      Animated.timing(scaleValue, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
+    setShowModal(visible);
   };
 
   return (
     <Modal transparent visible={showModal}>
-      <View style={styles.modalBackGround}>
-        <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
-          {children}
-        </Animated.View>
+      <View style={styles.modalBackground}>
+        <View style={styles.modalContainer}>{children}</View>
       </View>
     </Modal>
   );
 };
 
-const ModalMessage = ({ showAutomatically, message="Please wait..." }) => {
+const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, navigateToScreen }) => {
   const [visible, setVisible] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (showAutomatically) {
@@ -48,24 +34,36 @@ const ModalMessage = ({ showAutomatically, message="Please wait..." }) => {
     }
   }, [showAutomatically]);
 
+  const handleOkayPress = () => {
+    if (navigateToScreen) {
+      navigation.navigate(navigateToScreen);
+    }
+
+    setVisible(false);
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+    <View style={styles.container}>
       <ModalPoup visible={visible}>
-        <View style={{ alignItems: 'center' }}>
-        <MaterialCommunityIcons name="check-decagram-outline" size={200} color={'#CBD18F'} />
-        </View>
-        <Text style={{ marginVertical: 30, fontSize: 20, textAlign: 'center', color: '#E3B448' }}>
-          {message}
-        </Text>
+        <View style={styles.iconContainer}>{icon}</View>
+        <Text style={styles.messageText}>{message}</Text>
+        <TouchableOpacity onPress={handleOkayPress} style={styles.okayButton}>
+          <Text style={styles.okayButtonText}>Okay</Text>
+        </TouchableOpacity>
       </ModalPoup>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  modalBackGround: {
+  container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -73,15 +71,30 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: '#3A6B35',
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 20,
     borderRadius: 20,
     elevation: 20,
   },
-  header: {
-    width: '100%',
-    height: 40,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+  iconContainer: {
+    alignItems: 'center',
+  },
+  messageText: {
+    marginVertical: 30,
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#CBD18F',
+  },
+  okayButton: {
+    backgroundColor: '#A2A869',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginHorizontal: 80
+  },
+  okayButtonText: {
+    color: '#144714',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 

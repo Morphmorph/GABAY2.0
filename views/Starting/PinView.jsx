@@ -3,12 +3,14 @@ import { View, Text, Image, useWindowDimensions, TouchableOpacity } from 'react-
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePinController } from '../../controller/PinController'; // Import the controller
 import ModalMessage from '../Modal';
+import Loader from './actionLoader';
 
 const Pin = ({navigation}) => {
   const { height } = useWindowDimensions();
-  const { pin, setPin, pinError, setPinError, handleVerify, reSend, showModalMessage, setShowModalMessage } = usePinController();
+  const { pin, setPin, pinError, setPinError, handleVerify, reSend, showModalMessage, setShowModalMessage, loader, setLoader } = usePinController();
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
   };
@@ -17,6 +19,7 @@ const Pin = ({navigation}) => {
   };
   return (
     <View style={Style.common}>
+      <Loader visible ={loader} message="Verifying..."/>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
       <View style={Style.container}>
         <Text style={Style.textcolor}>VERIFY ACCOUNT</Text>
@@ -64,7 +67,7 @@ const Pin = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Your account is verified successfully!"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Your account is successfully verified!" icon={<MaterialCommunityIcons name="account-check" size={200} color="#E3B448" />} navigateToScreen=""/>
     </View>
   );
 };
