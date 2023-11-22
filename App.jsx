@@ -559,15 +559,16 @@ function DrawerScreen({ }) {
         headerTintColor: '#E3B448',
         drawerActiveBackgroundColor: 'red',
         headerTitle: () => (
-          <View style={{flex: 1, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{flex: 1, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <Image
               source={require('./assets/logo/logo1.png')}
               style={{ width: 60, height: 60 }}
               resizeMode="contain"
             />
-            <Text style={{ color: '#E3B448', fontSize: 45 }}>GABAY</Text>
+            <Text style={{ color: '#E3B448', fontSize: 45, }}>GABAY</Text>
           </View>
         ),
+        headerTitleAlign: "center",
       }}
     >
       <Drawer.Screen
