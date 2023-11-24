@@ -125,12 +125,15 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     const onFocus = async () => {
-      await api();
+      api();
       getIncome()
-      if (Object.keys(ddate).length > 0) {
-        getData(Object.keys(ddate).length > 0 ? ddate[page].date : null)
+      setPage(0)
+      const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
+      if (selectedDate) {
+        getData(selectedDate);
       }
 
+      console.log(ddate[0].date)
       setTimeout(() => {
         setIsLoading(false);
         // if (!context.id) {
@@ -149,8 +152,9 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     // console.log(page); // Log the updated page value separately
-    if (Object.keys(ddate).length > 0) {
-      getData(Object.keys(ddate).length > 0 ? ddate[page].date : null)
+    const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
+    if (selectedDate) {
+      getData(selectedDate);
     }
 
 

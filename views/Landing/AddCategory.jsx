@@ -209,7 +209,7 @@ console.log(newCategory)
       contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
       {iconPaths.map((iconUrl, index) => (
       <TouchableOpacity
-      key={iconUrl}
+      key={index}
       style={{
         margin: margin,
         alignItems: 'center',

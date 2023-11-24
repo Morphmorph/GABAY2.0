@@ -24,7 +24,7 @@ const ModalPoup = ({ visible, children }) => {
   );
 };
 
-const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, navigateToScreen }) => {
+const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, navigateToScreen,again = true ,current}) => {
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -42,14 +42,48 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
     setVisible(false);
   };
 
+  const handleAddPress = () => {
+    if (current) {
+      navigation.navigate(current);
+    }
+    setVisible(false);
+  };
   return (
     <View style={styles.container}>
       <ModalPoup visible={visible}>
         <View style={styles.iconContainer}>{icon}</View>
         <Text style={styles.messageText}>{message}</Text>
-        <TouchableOpacity onPress={handleOkayPress} style={styles.okayButton}>
+       { again ? <TouchableOpacity onPress={handleOkayPress} style={styles.okayButton}>
           <Text style={styles.okayButtonText}>Okay</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> :
+        <View style={{flexDirection:'row'}}>
+              <TouchableOpacity style={{
+    flex: 1,
+    backgroundColor: '#A2A869',
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    alignItems: 'center',
+  }} onPress={handleOkayPress} >
+                <Text style={{
+    color: '#144714',
+    fontSize: 16,
+  }}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{
+    flex: 1,
+    backgroundColor: '#810000',
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    alignItems: 'center',
+  }} onPress={handleAddPress}>
+                <Text style={{
+    color: '#CBD18F',
+    fontSize: 16,
+  }}>Add</Text>
+              </TouchableOpacity>
+            </View>}
       </ModalPoup>
     </View>
   );

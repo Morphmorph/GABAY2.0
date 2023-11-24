@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import DonutChart from './DonutChart'
 import { axiosRequest } from '../../api_server/axios';
 import UserContext from '../../api_server/context';
+import Loader from '../Starting/actionLoader';
 
 const ForecastSavings = () => {
   const navigation = useNavigation()
@@ -19,6 +20,7 @@ const ForecastSavings = () => {
   const [forecast,setForcast] = useState([])
   const {context,totalincome} = useContext(UserContext)
   const [value,setValue] = useState()
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleIncomeChange = (text) => {
     // Clear existing errors
@@ -62,15 +64,22 @@ const ForecastSavings = () => {
   };
 
   const Forecast = async() =>{
+    setIsLoading(true);
+     setTimeout(() => {
+      
       axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}`)
       .then((response)=>{
         data = response.data.avarage
-        setForcast(data)
+        setForcast(data) 
         setValue(response.data.forecast)
         console.log(response.data.forecast)
+        setIsLoading(false);
       }).catch(e=>{
         alert("Something Went Wrong Need Some Modal!!")
+        setIsLoading(false);
       })
+    }, 1500);
+ 
   }
 
   
@@ -78,7 +87,8 @@ const ForecastSavings = () => {
  
   return (
     <View style={Style.common}>
-      <View style={{marginBottom: 20,}}>
+      <Loader visible= {isLoading} message = "Analyzing Data..."/>
+     <View style={{marginBottom: 20,}}>
         <View
           style={{
             top: 10,
@@ -158,8 +168,7 @@ const ForecastSavings = () => {
                     Start Forecasting!
                   </Text>
                 </View>}
-              </View>
-
+              </View> 
     </View>
   )
 }

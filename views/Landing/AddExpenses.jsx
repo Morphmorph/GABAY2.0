@@ -12,7 +12,7 @@ import { axiosRequest } from '../../api_server/axios'
 import Loader from '../Starting/actionLoader'
 import ModalMessage from '../Modal'
 
-const AddExpenses = () => {
+const AddExpenses = ({route}) => {
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 6 : 2.2;
@@ -563,7 +563,7 @@ const handlePreviousMonthSelection =(month) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current = {route.name}/>
     </View>
   )
 }
