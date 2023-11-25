@@ -8,7 +8,6 @@ import { Animated, Dimensions, StyleSheet, Image, Platform, View, TouchableOpaci
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { CommonActions } from '@react-navigation/native';
 import Style from './views/Style';
 import Login from './views/Starting/LoginView';
 import Signup from './views/Starting/SignupView';
@@ -23,7 +22,6 @@ import AddCategory from './views/Landing/AddCategory';
 import ForecastSavings from './views/Landing/ForecastSavings';
 import AddExpenses from './views/Landing/AddExpenses';
 import AddIncome from './views/Landing/AddIncome';
-import ModalMessage from './views/Modal';
 import UserContext from './api_server/context';
 import InspectHistory from './views/Landing/InspectHistory';
 import OnboardingScreen from './views/OnboardingScreen';
@@ -36,6 +34,8 @@ import PrivacyPolicy from './views/Starting/PrivacyPolicy';
 import TermsOfService from './views/Starting/TermsofService';
 import Help from './views/Landing/Help';
 import About from './views/Landing/About';
+import SupportInbox from './views/Landing/SupportInbox';
+import ReportInbox from './views/Landing/ReportInbox';
 
 
 
@@ -495,6 +495,40 @@ const App = () => {
             <Stack.Screen
               name="About"
               component={About}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+              <Stack.Screen
+              name="Support inbox"
+              component={SupportInbox}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+              }}
+            />
+             <Stack.Screen
+              name="Report inbox"
+              component={ReportInbox}
               options={{
                 headerShown: true,
                 animation: 'slide_from_bottom',

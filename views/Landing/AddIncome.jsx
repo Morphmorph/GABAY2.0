@@ -11,7 +11,7 @@ import { axiosRequest } from '../../api_server/axios';
 import ModalMessage from '../Modal';
 import Loader from '../Starting/actionLoader';
 
-const AddIncome = () => {
+const AddIncome = ({route}) => {
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 6 : 2.2;
@@ -76,6 +76,7 @@ const AddIncome = () => {
 
         // Show success modal after the request is complete
         setShowModalMessage(true);
+        setTimeout(() => setShowModalMessage(false), 500);
       } catch (error) {
         console.log('Error:', error);
         setShowLoader(false); // Hide loader in case of an error
@@ -221,7 +222,7 @@ const AddIncome = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Income successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Income successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current = {route.name}/>
     </View>
   )
 }

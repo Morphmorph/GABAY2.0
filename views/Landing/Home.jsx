@@ -133,7 +133,6 @@ const Home = ({ navigation }) => {
         getData(selectedDate);
       }
 
-      console.log(ddate[0].date)
       setTimeout(() => {
         setIsLoading(false);
         // if (!context.id) {

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Modal, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const ModalPoup = ({ visible, children }) => {
+const ModalPopup = ({ visible, children }) => {
   const [showModal, setShowModal] = useState(visible);
 
   useEffect(() => {
@@ -47,11 +47,10 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
       navigation.navigate(current);
     }
     setVisible(false);
-    
   };
   return (
     <View style={styles.container}>
-      <ModalPoup visible={visible}>
+      <ModalPopup visible={visible}>
         <View style={styles.iconContainer}>{icon}</View>
         <Text style={styles.messageText}>{message}</Text>
        { again ? <TouchableOpacity onPress={handleOkayPress} style={styles.okayButton}>
@@ -69,7 +68,7 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
                 <Text style={{
     color: '#144714',
     fontSize: 16,
-  }}>Okay</Text>
+  }}>Yes</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{
     flex: 1,
@@ -85,7 +84,7 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
   }}>Add</Text>
               </TouchableOpacity>
             </View>}
-      </ModalPoup>
+      </ModalPopup>
     </View>
   );
 };
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '90%',
-    backgroundColor: '#3A6B35',
+    backgroundColor: '#810000',
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderRadius: 20,

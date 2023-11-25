@@ -61,11 +61,15 @@ export const useForgotPasswordController = () => {
         setLoader(true)
         await axiosRequest.put(`auth/new/password/${context.email}/`,{"password" : passwordData.confirmNewPassword})
         .then(()=>{
-          setShowModalMessage(true);
-          setLoader(false)
+          setTimeout(() => {
+            setShowModalMessage(true);
+            setLoader(false)
+          }, 4000);
         }).catch((e)=>{
-          setLoader(false)
-          alert("Something Went Wrong! Check your Intertnet Connection" )
+          setTimeout(() => {
+            setLoader(false)
+            alert("Something Went Wrong! Check your Intertnet Connection" )
+          }, 4000);    
         })
       }
     };

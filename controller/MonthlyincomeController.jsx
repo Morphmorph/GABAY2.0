@@ -39,12 +39,18 @@ export const useMonthlyIncomeController = () => {
       } else {
         setLoader(true)
         axiosRequest.post('gabay/add/',Data).then((response)=>{
-          setLoader(false)
-          setShowModalMessage(true);
+          setTimeout(() => {
+            setShowModalMessage(true);
+            setLoader(false)
+          }, 4000);
 
         }).catch((e)=>{
-          setLoader(false)
-          console.log(Data)
+          setTimeout(() => {
+            
+            setLoader(false)
+            console.log(Data)
+          }, 4000);
+          
         })
       }
     };

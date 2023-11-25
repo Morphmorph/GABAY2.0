@@ -20,35 +20,38 @@ export const usePinController = () => {
     // Validate pin
     if (!pin) {
       setPinError('PIN is required');
-    }  else {
-      setLoader(true)
-      await axiosRequest.post("auth/verify/",JSON.stringify({email : context.email,otp : pin}),{
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((response)=>{
-        console.log(response.data)
-        if(response.data.status == 200 ){
-          setLoader(false)
-          setShowModalMessage(true);
-        navigation.navigate('Log in')
-        }else if(response.data.status == 208 && nav){
-          setLoader(false)
-          setShowModalMessage(true);
-          navigation.navigate('Forgot password')
-        }
-        else{
-          setLoader(false)
-          setPinError('Wrong PIN');
-        }
-        
-      }).catch((err)=>{
-        
-        console.log(err)
-      })
+    } else {
+      setLoader(true);
+      await axiosRequest
+        .post("auth/verify/", JSON.stringify({ email: context.email, otp: pin }), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.status === 200) {
+            setTimeout(() => {
+              setLoader(false);
+             
+              navigation.navigate('Log in');
+            }, 4000);
+          } else if (response.data.status === 208 && nav) {
+            setTimeout(() => {
+              setLoader(false);
+             
+              navigation.navigate('Forgot password');
+            }, 4000);
+          } else {
+            setLoader(false);
+            setPinError('Wrong PIN');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
-
   const isValidPin = (pin) => {
     const viPin = /6/;
     return viPin.test(pin);
