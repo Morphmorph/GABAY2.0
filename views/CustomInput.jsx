@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CustomInput = ({ iconName, placeholder, value, onChangeText, keyboardType, showSoftInputOnFocus, secureTextEntry, error, onFocus = () => {} }) => {
+const CustomInput = ({ iconName, placeholder, value, onChangeText, keyboardType, multiline, numberOfLines, maxLength, showSoftInputOnFocus, secureTextEntry, error, onFocus = () => {} }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -34,6 +34,9 @@ const CustomInput = ({ iconName, placeholder, value, onChangeText, keyboardType,
         keyboardType={keyboardType}
         showSoftInputOnFocus={showSoftInputOnFocus}
         secureTextEntry={!showPassword && secureTextEntry}
+        multiline={multiline} 
+        numberOfLines={numberOfLines} 
+        maxLength={maxLength} 
         onFocus={() => {
           onFocus();
           setIsFocused(true);

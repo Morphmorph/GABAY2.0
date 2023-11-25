@@ -160,7 +160,7 @@ const handlePreviousMonthSelection =(month) => {
   
       // Show the modal message upon successful submission
       setShowModalMessage(true);
-
+      setTimeout(() => setShowModalMessage(false), 500);
     } catch (error) {
       console.log(error);
       setAction(false);

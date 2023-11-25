@@ -41,6 +41,12 @@ const Settings = ({navigation}) => {
   const handleCP = () => {
     setEditModalVisible(!isEditModalVisible);
   };
+  const Support = () => {
+    navigation.navigate('Support inbox');
+  };
+  const Report = () => {
+    navigation.navigate('Report inbox');
+  };
   return (
     <View style={Style.common}>
       <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
@@ -88,13 +94,13 @@ const Settings = ({navigation}) => {
         <Text style={{color: '#144714', fontSize: 15}}> About</Text>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={Support}>
         <View style={{backgroundColor: '#A2A869', top: -10, marginBottom: -1, padding: 10, margin: 10, alignItems: 'center', borderRadius: 10, flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='lifebuoy' style={{ fontSize: 20, color: '#144714' }} />
         <Text style={{color: '#144714', fontSize: 15}}> Support inbox</Text>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={Report}>
         <View style={{backgroundColor: '#A2A869', top: -10, marginBottom: -1, padding: 10, margin: 10, alignItems: 'center', borderRadius: 10, flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='message-alert-outline' style={{ fontSize: 20, color: '#144714' }} />
         <Text style={{color: '#144714', fontSize: 15}}> Report a problem</Text>

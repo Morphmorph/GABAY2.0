@@ -77,6 +77,7 @@ function DonutChart({ data, total_sum,predict = null }) {
               textAnchor={textAnchor}
               fontSize={14}
               fontWeight={'bold'}
+              fontStyle= {'italic'}
               backgroundColor={'lightgray'}
             >
               {percentage}
