@@ -240,6 +240,89 @@ const App = () => {
     ]
   })
 
+  const iconPaths = [
+    require('../GABAY2.0/assets/Icon/Icons/c1.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c2.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c3.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c4.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c5.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c6.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c7.png'),
+    require('../GABAY2.0/assets/Icon/wants/w1.png'),
+    require('../GABAY2.0/assets/Icon/wants/w2.png'),
+    require('../GABAY2.0/assets/Icon/wants/w3.png'),
+    require('../GABAY2.0/assets/Icon/wants/w4.png'),
+    require('../GABAY2.0/assets/Icon/wants/w5.png'),
+    require('../GABAY2.0/assets/Icon/wants/w6.png'),
+    require('../GABAY2.0/assets/Icon/wants/w7.png'),
+    require('../GABAY2.0/assets/Icon/wants/w8.png'),
+    require('../GABAY2.0/assets/Icon/wants/w9.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c8.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c9.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c11.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c12.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c13.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c14.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c15.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c16.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c17.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c18.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c19.png'),
+    require('../GABAY2.0/assets/Icon/savings/s1.png'),
+    require('../GABAY2.0/assets/Icon/savings/s2.png'),
+    require('../GABAY2.0/assets/Icon/savings/s3.png'),
+    require('../GABAY2.0/assets/Icon/savings/s4.png'),
+    require('../GABAY2.0/assets/Icon/savings/s5.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c20.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c21.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c22.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c23.png'),
+    require('../GABAY2.0/assets/Icon/income/i1.png'),
+    require('../GABAY2.0/assets/Icon/income/i2.png'),
+    require('../GABAY2.0/assets/Icon/income/i3.png'),
+    require('../GABAY2.0/assets/Icon/income/i4.png'),
+    require('../GABAY2.0/assets/Icon/income/i5.png'),
+    require('../GABAY2.0/assets/Icon/income/i6.png'),
+    require('../GABAY2.0/assets/Icon/income/i7.png'),
+    require('../GABAY2.0/assets/Icon/income/i10.png'),
+    require('../GABAY2.0/assets/Icon/income/i9.png'),
+    require('../GABAY2.0/assets/Icon/income/i12.png'),
+    require('../GABAY2.0/assets/Icon/income/i13.png'),
+    require('../GABAY2.0/assets/Icon/income/i8.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c24.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c25.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c26.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c27.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c28.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c29.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c30.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n9.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n2.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n3.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n4.png'),
+    require('../GABAY2.0/assets/Icon/income/i14.png'),
+    require('../GABAY2.0/assets/Icon/income/i15.png'),
+    require('../GABAY2.0/assets/Icon/income/i17.png'),
+    require('../GABAY2.0/assets/Icon/income/i16.png'),
+    require('../GABAY2.0/assets/Icon/income/i18.png'),
+    require('../GABAY2.0/assets/Icon/income/i19.png'),
+    require('../GABAY2.0/assets/Icon/income/i20.png'),
+    require('../GABAY2.0/assets/Icon/income/i21.png'),
+    require('../GABAY2.0/assets/Icon/income/i22.png'),
+    require('../GABAY2.0/assets/Icon/income/i23.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n5.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n6.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n7.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n1.png'),
+    require('../GABAY2.0/assets/Icon/necessities/n8.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c31.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c32.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c33.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c34.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c35.png'),
+    require('../GABAY2.0/assets/Icon/Icons/c36.png'),
+  ];
+
 
   const [nav, setNav] = React.useState(false)
 
@@ -268,7 +351,7 @@ const App = () => {
       />
       <NavigationContainer>
 
-        <UserContext.Provider value={{ context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome}}>
+        <UserContext.Provider value={{ context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths}}>
           <Stack.Navigator
             initialRouteName={context.id ? "Homescreen" : "Onboarding"}
             screenOptions={{

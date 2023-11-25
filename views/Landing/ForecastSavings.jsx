@@ -65,20 +65,24 @@ const ForecastSavings = () => {
 
   const Forecast = async() =>{
     setIsLoading(true);
-     setTimeout(() => {
+    
       
       axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}`)
       .then((response)=>{
+        setTimeout(() => {
         data = response.data.avarage
         setForcast(data) 
         setValue(response.data.forecast)
         console.log(response.data.forecast)
-        setIsLoading(false);
+        
+          setIsLoading(false);
+        }, 3000);
+        
       }).catch(e=>{
         alert("Something Went Wrong Need Some Modal!!")
         setIsLoading(false);
       })
-    }, 1500);
+    
  
   }
 

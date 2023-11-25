@@ -15,6 +15,7 @@ const Home = ({ navigation }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
   const { context,setTotalIncome } = useContext(UserContext)
+  const [chartloading,setChartLoading] = useState(false)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
   const [expense, setExpense] = useState([])
@@ -106,11 +107,14 @@ const Home = ({ navigation }) => {
   };
 
   const getData = (pagess) => {
+    setChartLoading(true)
     axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1`).then((response) => {
       setExpense(response.data)
       // console.log(response.data)
+      setChartLoading(false)
     }).catch((e) => {
       console.log(e)
+      setChartLoading(false)
     })
   }
 
@@ -133,7 +137,7 @@ const Home = ({ navigation }) => {
         getData(selectedDate);
       }
 
-      console.log(ddate[0].date)
+      // console.log(ddate[0].date)
       setTimeout(() => {
         setIsLoading(false);
         // if (!context.id) {
@@ -217,8 +221,11 @@ const Home = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
 
-                  <View style={{ padding: 16.8, top: -10, }}>
-                    <DonutChart data={expense} total_sum={incomes.total_amount} />
+                <View style={{ padding: 16.8, top: -10, }}>
+                {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%' }}>
+                  <Image source={require('../../assets/logo/logo1.png')} style={{ top: 20, opacity: 0.3, width: 170 }} resizeMode='contain' />
+                  {/* <LoadingScreen/> */}
+                </View>:<DonutChart data={expense} total_sum={incomes.total_amount} />}
 
                   </View>
                   <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center', }} onPress={() => { navigation.navigate('Expenses', { expense: expense, date: Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate) }) }}>
