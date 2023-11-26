@@ -79,9 +79,9 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
                 <TouchableOpacity onPress={() => toggleEditModal(data)}>
                   <Iconn name="pencil" size={20} color="#CBD18F" style={{ marginRight: 10 }} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => toggleDeleteModal(data)}>
+               { data.key != "Main" && <TouchableOpacity onPress={() => toggleDeleteModal(data)}>
                   <Iconn name="delete" size={20} color="red" />
-                </TouchableOpacity>
+                </TouchableOpacity>}
               </View>
             )}
             <View style={{ backgroundColor: '#144714', borderRadius: 5, flexDirection: 'row', flex: 1, }}>
@@ -113,6 +113,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
               iconName="application-outline"
               placeholder="Title"
               value={title}
+              editable={title == "Main" ? false : true}
               onChangeText={(text) => setTitle(text)}
             />
             <CustomInput

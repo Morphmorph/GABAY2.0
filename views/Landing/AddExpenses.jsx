@@ -496,7 +496,7 @@ const handlePreviousMonthSelection =(month) => {
                     onPress={() => handlePreviousMonthSelection(month)}
                   >
                     <Text style={{ color: '#144714', fontSize: 18,}}>
-                      {month}
+                      { new Date(month).toLocaleString('default', { month: 'long',year:'numeric'})}
                     </Text>
                   </TouchableOpacity>
                 ))}

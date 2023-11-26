@@ -72,10 +72,25 @@ const Home = ({ navigation }) => {
   const handlePress = () => {
     const newpage = page + 1
     const backpage = 0
+    setChartLoading(true)
     if (page === Object.keys(ddate).length - 1) {
       setPage(backpage)
+      
+      setTimeout(() => {
+        setChartLoading(false)
+        // if (!context.id) {
+        //   navigation.navigate('Log in');
+        // }
+      }, 1000);
+    
     } else {
       setPage(newpage);
+      setTimeout(() => {
+        setChartLoading(false)
+        // if (!context.id) {
+        //   navigation.navigate('Log in');
+        // }
+      }, 1000);
       // console.log(Object.keys(ddate).length)
     }
 
@@ -84,11 +99,24 @@ const Home = ({ navigation }) => {
   const handlePresslef = () => {
     const newpage = 0;  // Swap values
     const backpage = page - 1;  // Swap values
-  
+    setChartLoading(true)
     if (page === 0) {  // Adjust condition
       setPage(Object.keys(ddate).length - 1);
+      
+      setTimeout(() => {
+        setChartLoading(false)
+        // if (!context.id) {
+        //   navigation.navigate('Log in');
+        // }
+      }, 1000);
     } else {
       setPage(backpage);
+      setTimeout(() => {
+        setChartLoading(false)
+        // if (!context.id) {
+        //   navigation.navigate('Log in');
+        // }
+      }, 1000);
       // console.log(Object.keys(ddate).length)
     }
   };
@@ -107,11 +135,11 @@ const Home = ({ navigation }) => {
   };
 
   const getData = (pagess) => {
-    setChartLoading(true)
+   
     axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1`).then((response) => {
       setExpense(response.data)
       // console.log(response.data)
-      setChartLoading(false)
+      
     }).catch((e) => {
       console.log(e)
       setChartLoading(false)
@@ -133,9 +161,9 @@ const Home = ({ navigation }) => {
       getIncome()
       setPage(0)
       const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
-      if (selectedDate) {
-        getData(selectedDate);
-      }
+      // if (selectedDate) {
+      //   getData(selectedDate);
+      // }
 
       setTimeout(() => {
         setIsLoading(false);
