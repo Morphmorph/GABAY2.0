@@ -7,7 +7,7 @@ import React from 'react';
 
 export const useLoginController = () => {
   const navigation = useNavigation();
-  const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, setShowModalMessage, showModalMessage} = useLoginModel();
+  const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, setShowModalMessage, showModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage} = useLoginModel();
   const {setNav,setContext} = React.useContext(UserContext)
   const goToSignup = () => {
     navigation.navigate('Sign up');
@@ -73,16 +73,18 @@ export const useLoginController = () => {
           navigation.navigate('Pin')
         }
         else{
-          alert(response.data.Warning)
+          setShowModalEMessage(true);
+          setTimeout(() => setShowModalEMessage(false), 500);
         }
         SetLoader(false)
       }).catch((err)=>{
         SetLoader(false)
         console.log(err)
-        alert("Something Went Wrong! Check your Intertnet Connection")
+        setShowModalEEMessage(true);
+          setTimeout(() => setShowModalEEMessage(false), 500);
       })
     }
   };
 
-  return { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader, showModalMessage, setShowModalMessage };
+  return { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader, showModalMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage };
 };

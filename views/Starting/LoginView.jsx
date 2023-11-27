@@ -3,9 +3,13 @@ import { View, Text, Image, useWindowDimensions, TouchableOpacity } from 'react-
 import Logo from '../../assets/logo/logo2.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLoginController } from '../../controller/LoginController'; // Import the controller
 import Loader from './actionLoader';
 import ModalMessage from '../Modal';
+import ModalMessageE from '../ModalE';
+import ModalMessageEE from '../ModalEE';
+
 
 const Login = ({navigation}) => {
   const handleTOS = () => {
@@ -15,7 +19,7 @@ const Login = ({navigation}) => {
     navigation.navigate('Privacy Policy');
   };
   const { height } = useWindowDimensions();
-  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn, loader, SetLoader, showModalMessage, setShowModalMessage } = useLoginController();
+  const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn, loader, SetLoader, showModalMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage } = useLoginController();
   const bol = loader
   return (
     <View style={Style.common} pointerEvents={bol ? 'none' : 'auto'}>
@@ -91,6 +95,8 @@ const Login = ({navigation}) => {
         </View>
       </View>
       <ModalMessage showAutomatically={showModalMessage} message="WELCOME TO GABAY!" icon={<Image source={require('../../assets/logo/logo1.png')} style={{ width: 200, height: 200 }} resizeMode="contain"/>} navigateToScreen="Incomes"/>  
+      <ModalMessageE showAutomatically={showModalEMessage} message="Incorrect email or password!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
     </View>
   );
 };
