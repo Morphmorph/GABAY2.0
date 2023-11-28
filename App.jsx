@@ -360,9 +360,10 @@ const App = ({navigation}) => {
           // Navigate to the "LogIn" screen
           // navigation.navigate("Log in");
           setFirst(false)
-          console.log(board)
+          
         } 
         // console.log(storedUser)
+        // console.log(Boolean(board),"wew")
       } 
         
       } catch (error) {
@@ -410,7 +411,7 @@ const App = ({navigation}) => {
 
         <UserContext.Provider value={providervalue}>
           <Stack.Navigator
-            // initialRouteName={local}
+            initialRouteName={async()=>{}}
             screenOptions={{
               headerShown: false,
               animation: 'fade',
