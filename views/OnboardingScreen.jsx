@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { setItem } from '../utils/asyncStorage';
+import UserContext from '../api_server/context';
 
 
 const { width } = Dimensions.get('window');
 
 export default function OnboardingScreen() {
   const navigation = useNavigation();
+  const {context} = useContext(UserContext)
   
   const handleDone = () => {
     navigation.navigate('Log in');
@@ -23,6 +25,7 @@ export default function OnboardingScreen() {
       </TouchableOpacity>
     );
   };
+
 
   return (
    

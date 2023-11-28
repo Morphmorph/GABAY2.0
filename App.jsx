@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext,useMemo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
@@ -36,7 +36,8 @@ import Help from './views/Landing/Help';
 import About from './views/Landing/About';
 import SupportInbox from './views/Landing/SupportInbox';
 import ReportInbox from './views/Landing/ReportInbox';
-
+import  AsyncStorage  from '@react-native-async-storage/async-storage'
+import { getItem } from './utils/asyncStorage';
 
 
 //TODO
@@ -51,7 +52,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-const App = () => {
+const App = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [context, setContext] = React.useState({
@@ -60,6 +61,8 @@ const App = () => {
     otp: null
   })
 
+
+  const [local,setLocal] = useState("Onboarding")
   const [totalincome,setTotalIncome] = React.useState()
 
   const [incomeIcon, setIncomeIcon] = useState({
@@ -331,34 +334,111 @@ const App = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      // console.log(JSON.stringify(context))
+      // console.log(context)
       setIsLoading(false);
     }, 4000);
-  }, []);
+  }, [context]);
 
   const [editMode, setEditMode] = React.useState(false);
+  const [first,setFirst] = React.useState(true)
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
+  useEffect(() => {
+    const loadUserFromStorage = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem('user');
+        const board = await getItem("onboarded")
+        if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setContext(parsedUser);
+        if (board) {
+          // Navigate to the "LogIn" screen
+          // navigation.navigate("Log in");
+          setFirst(false)
+          console.log("atuts",getItem("onboarded"))
+        } 
+        // console.log(storedUser)
+      } 
+        
+      } catch (error) {
+        console.error('Error loading user from AsyncStorage:', error);
+        // console.log(JSON.stringify(context))
+
+      }
+    };
+
+    loadUserFromStorage();
+  }, [navigation]);
+
+  useEffect(() => {
+    const saveContextToStorage = async () => {
+      try {
+      await AsyncStorage.setItem('user', JSON.stringify(context));
+      
+      if(context.id){
+        setLocal("Homescreen")
+      }
+        
+      } catch (error) {
+        console.error('Error saving context to AsyncStorage:', error);
+        // console.log(JSON.stringify(context))
+
+      }
+    };
+
+    saveContextToStorage();
+  }, [context,first]);
+
+  console.log(local)
+
+  const providervalue = useMemo(() => ({  context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths]);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#3A6B35' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#3A6B35'}}>
       <ExpoStatusBar
         style={statusBarStyle}
-        backgroundColor={statusBarBackgroundColor}
+        backgroundColor={statusBarBackgroundColor} 
         translucent={true}
         hidden={true}
       />
       <NavigationContainer>
 
-        <UserContext.Provider value={{ context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths}}>
+        <UserContext.Provider value={providervalue}>
           <Stack.Navigator
-            initialRouteName={context.id ? "Homescreen" : "Onboarding"}
+            // initialRouteName={local}
             screenOptions={{
               headerShown: false,
               animation: 'fade',
             }}
           >
+            {/* {context.id ? () : first ? () : () */}
+
+          {context?.id && <Stack.Screen
+              name="Homescreen"
+              component={DrawerScreen}
+            />}
+
+            {context?.id == null && first == false &&  <Stack.Screen
+            name="Log in"
+            component={Login}
+
+          /> }
+
+          { first && <Stack.Screen
+              name="Onboarding"
+              component={OnboardingScreen}
+            /> }
+
+          
+              
+            {/* <Stack.Screen
+            name="Log in"
+            component={Login}
+          /> */}
             <Stack.Screen
               name="Incomes"
               component={MonthlyIncome}
@@ -368,20 +448,10 @@ const App = () => {
               }}
             />
 
-            <Stack.Screen
-              name="Log in"
-              component={Login}
+            
+           
 
-            />
-            <Stack.Screen
-              name="Homescreen"
-              component={DrawerScreen}
-            />
-
-            <Stack.Screen
-              name="Onboarding"
-              component={OnboardingScreen}
-            />
+            
             <Stack.Screen
               name="Forgot password"
               component={Forgot}
@@ -836,7 +906,8 @@ function Homescreen({ navigation }) {
 
 function CustomDrawerContent({}) {
   const navigation = useNavigation();
-
+  
+  const {setContext} = useContext(UserContext)
   const navigateToScreen = (screenName) => {
     navigation.navigate(screenName);
   };
@@ -864,14 +935,18 @@ function CustomDrawerContent({}) {
   };
 
   const handleLogoutConfirmed = async () => {
+
+
     toggleModal1(); // Close the logout modal
     setLoader(true); // Show the loading indicator
   
     // Simulate an asynchronous logout process
     await new Promise(resolve => setTimeout(resolve, 2000)); // Replace this with your actual logout logic
-  
+    
     // Once the logout process is complete, navigate to the login screen and hide the loader
     handleLogout(); 
+    const data = {email:null,id :null,otp:null }
+    setContext(data)
     setLoader(false);
     navigateToScreen('Log in');
   };
