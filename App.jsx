@@ -422,17 +422,18 @@ const App = ({navigation}) => {
               name="Homescreen"
               component={DrawerScreen}
             />}
-
-            {first == false &&  <Stack.Screen
-            name="Log in"
-            component={Login}
-
-          /> }
-
-          { first && <Stack.Screen
+            { first && <Stack.Screen
               name="Onboarding"
               component={OnboardingScreen}
             /> }
+
+            <Stack.Screen
+            name="Log in"
+            component={Login}
+
+          /> 
+
+      
 
           
               
@@ -931,8 +932,13 @@ function CustomDrawerContent({}) {
     setIsLogoutModalVisible(!isLogoutModalVisible)
   };
 
-  const handleLogout = () => {
-   
+  const handleLogout = async() => {
+    // try {
+    //   await AsyncStorage.clear();
+    //   console.log('AsyncStorage cleared successfully.');
+    // } catch (error) {
+    //   console.error('Error clearing AsyncStorage:', error);
+    // }
   };
 
   const handleLogoutConfirmed = async () => {
