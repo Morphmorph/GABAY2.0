@@ -249,8 +249,8 @@ const Home = ({ navigation }) => {
                   </View>
 
                 <View style={{ padding: 16.8, top: -10, }}>
-                {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%' }}>
-                  <Image source={require('../../assets/logo/logo1.png')} style={{ top: 20, opacity: 0.3, width: 170 }} resizeMode='contain' />
+                {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -16.8}}>
+                  <Image source={require('../../assets/logo/logo1.png')} style={{ top: -20, opacity: 0.3, width: 170 }} resizeMode='contain' />
                   {/* <LoadingScreen/> */}
                 </View>:<DonutChart data={expense} total_sum={incomes.total_amount} />}
 
