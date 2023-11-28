@@ -348,6 +348,7 @@ const App = ({navigation}) => {
   };
 
   useEffect(() => {
+
     const loadUserFromStorage = async () => {
       try {
         const storedUser = await AsyncStorage.getItem('user');
@@ -359,7 +360,7 @@ const App = ({navigation}) => {
           // Navigate to the "LogIn" screen
           // navigation.navigate("Log in");
           setFirst(false)
-          console.log("atuts",getItem("onboarded"))
+          console.log(board)
         } 
         // console.log(storedUser)
       } 
@@ -372,7 +373,7 @@ const App = ({navigation}) => {
     };
 
     loadUserFromStorage();
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     const saveContextToStorage = async () => {
@@ -391,7 +392,7 @@ const App = ({navigation}) => {
     };
 
     saveContextToStorage();
-  }, [context,first]);
+  }, [context]);
 
   console.log(local)
 
