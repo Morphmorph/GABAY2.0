@@ -423,7 +423,7 @@ const App = ({navigation}) => {
               component={DrawerScreen}
             />}
 
-            {context?.id == null && first == false &&  <Stack.Screen
+            {first == false &&  <Stack.Screen
             name="Log in"
             component={Login}
 
