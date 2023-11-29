@@ -237,15 +237,15 @@ const Home = ({ navigation }) => {
 
               <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
                 {Object.keys(ddate).length ? <View >
-                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                    <TouchableOpacity onPress={handlePresslef}>
+                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10,textAlign:'center' }}>
+                  {Object.keys(ddate).length > 1 &&  <TouchableOpacity onPress={handlePresslef}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: 20, color: '#144714' }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate)}</Text>
-                    <TouchableOpacity onPress={handlePress
+                    </TouchableOpacity> }
+                    <Text style={{ fontSize: 20, color: '#144714',textAlign:'center',flex:1}}>{Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate)}</Text>
+                   {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress
                     }>
                       <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                   </View>
 
                 <View style={{ padding: 16.8, top: -10, }}>
