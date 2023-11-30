@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Modal,Linking } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
@@ -12,6 +12,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ModalMessageE from '../ModalE';
 import ModalMessage from '../Modal';
+import fileDownload from 'js-file-download';
+import { server } from '../../api_server/axios';
+// import RNFetchBlob from 'rn-fetch-blob';
 
 const ForecastSavings = () => {
   const navigation = useNavigation()
@@ -49,7 +52,17 @@ const ForecastSavings = () => {
     setIsPDFModalVisible(!isPDFModalVisible)
   };
 
-  const handlePDF = () => {
+  const handlePDF = async() => {
+   
+      setTimeout(() => {
+        // fileDownload(response.data,
+        //   'Gabay_Report.pdf')
+      
+        // console.log(response.data)
+        Linking.openURL(server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`)
+        setIsLoading(false);
+      }, 3000);
+
    
   };
   const handlePDFConfirmed = async () => {
