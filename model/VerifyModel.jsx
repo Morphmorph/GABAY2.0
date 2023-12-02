@@ -10,5 +10,7 @@ export const useVerifyModel = () => {
   const [emailError, setEmailError] = useState(null);
   const [loader,setLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
-  return { email, setEmail, emailError, setEmailError,loader,setLoader, showModalMessage, setShowModalMessage };
+  const [showModalEMessage, setShowModalEMessage] = useState(false);
+  const [showModalEEMessage, setShowModalEEMessage] = useState(false);
+  return { email, setEmail, emailError, setEmailError,loader,setLoader, showModalMessage, setShowModalMessage, setShowModalEMessage, setShowModalEEMessage, showModalEMessage, showModalEEMessage };
 };

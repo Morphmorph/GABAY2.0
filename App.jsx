@@ -395,7 +395,7 @@ const App = ({navigation}) => {
     saveContextToStorage();
   }, [context]);
 
-  console.log(local)
+  console.log(context.id)
 
   const providervalue = useMemo(() => ({  context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths]);
 
@@ -411,7 +411,7 @@ const App = ({navigation}) => {
 
         <UserContext.Provider value={providervalue}>
           <Stack.Navigator
-            initialRouteName={async()=>{}}
+            // initialRouteName={async()=>{}}
             screenOptions={{
               headerShown: false,
               animation: 'fade',
@@ -423,6 +423,7 @@ const App = ({navigation}) => {
               name="Homescreen"
               component={DrawerScreen}
             />}
+
             { first && <Stack.Screen
               name="Onboarding"
               component={OnboardingScreen}
@@ -478,6 +479,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center',
                 headerRight: () => (
                   <TouchableOpacity onPress={toggleEditMode}>
                     <Text style={{ color: '#E3B448', fontSize: 20, right: 10 }}> Edit</Text>
@@ -500,7 +502,7 @@ const App = ({navigation}) => {
                 headerTitleStyle: {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
-                },
+                },headerTitleAlign:'center',
                 headerRight: () => (
                   <TouchableOpacity onPress={toggleEditMode}>
                     <Text style={{ color: '#E3B448', fontSize: 20, right: 10 }}> Edit</Text>
@@ -525,6 +527,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -542,6 +545,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
 
@@ -560,6 +564,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -577,6 +582,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -594,6 +600,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             
@@ -612,6 +619,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -629,6 +637,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -646,6 +655,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -663,6 +673,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
               <Stack.Screen
@@ -680,6 +691,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
              <Stack.Screen
@@ -697,6 +709,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
               }}
             />
             <Stack.Screen
@@ -917,15 +930,17 @@ function CustomDrawerContent({}) {
 
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedAddOption, setSelectedAddOption] = useState('');
+  const [selectedAddOption, setSelectedAddOption] = useState(true);
   const [loader,setLoader] = useState(false)
 
   const toggleModal = (option) => {
     setSelectedAddOption(option);
     if (selectedAddOption === 'expenses') {
       setSelectedAddOption('income');
+      setTimeout(() => setSelectedAddOption(false), 100);
     } else {
       setSelectedAddOption('expenses');
+      setTimeout(() => setSelectedAddOption(false), 100);
     }
     setIsModalVisible(!isModalVisible);
   };
@@ -934,12 +949,12 @@ function CustomDrawerContent({}) {
   };
 
   const handleLogout = async() => {
-    // try {
-    //   await AsyncStorage.clear();
-    //   console.log('AsyncStorage cleared successfully.');
-    // } catch (error) {
-    //   console.error('Error clearing AsyncStorage:', error);
-    // }
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage cleared successfully.');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
   };
 
   const handleLogoutConfirmed = async () => {

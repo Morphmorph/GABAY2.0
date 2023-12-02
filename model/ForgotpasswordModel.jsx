@@ -13,6 +13,8 @@ export const useForgotPasswordModel = () => {
       const [hasNumber, setHasNumber] = useState(false);
       const [hasSymbol, setHasSymbol] = useState(false);
       const [showModalMessage, setShowModalMessage] = useState(false);
+      const [showModalEMessage, setShowModalEMessage] = useState(false);
+      const [showModalEEMessage, setShowModalEEMessage] = useState(false);
       const [loader,setLoader] = useState(false)
 
       useEffect(() => {
@@ -47,6 +49,10 @@ export const useForgotPasswordModel = () => {
         hasSymbol,
         showModalMessage,
         setShowModalMessage,
+        setShowModalEMessage,
+        setShowModalEEMessage,
+        showModalEMessage,
+        showModalEEMessage,
         loader,
         setLoader
       };

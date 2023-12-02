@@ -9,6 +9,8 @@ import Style from '../Style';
 import DonutChart from './DonutChart';
 import { axiosRequest } from '../../api_server/axios'
 import UserContext from '../../api_server/context';
+import YearPicker from '../YearPicker';
+
 const Home = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +27,7 @@ const Home = ({ navigation }) => {
   // console.log(screenWidth1)
   const viewWidthPercentage = 80;
   const viewWidth = (screenWidth1 * viewWidthPercentage) / 100;
+  
   const expenses = [
     {
       key: 'food',
@@ -120,14 +123,18 @@ const Home = ({ navigation }) => {
       // console.log(Object.keys(ddate).length)
     }
   };
+  const [availableYears, setAvailableYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const api = () => {
-    axiosRequest.get(`gabay/same/month/year/${context.id}/`)
+    axiosRequest.get(`gabay/same/month/year/${context.id}/?year=${selectedYear}`)
       .then((response) => {
         const date = { ...response.data };
         setDdate(date);
-        // console.log(ddate);
-        console.log(context);
+
+        // Extract the unique years from the expenses data
+        const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
+        setAvailableYears(uniqueYears);
       })
       .catch((e) => {
         console.log(e);
@@ -135,16 +142,15 @@ const Home = ({ navigation }) => {
   };
 
   const getData = (pagess) => {
-   
-    axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1`).then((response) => {
-      setExpense(response.data)
-      // console.log(response.data)
-      
-    }).catch((e) => {
-      console.log(e)
-      setChartLoading(false)
-    })
-  }
+    axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1&year=${selectedYear}`)
+      .then((response) => {
+        setExpense(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+        setChartLoading(false);
+      });
+  };
 
   const getIncome = () => {
     axiosRequest.get(`gabay/user/income/?user=${context.id}`).then((response) => {
@@ -236,16 +242,22 @@ const Home = ({ navigation }) => {
             {selectedOption === 'Income' && (
 
               <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
+                 <YearPicker
+        selectedYear={selectedYear}
+        onYearChange={setSelectedYear}
+        years={availableYears}
+      />
                 {Object.keys(ddate).length ? <View >
-                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                    <TouchableOpacity onPress={handlePresslef}>
+                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10,textAlign:'center' }}>
+                  
+                  {Object.keys(ddate).length > 1 &&  <TouchableOpacity onPress={handlePresslef}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: 20, color: '#144714' }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate)}</Text>
-                    <TouchableOpacity onPress={handlePress
+                    </TouchableOpacity> }
+                    <Text style={{ fontSize: 20, color: '#144714',textAlign:'center',flex:1}}>{Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate)}</Text>
+                   {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress
                     }>
                       <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                   </View>
 
                 <View style={{ padding: 16.8, top: -10, }}>

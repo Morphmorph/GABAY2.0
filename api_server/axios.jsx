@@ -1,5 +1,7 @@
 import axios from "axios";
 
 export const axiosRequest = axios.create({
-    baseURL : "http://192.168.100.146:8080/"
+    baseURL : "http://192.168.100.155:8080/"
   });
+
+export const server = "http://192.168.100.155:8080/"
