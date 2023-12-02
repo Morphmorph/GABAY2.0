@@ -29,9 +29,9 @@ const AddExpenses = ({route}) => {
   const [iconError, setIconError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(''); // To track the selected option
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
-  const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
+  const [selectedPreviousMonth, setSelectedPreviousMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const {category1,transaction,setTransaction,context} = useContext(UserContext)
   const [legend,setLegend] = useState(null)
@@ -88,12 +88,29 @@ const currentDate = new Date();
 const currentMonthIndex = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
 
+const getLastDayOfMonth = (year, month) => new Date(year, month + 1, 0);
 // Calculate previous months
 const previousMonths = [];
-for (let i = 0; i < currentMonthIndex; i++) {
-  const lastDayOfMonth = new Date(currentYear, i + 1, 0);
-  const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-  previousMonths.push(formattedDate);
+// for (let i = 0; i < currentMonthIndex; i++) {
+//   const lastDayOfMonth = new Date(currentYear, i + 1, 0);
+//   const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+//   previousMonths.push(formattedDate);
+// }
+
+if (currentYear !== selectedYear) {
+  // Push all months for the previous year
+  for (let i = 0; i < 12; i++) {
+    const lastDayOfMonth = getLastDayOfMonth(currentYear, i);
+    const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+    previousMonths.push(formattedDate);
+  }
+} else {
+  // Push previous months of the current year up to the current month
+  for (let i = 0; i < currentMonthIndex; i++) {
+    const lastDayOfMonth = getLastDayOfMonth(currentYear, i);
+    const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+    previousMonths.push(formattedDate);
+  }
 }
 
 const handlePreviousMonthSelection =(month) => {
@@ -108,7 +125,7 @@ const handlePreviousMonthSelection =(month) => {
   setSelectedYear(selectedYear);
   // Log the selected previous month
   api(update)
-
+  console.log(month)
 };
 
 
@@ -486,27 +503,31 @@ const handlePreviousMonthSelection =(month) => {
         Select Month and Year:
       </Text>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-        
+        <ScrollView>
         <Picker
           selectedValue={selectedYear}
+          // value = {selectedYear}
           style={{ height: 50, width: 150, color: '#144714' }}
           onValueChange={(itemValue) => setSelectedYear(itemValue)}
         >
           
-          {Array.from({ length: 10 }, (_, index) => {
+          {Array.from({ length: 100 }, (_, index) => {
             const year = currentYear - index;
             return <Picker.Item key={year} label={year.toString()} value={year} />;
           })}
         </Picker>
-        
+        </ScrollView>
         <Picker
           selectedValue={selectedPreviousMonth}
           style={{ height: 50, width: 150, color: '#144714' }}
           onValueChange={(itemValue) => handlePreviousMonthSelection(itemValue)}
+          
+          
         >
           {previousMonths.map((month) => (
             <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
           ))}
+          
         </Picker>
         </View>
         
