@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, Modal, TouchableOpacity, Image, Dimensions,Alert} from 'react-native'
 import React, { useState, useEffect, useContext, useCallback } from 'react'
+import { Picker } from '@react-native-picker/picker';
 import Plus from '../../assets/Icon/plus.png'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
@@ -31,6 +32,7 @@ const AddExpenses = ({route}) => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
   const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
   const {category1,transaction,setTransaction,context} = useContext(UserContext)
   const [legend,setLegend] = useState(null)
   const [action,setAction] = useState(false)
@@ -95,6 +97,7 @@ for (let i = 0; i < currentMonthIndex; i++) {
 }
 
 const handlePreviousMonthSelection =(month) => {
+  const selectedYear = new Date(month).getFullYear();
   setSelectedPreviousMonth(month);
   setPreviousMonthsVisible(false);
   const l = true
@@ -102,7 +105,7 @@ const handlePreviousMonthSelection =(month) => {
   setAction(l)
   setTransaction(update)
 
-
+  setSelectedYear(selectedYear);
   // Log the selected previous month
   api(update)
 
@@ -249,7 +252,7 @@ const handlePreviousMonthSelection =(month) => {
         <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
         
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold', textTransform: "capitalize" }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
             <TouchableOpacity
@@ -295,7 +298,7 @@ const handlePreviousMonthSelection =(month) => {
       >
         <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold', textTransform: "capitalize"}}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
   <TouchableOpacity
@@ -343,7 +346,7 @@ const handlePreviousMonthSelection =(month) => {
       >
         <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold', textTransform: "capitalize" }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
   <TouchableOpacity
@@ -479,27 +482,34 @@ const handlePreviousMonthSelection =(month) => {
                   borderTopRightRadius: 20,
                 }}
               >
-                <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448'}}>
-                  Select Month:
-                </Text>
-                {previousMonths.map((month) => (
-                  <TouchableOpacity
-                    key={month}
-                    style={{
-                      backgroundColor: '#CBD18F',
-                      padding: 10,
-                      borderRadius: 5,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginBottom: 10,
-                    }}
-                    onPress={() => handlePreviousMonthSelection(month)}
-                  >
-                    <Text style={{ color: '#144714', fontSize: 18,}}>
-                      { new Date(month).toLocaleString('default', { month: 'long',year:'numeric'})}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
+                      <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
+        Select Month and Year:
+      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        
+        <Picker
+          selectedValue={selectedYear}
+          style={{ height: 50, width: 150, color: '#144714' }}
+          onValueChange={(itemValue) => setSelectedYear(itemValue)}
+        >
+          
+          {Array.from({ length: 10 }, (_, index) => {
+            const year = currentYear - index;
+            return <Picker.Item key={year} label={year.toString()} value={year} />;
+          })}
+        </Picker>
+        
+        <Picker
+          selectedValue={selectedPreviousMonth}
+          style={{ height: 50, width: 150, color: '#144714' }}
+          onValueChange={(itemValue) => handlePreviousMonthSelection(itemValue)}
+        >
+          {previousMonths.map((month) => (
+            <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
+          ))}
+        </Picker>
+        </View>
+        
                 <TouchableOpacity
                   style={{
                     backgroundColor: '#810000',
@@ -515,6 +525,7 @@ const handlePreviousMonthSelection =(month) => {
                     Cancel
                   </Text>
                 </TouchableOpacity>
+                
               </View>
             </View>
           </Modal>

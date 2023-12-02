@@ -5,7 +5,7 @@ import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { setItem } from '../utils/asyncStorage';
 import UserContext from '../api_server/context';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -17,7 +17,14 @@ export default function OnboardingScreen() {
     navigation.navigate('Log in');
     setItem('onboarded', '1');
   };
-
+//   useEffect(async() => {
+//   try {
+//     await AsyncStorage.clear();
+//     console.log('AsyncStorage cleared successfully.');
+//   } catch (error) {
+//     console.error('Error clearing AsyncStorage:', error);
+//   }
+// })
   const doneButton = ({ ...props }) => {
     return (
       <TouchableOpacity style={styles.doneButton} {...props}>

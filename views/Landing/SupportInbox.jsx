@@ -45,8 +45,6 @@ const SupportInbox = ({}) => {
             setShowModalMessage(true);
         })
         .catch(e =>{console.log("error:",e)})
-
-        
         setTimeout(() => {
             
         }, 5000);

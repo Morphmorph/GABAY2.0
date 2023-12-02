@@ -930,15 +930,17 @@ function CustomDrawerContent({}) {
 
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedAddOption, setSelectedAddOption] = useState('');
+  const [selectedAddOption, setSelectedAddOption] = useState(true);
   const [loader,setLoader] = useState(false)
 
   const toggleModal = (option) => {
     setSelectedAddOption(option);
     if (selectedAddOption === 'expenses') {
       setSelectedAddOption('income');
+      setTimeout(() => setSelectedAddOption(false), 100);
     } else {
       setSelectedAddOption('expenses');
+      setTimeout(() => setSelectedAddOption(false), 100);
     }
     setIsModalVisible(!isModalVisible);
   };
@@ -947,12 +949,12 @@ function CustomDrawerContent({}) {
   };
 
   const handleLogout = async() => {
-    // try {
-    //   await AsyncStorage.clear();
-    //   console.log('AsyncStorage cleared successfully.');
-    // } catch (error) {
-    //   console.error('Error clearing AsyncStorage:', error);
-    // }
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage cleared successfully.');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
   };
 
   const handleLogoutConfirmed = async () => {

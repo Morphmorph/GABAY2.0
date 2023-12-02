@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForgotPasswordController } from '../../controller/ForgotpasswordController'; // Import the controller
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalMessage from '../Modal';
+import ModalMessageE from '../ModalE';
 import Loader from './actionLoader';
 
 const ForgotPasswordView = ({navigation}) => {
@@ -30,6 +31,10 @@ const ForgotPasswordView = ({navigation}) => {
     handleUpdatePassword,
     showModalMessage,
     setShowModalMessage,
+    setShowModalEEMessage,
+    setShowModalEMessage,
+    showModalEMessage,
+    showModalEEMessage,
     loader,
     setLoader
   } = useForgotPasswordController();
@@ -138,6 +143,8 @@ const ForgotPasswordView = ({navigation}) => {
         </View>
       </View>
       <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!" icon={<MaterialCommunityIcons name="lock-check" size={200} color="#E3B448" />} navigateToScreen="Log in"/>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Forgot password"/>
+      
     </View>
   );
 };

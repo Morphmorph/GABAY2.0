@@ -18,6 +18,10 @@ export const useForgotPasswordController = () => {
         hasSymbol,
         showModalMessage,
         setShowModalMessage,
+        setShowModalEMessage,
+        setShowModalEEMessage,
+        showModalEEMessage,
+        showModalEMessage,
         loader,
         setLoader
     } = useForgotPasswordModel();
@@ -68,8 +72,9 @@ export const useForgotPasswordController = () => {
         }).catch((e)=>{
           setTimeout(() => {
             setLoader(false)
-            alert("Something Went Wrong! Check your Intertnet Connection" )
+            setShowModalEMessage(true)
           }, 4000);    
+          setTimeout(() => setShowModalEMessage(false), 500);
         })
       }
     };
@@ -99,6 +104,10 @@ export const useForgotPasswordController = () => {
       handleUpdatePassword,
       showModalMessage,
       setShowModalMessage,
+      showModalEEMessage,
+      showModalEMessage,
+      setShowModalEEMessage,
+      setShowModalEMessage,
       loader,
       setLoader
     };

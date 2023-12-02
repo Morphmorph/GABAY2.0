@@ -5,15 +5,14 @@ import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native'
 import DonutChart from './DonutChart'
-import { axiosRequest } from '../../api_server/axios';
+import { axiosRequest, server } from '../../api_server/axios';
 import UserContext from '../../api_server/context';
 import Loader from '../Starting/actionLoader';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ModalMessageE from '../ModalE';
 import ModalMessage from '../Modal';
-import fileDownload from 'js-file-download';
-import { server } from '../../api_server/axios';
+// import fileDownload from 'js-file-download';
 // import RNFetchBlob from 'rn-fetch-blob';
 
 const ForecastSavings = () => {

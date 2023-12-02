@@ -6,7 +6,7 @@ import UserContext from '../api_server/context';
 
 export const useVerifyController = () => {
   const navigation = useNavigation();
-  const { email, setEmail, emailError, setEmailError,loader,setLoader, showModalMessage, setShowModalMessage} = useVerifyModel();
+  const { email, setEmail, emailError, setEmailError,loader,setLoader, showModalMessage, setShowModalMessage, setShowModalEMessage, setShowModalEEMessage, showModalEEMessage, showModalEMessage} = useVerifyModel();
   const {setContext,nav} = React.useContext(UserContext)
  
 
@@ -35,14 +35,16 @@ export const useVerifyController = () => {
           setContext({email:email})
           setShowModalMessage(true);
         }else{
-          alert(response.data.Warning)
+          setShowModalEMessage(true)
+          setTimeout(() => setShowModalEMessage(false), 500);
         }
 
       
         
       }).catch((err)=>{
         setLoader(false)
-        alert("Something Went Wrong! Check your Intertnet Connection")
+        setShowModalEEMessage(true)
+        setTimeout(() => setShowModalEEMessage(false), 500);
       })
     }
   };
@@ -56,5 +58,5 @@ export const useVerifyController = () => {
     return emailRegex.test(email);
   };
 
-  return { email, setEmail, emailError, setEmailError, handleVerify, reSend,loader,setLoader, showModalMessage, setShowModalMessage };
+  return { email, setEmail, emailError, setEmailError, handleVerify, reSend,loader,setLoader, showModalMessage, setShowModalMessage, setShowModalEMessage, setShowModalEEMessage, showModalEEMessage, showModalEMessage };
 };
