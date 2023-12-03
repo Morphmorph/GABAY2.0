@@ -48,7 +48,7 @@ const ReportInbox = ({}) => {
 
         
         setTimeout(() => {
-            
+            setLoader(false)
         }, 5000);
     };
     

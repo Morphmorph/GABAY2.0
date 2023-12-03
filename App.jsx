@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Animated, Dimensions, StyleSheet, Image, Platform, View, TouchableOpacity, Text, Modal } from 'react-native';
+import { Animated, Dimensions, StyleSheet, Image, Platform, View, TouchableOpacity, Text, Modal,Linking } from 'react-native';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -60,7 +60,7 @@ const App = ({navigation}) => {
     email: null,
     otp: null
   })
-
+  const [delay,setDelay] = useState(true)
 
   const [local,setLocal] = useState("Onboarding")
   const [totalincome,setTotalIncome] = React.useState()
@@ -347,6 +347,9 @@ const App = ({navigation}) => {
     setEditMode(!editMode);
   };
 
+
+
+
   useEffect(() => {
 
     const loadUserFromStorage = async () => {
@@ -395,9 +398,12 @@ const App = ({navigation}) => {
     saveContextToStorage();
   }, [context]);
 
-  console.log(context.id)
+  const [pdfprint,setPdfPrint] = React.useState(null)
 
-  const providervalue = useMemo(() => ({  context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,totalincome,setTotalIncome,iconPaths]);
+  const providervalue = useMemo(() => ({  context, setContext, nav, setNav, category1, 
+    setCategory1, transaction, setTransaction, incomeIcon, 
+    setIncomeIcon,totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,
+      totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#3A6B35'}}>
@@ -433,7 +439,12 @@ const App = ({navigation}) => {
             name="Log in"
             component={Login}
 
-          /> 
+          />  
+           <Stack.Screen
+          name="Forecast Savings"
+          component={ForecastSavings}
+
+        /> 
 
       
 
@@ -747,7 +758,10 @@ const App = ({navigation}) => {
 };
 
 
-function DrawerScreen({ }) {
+function DrawerScreen({navigation,route }) {
+
+  const {pdfprint,setPdfPrint,delay,setDelay} = useContext(UserContext)
+  const [dal,setDal] = React.useState(true)
 
   return (
     <Drawer.Navigator
@@ -773,6 +787,22 @@ function DrawerScreen({ }) {
           </View>
         ),
         headerTitleAlign: "center",
+        headerRight: ({ value,income,Download }) =>  {
+
+
+          return(
+          delay ? null:
+          <TouchableOpacity style={{padding:20}} onPress={() => Linking.openURL(pdfprint)}>
+              <Image
+           source={require('./assets/pdf.png')}
+           style={{ width: 30, height: 30}}
+           resizeMode="contain"
+         />
+           </TouchableOpacity>
+         
+  )},
+        
+      
       }}
     >
       <Drawer.Screen
@@ -787,6 +817,8 @@ function DrawerScreen({ }) {
         component={ForecastSavings}
         options={{
           drawerLabel: 'Forecast Savings',
+          headerShown:true
+         
         }}
       />
     </Drawer.Navigator>
@@ -885,6 +917,7 @@ function Homescreen({ navigation }) {
                   color={focused ? '#E3B448' : '#CBD18F'}
                 />
               </View>
+              
             ),
           }}
         />
@@ -894,7 +927,7 @@ function Homescreen({ navigation }) {
           component={ForecastSavings}
           options={{
             headerShown: false,
-            tabBarIcon: ({ focused }) => (
+            tabBarIcon: ({ focused}) => (
               <View style={{ position: 'absolute', top: 10, right: 45 }}>
                 <FontAwesome5
                   name="crosshairs"

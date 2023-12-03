@@ -46,7 +46,7 @@ const SupportInbox = ({}) => {
         })
         .catch(e =>{console.log("error:",e)})
         setTimeout(() => {
-            
+            setLoader(false)
         }, 5000);
     };
     

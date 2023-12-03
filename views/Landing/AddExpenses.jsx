@@ -32,7 +32,7 @@ const AddExpenses = ({route}) => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
   const [selectedPreviousMonth, setSelectedPreviousMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+  
   const {category1,transaction,setTransaction,context} = useContext(UserContext)
   const [legend,setLegend] = useState(null)
   const [action,setAction] = useState(false)
@@ -87,7 +87,7 @@ const AddExpenses = ({route}) => {
 const currentDate = new Date();
 const currentMonthIndex = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
-
+const [selectedYear, setSelectedYear] = useState(currentYear);
 const getLastDayOfMonth = (year, month) => new Date(year, month + 1, 0);
 // Calculate previous months
 const previousMonths = [];

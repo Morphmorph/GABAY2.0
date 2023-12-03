@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation,useIsFocused } from '@react-navigation/native'
 import DonutChart from './DonutChart'
 import { axiosRequest, server } from '../../api_server/axios';
 import UserContext from '../../api_server/context';
@@ -12,24 +12,28 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ModalMessageE from '../ModalE';
 import ModalMessage from '../Modal';
+import i from '../../assets/Icon/Icons/Savings.png'
 // import fileDownload from 'js-file-download';
 // import RNFetchBlob from 'rn-fetch-blob';
 
-const ForecastSavings = () => {
-  const navigation = useNavigation()
+const ForecastSavings = ({navigation}) => {
+  // const navigation = useNavigation()
+  const isFocused = useIsFocused();
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 5 : 2.2;
   const [showModalEMessage, setShowModalEMessage] = useState(false);
-  const [income, setIncome] = useState('')
+  const [income, setIncome] = useState(null)
   const [incomeError, setIncomeError] = useState(null)
   const [selectedOption, setSelectedOption] = useState('Year');
   const [forecast, setForcast] = useState([])
-  const { context, totalincome } = useContext(UserContext)
-  const [value, setValue] = useState()
+  const { context, totalincome,pdfprint,setPdfPrint,delay,setDelay } = useContext(UserContext)
+  const [value, setValue] = useState(null)
   const [isLoading, setIsLoading] = useState(false);
   const [isPDFModalVisible, setIsPDFModalVisible] = useState(false);
   const [loader,setLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
+
+  const Download = server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
 
   const navigateToScreen = (screenName) => {
     navigation.navigate(screenName);
@@ -59,7 +63,7 @@ const ForecastSavings = () => {
       
         // console.log(response.data)
         Linking.openURL(server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`)
-        setIsLoading(false);
+        setIsLoading(false); 
       }, 3000);
 
    
@@ -107,14 +111,16 @@ const ForecastSavings = () => {
 
   const Forecast = async () => {
     setIsLoading(true);
-
-
+    
     axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}`)
       .then((response) => {
         setTimeout(() => {
           data = response.data.avarage
           setForcast(data)
           setValue(response.data.forecast)
+          const Download = server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
+          setPdfPrint(Download)
+          console.log(pdfprint)
           console.log(response.data.forecast)
 
           setIsLoading(false);
@@ -128,6 +134,29 @@ const ForecastSavings = () => {
 
 
   }
+
+  useEffect(() => {
+    const onFocus = async () => {
+   if(Object.keys(forecast).length){
+    setDelay(false)
+    // console.log(forecast)
+   }else{
+ 
+   }
+  }
+  if(Object.keys(forecast).length){
+    setDelay(false)
+    // console.log(forecast)
+   }else{
+ 
+   }
+
+  const unsubscribe = navigation.addListener('focus', onFocus);
+   return () => {
+     unsubscribe();
+
+   };
+  }, [forecast]);
 
   return (
     <View style={Style.common}>
@@ -201,11 +230,11 @@ const ForecastSavings = () => {
         {Object.keys(forecast).length ?
 
           <View>
-            <TouchableOpacity  onPress={toggleModal1}>
+            {/* <TouchableOpacity  onPress={toggleModal1}>
             <View style={{ flex: 1, position: 'absolute', right: -5, padding: 5 }}>
               <MaterialCommunityIcons name="content-save-outline" size={30} color="#144714" />
             </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Modal
         animationType="fade"
         transparent={true}
@@ -231,7 +260,9 @@ const ForecastSavings = () => {
 
             </View>
 
-            <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => { navigation.navigate('History', { details: forecast }) }}>
+            <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => { 
+              
+              navigation.navigate('History', { details: forecast }) }}>
               <Text style={{ color: '#144714', fontSize: 18, }}>View details</Text>
             </TouchableOpacity>
           </View> : <View style={{ justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: 13, width: '100%' }}>

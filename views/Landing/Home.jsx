@@ -16,10 +16,11 @@ const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
-  const { context,setTotalIncome } = useContext(UserContext)
+  const { context,setTotalIncome,setPdfPrint,delay,setDelay} = useContext(UserContext)
   const [chartloading,setChartLoading] = useState(false)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
+
   const [expense, setExpense] = useState([])
   const [incomes, setIncomes] = useState([])
 
@@ -161,11 +162,15 @@ const Home = ({ navigation }) => {
     })
   }
 
+
+  
   useEffect(() => {
     const onFocus = async () => {
       api();
       getIncome()
       setPage(0)
+      // setPdfPrint(null)
+      setDelay(true)
       const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
       // if (selectedDate) {
       //   getData(selectedDate);
@@ -179,13 +184,16 @@ const Home = ({ navigation }) => {
       }, 3000);
     };
 
+ 
+
+
     const unsubscribe = navigation.addListener('focus', onFocus);
 
     return () => {
       unsubscribe();
 
     };
-  }, [navigation, context, page, expense]);
+  }, [ navigation,context, page, expense]);
 
   useEffect(() => {
     // console.log(page); // Log the updated page value separately
@@ -305,6 +313,6 @@ const Home = ({ navigation }) => {
   );
 };
 
-Home.navigationOptions
+// Home.navigationOptions
 export default Home;
 
