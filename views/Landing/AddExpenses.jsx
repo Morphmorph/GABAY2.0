@@ -29,10 +29,10 @@ const AddExpenses = ({route}) => {
   const [iconError, setIconError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(''); // To track the selected option
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState(null);
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
-  const [selectedPreviousMonth, setSelectedPreviousMonth] = useState("");
-  
+  const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
+ 
   const {category1,transaction,setTransaction,context} = useContext(UserContext)
   const [legend,setLegend] = useState(null)
   const [action,setAction] = useState(false)
@@ -100,7 +100,7 @@ const previousMonths = [];
 if (currentYear !== selectedYear) {
   // Push all months for the previous year
   for (let i = 0; i < 12; i++) {
-    const lastDayOfMonth = getLastDayOfMonth(currentYear, i);
+    const lastDayOfMonth = getLastDayOfMonth(selectedYear, i);
     const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
     previousMonths.push(formattedDate);
   }
@@ -508,7 +508,10 @@ const handlePreviousMonthSelection =(month) => {
           selectedValue={selectedYear}
           // value = {selectedYear}
           style={{ height: 50, width: 150, color: '#144714' }}
-          onValueChange={(itemValue) => setSelectedYear(itemValue)}
+          onValueChange={(itemValue) => {
+            setSelectedYear(itemValue)
+            console.log(itemValue)
+          }}
         >
           
           {Array.from({ length: 100 }, (_, index) => {
@@ -520,7 +523,10 @@ const handlePreviousMonthSelection =(month) => {
         <Picker
           selectedValue={selectedPreviousMonth}
           style={{ height: 50, width: 150, color: '#144714' }}
-          onValueChange={(itemValue) => handlePreviousMonthSelection(itemValue)}
+          onValueChange={(itemValue) => {
+            handlePreviousMonthSelection(itemValue)
+            // console.log(selectedPreviousMonth)
+          }}
           
           
         >
