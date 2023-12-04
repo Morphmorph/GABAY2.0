@@ -10,6 +10,7 @@ import DonutChart from './DonutChart';
 import { axiosRequest } from '../../api_server/axios'
 import UserContext from '../../api_server/context';
 import YearPicker from '../YearPicker';
+import { ColorSpace } from 'react-native-reanimated';
 
 const Home = ({ navigation }) => {
 
@@ -127,15 +128,35 @@ const Home = ({ navigation }) => {
   const [availableYears, setAvailableYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
+
+
+  const filterAPI  = () =>{
+    axiosRequest.get(`gabay/same/year/${context.id}/?year=${selectedYear}`)
+    .then((response) => {
+      const date = { ...response.data };
+      // setDdate(date);
+      // console.log(response.data)
+      // // Extract the unique years from the expenses data
+      const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
+      setAvailableYears(uniqueYears);
+      
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  }
+
+
+
   const api = () => {
     axiosRequest.get(`gabay/same/month/year/${context.id}/?year=${selectedYear}`)
       .then((response) => {
         const date = { ...response.data };
-        setDdate(date);
-
-        // Extract the unique years from the expenses data
-        const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
-        setAvailableYears(uniqueYears);
+        setDdate(date); 
+        // console.log("api",response.data)
+        // // Extract the unique years from the expenses data
+        // const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
+        // setAvailableYears(uniqueYears);
       })
       .catch((e) => {
         console.log(e);
@@ -146,9 +167,13 @@ const Home = ({ navigation }) => {
     axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1&year=${selectedYear}`)
       .then((response) => {
         setExpense(response.data);
+        // console.log("ddate",ddate);
+        // console.log(ddate)
       })
       .catch((e) => {
         console.log(e);
+        setExpense(null)
+        console.log(ddate)
         setChartLoading(false);
       });
   };
@@ -165,16 +190,35 @@ const Home = ({ navigation }) => {
 
   
   useEffect(() => {
+
+
+
+    if(Object.keys(availableYears).length > 0){
+    api() 
+    }
+    
+    // if(Object.keys(availableYears).length > 0){
+    //   setSelectedYear(availableYears[0])
+      
+    // }
+    
+    
     const onFocus = async () => {
-      api();
-      getIncome()
       setPage(0)
+      if(Object.keys(availableYears).length > 0){
+        const avy = availableYears[0]
+        if(avy){
+          setSelectedYear(avy)
+      console.log("ass",ddate)
+        }else{setSelectedYear(availableYears[availableYears.length - 1])}
+      
+      
+    }
+      filterAPI()
+      getIncome()
       // setPdfPrint(null)
       setDelay(true)
-      const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
-      // if (selectedDate) {
-      //   getData(selectedDate);
-      // }
+      
 
       setTimeout(() => {
         setIsLoading(false);
@@ -193,18 +237,25 @@ const Home = ({ navigation }) => {
       unsubscribe();
 
     };
-  }, [ navigation,context, page, expense]);
+  }, [ navigation,availableYears,selectedYear]);
+
 
   useEffect(() => {
     // console.log(page); // Log the updated page value separately
     const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
     if (selectedDate) {
       getData(selectedDate);
+        
+      // if(Object.keys(availableYears).length > 0){
+      //   setSelectedYear(availableYears[0])
+      //   console.log(availableYears[0])
+      // }
     }
+    // console.log(ddate)  
+           
 
-
-  }, [page, ddate]);
-
+  }, [navigation,ddate,availableYears,selectedYear]);
+  
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
   };
@@ -250,12 +301,13 @@ const Home = ({ navigation }) => {
             {selectedOption === 'Income' && (
 
               <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
-                 {/* <YearPicker
+               { expense && <YearPicker
         selectedYear={selectedYear}
         onYearChange={setSelectedYear}
         years={availableYears}
-      /> */}
-                {Object.keys(ddate).length ? <View >
+        onBlur={()=>setSelectedYear(selectedYear)}
+      /> }
+                {Object.keys(ddate).length && expense ? <View >
                   <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10,textAlign:'center' }}>
                   
                   {Object.keys(ddate).length > 1 &&  <TouchableOpacity onPress={handlePresslef}>
