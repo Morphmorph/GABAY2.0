@@ -5,6 +5,11 @@ import Style from '../Style';
 import icon1 from '../../assets/Icon/income/i1.png';
 import CustomInput from '../CustomInput';
 import { axiosRequest } from '../../api_server/axios';
+import Loader from '../Starting/actionLoader';
+import ModalMessage from '../Modal';
+import ModalMessageE from '../ModalE';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
   const { income } = route.params;
@@ -14,7 +19,9 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
   const [amount, setAmount] = useState("");
   const [id,setId] = useState()
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [showModalEMessage, setShowModalEMessage] = useState(false);
+  const [action, setAction] = useState(false)
   const toggleDeleteModal = (data) => {
     setIsDeleteModalVisible(!isDeleteModalVisible);
     setId(data.id)
@@ -33,12 +40,15 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
     // Implement your edit logic here
     // You can use the selectedExpense state to get the details of the expense being edited
     // Close the modal after editing
+    setAction(true);
     await axiosRequest.put(`gabay/add/edit/${id}/`,{
       "title": title,
       "amount": parseInt(amount)
   }).then((response)=>{
     console.log('success')
-    navigation.navigate('Home')
+    setAction(false);
+    setShowModalMessage(true);
+    setTimeout(() => setShowModalMessage(false), 500);
   }).catch(e=>{
     console.log('failed')
   })
@@ -54,9 +64,12 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
     // Implement your delete logic here
     // You can use the selectedExpense state to get the details of the expense being deleted
     // Close the modal after deleting
+    setAction(true);
     await axiosRequest.delete(`gabay/add/edit/${id}/`).then((response)=>{
     console.log('success')
-    navigation.navigate('Home')
+    setAction(false);
+    setShowModalEMessage(true)
+    setTimeout(() => setShowModalEMessage(false), 500);
   }).catch(e=>{
     console.log('failed')
   })
@@ -107,6 +120,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
         }}
       >
         <View style={Style.modalContainer}>
+        <Loader visible={action} message="Updating..." />
           <View style={Style.modalContent}>
             <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Update record:</Text>
             <CustomInput
@@ -141,6 +155,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
         onRequestClose={toggleDeleteModal}
       >
         <View style={styles.centeredView}>
+        <Loader visible={action} message="Removing..." />
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Are you sure you want to delete this?</Text>
             <View style={styles.buttonContainer}>
@@ -154,6 +169,9 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
           </View>
         </View>
       </Modal>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Deleted succesfully!" icon={<MaterialCommunityIcons name="delete-circle-outline" size={200} color="#E3B448" />} navigateToScreen="Home"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Updated succesfully!" icon={<MaterialCommunityIcons name="note-check-outline" size={200} color="#E3B448" />} navigateToScreen="Home" />
+    
     </View>
   );
 };

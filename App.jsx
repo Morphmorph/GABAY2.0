@@ -818,7 +818,6 @@ function DrawerScreen({navigation,route }) {
         options={{
           drawerLabel: 'Forecast Savings',
           headerShown:true
-         
         }}
       />
     </Drawer.Navigator>

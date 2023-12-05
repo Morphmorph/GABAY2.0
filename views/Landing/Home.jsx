@@ -17,8 +17,8 @@ const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
-  const { context,setTotalIncome,setPdfPrint,delay,setDelay} = useContext(UserContext)
-  const [chartloading,setChartLoading] = useState(false)
+  const { context, setTotalIncome, setPdfPrint, delay, setDelay } = useContext(UserContext)
+  const [chartloading, setChartLoading] = useState(false)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
 
@@ -29,7 +29,7 @@ const Home = ({ navigation }) => {
   // console.log(screenWidth1)
   const viewWidthPercentage = 80;
   const viewWidth = (screenWidth1 * viewWidthPercentage) / 100;
-  
+
   const expenses = [
     {
       key: 'food',
@@ -80,14 +80,14 @@ const Home = ({ navigation }) => {
     setChartLoading(true)
     if (page === Object.keys(ddate).length - 1) {
       setPage(backpage)
-      
+
       setTimeout(() => {
         setChartLoading(false)
         // if (!context.id) {
         //   navigation.navigate('Log in');
         // }
       }, 1000);
-    
+
     } else {
       setPage(newpage);
       setTimeout(() => {
@@ -107,7 +107,7 @@ const Home = ({ navigation }) => {
     setChartLoading(true)
     if (page === 0) {  // Adjust condition
       setPage(Object.keys(ddate).length - 1);
-      
+
       setTimeout(() => {
         setChartLoading(false)
         // if (!context.id) {
@@ -130,20 +130,20 @@ const Home = ({ navigation }) => {
 
 
 
-  const filterAPI  = () =>{
+  const filterAPI = () => {
     axiosRequest.get(`gabay/same/year/${context.id}/?year=${selectedYear}`)
-    .then((response) => {
-      const date = { ...response.data };
-      // setDdate(date);
-      // console.log(response.data)
-      // // Extract the unique years from the expenses data
-      const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
-      setAvailableYears(uniqueYears);
-      
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+      .then((response) => {
+        const date = { ...response.data };
+        // setDdate(date);
+        // console.log(response.data)
+        // // Extract the unique years from the expenses data
+        const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
+        setAvailableYears(uniqueYears);
+
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
 
@@ -152,7 +152,7 @@ const Home = ({ navigation }) => {
     axiosRequest.get(`gabay/same/month/year/${context.id}/?year=${selectedYear}`)
       .then((response) => {
         const date = { ...response.data };
-        setDdate(date); 
+        setDdate(date);
         // console.log("api",response.data)
         // // Extract the unique years from the expenses data
         // const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
@@ -171,7 +171,7 @@ const Home = ({ navigation }) => {
         // console.log(ddate)
       })
       .catch((e) => {
-        console.log("errer",e);
+        console.log("errer", e);
         setExpense(null)
         // console.log(ddate)
         setChartLoading(false);
@@ -188,39 +188,39 @@ const Home = ({ navigation }) => {
   }
 
 
-  
+
   useEffect(() => {
 
 
 
-    if(Object.keys(availableYears).length > 0){
-    api() 
+    if (Object.keys(availableYears).length > 0) {
+      api()
     }
-    
+
     // if(Object.keys(availableYears).length > 0){
     //   setSelectedYear(availableYears[0])
-      
+
     // }
-    
-    
+
+
     const onFocus = async () => {
       setPage(0)
-      if(Object.keys(availableYears).length > 0){
-    setSelectedYear(availableYears[0])
-      
-    }
+      if (Object.keys(availableYears).length > 0) {
+        setSelectedYear(availableYears[0])
+
+      }
       filterAPI()
       getIncome()
       // setPdfPrint(null)
       setDelay(true)
-      
+
       const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
       if (selectedDate) {
         getData(selectedDate);
         console.log(availableYears[0])
-        if(Object.keys(availableYears).length > 0){
+        if (Object.keys(availableYears).length > 0) {
           setSelectedYear(availableYears[0])
-          
+
         }
       }
       setTimeout(() => {
@@ -231,7 +231,7 @@ const Home = ({ navigation }) => {
       }, 3000);
     };
 
- 
+
 
 
     const unsubscribe = navigation.addListener('focus', onFocus);
@@ -240,25 +240,25 @@ const Home = ({ navigation }) => {
       unsubscribe();
 
     };
-  }, [ navigation,setDdate,page,availableYears,selectedYear]);
+  }, [navigation, setDdate, page, availableYears, selectedYear]);
 
 
   useEffect(() => {
     // console.log(page); // Log the updated page value separately
-    const selectedDate =(ddate[page]?.date ||ddate[0]?.date || null);
+    const selectedDate = (ddate[page]?.date || ddate[0]?.date || null);
     if (selectedDate) {
-      getData(selectedDate); 
+      getData(selectedDate);
       console.log(selectedDate)
       // if(Object.keys(availableYears).length > 0){
       //   setSelectedYear(availableYears[0])
       //   console.log(availableYears[0])
       // } 
-    }else{}
+    } else { }
     // console.log(ddate)  
-           
 
-  }, [navigation,ddate,availableYears,selectedYear]);
-  
+
+  }, [navigation, ddate, availableYears, selectedYear]);
+
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
   };
@@ -278,56 +278,54 @@ const Home = ({ navigation }) => {
                 <Text style={{ color: '#144714', fontSize: 25 }}>HISTORY</Text>
               </View>
 
-              <View style={{ marginTop: 10, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+              <View style={{ marginTop: 5, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
                 <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
                   <Image source={Peso} style={{ width: 20, height: 20 }} />
                   <Text style={{ color: '#CBD18F', fontSize: 20 }}> {incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.00</Text>
                 </View>
-                <Text style={{ color: '#E3B448', fontSize: 12 }}>Income</Text>
+                <Text style={{ color: '#E3B448', fontSize: 12 }}>Monthly income</Text>
               </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',  marginTop: 5, maxWidth:'100%'}}>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, backgroundColor: '#CBD18F', borderRadius: 5,}}>
-                <Text style={{ fontSize: 20, color: '#144714',width:'85.5%' ,textAlign:'center'}}>{selectedOption}</Text>
-              </View>
-              <View>
-              <TouchableOpacity onPress={toggleOption} >
-                <Iconn name="swap-vertical-circle-outline" style={{ fontSize: 40, color: '#E3B448', }} />
-              </TouchableOpacity>
-              </View>
-              </View>
-            </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 2, maxWidth: '100%' }}>
 
-            <View style={{ borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10, marginVertical: 5, alignItems: 'center',}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, backgroundColor: '#CBD18F', borderRadius: 5, marginHorizontal: 10, marginRight: 30 }}>
+                  <Text style={{ fontSize: 20, color: '#144714', width: '100%', textAlign: 'center' }}>{selectedOption}</Text>
+                </View>
 
+                <View>
+                  <TouchableOpacity onPress={toggleOption} style={{ right: 7 }}>
+                    <Iconn name="swap-vertical-circle-outline" style={{ fontSize: 40, color: '#E3B448', }} />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
 
             {selectedOption === 'Income' && (
 
               <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
-              { expense != "" &&  <YearPicker
-        selectedYear={selectedYear}
-        onYearChange={setSelectedYear}
-        years={availableYears}
-        onBlur={()=>setSelectedYear(selectedYear)}
-      />}
+                {expense != "" && <YearPicker
+                  selectedYear={selectedYear}
+                  onYearChange={setSelectedYear}
+                  years={availableYears}
+                  onBlur={() => setSelectedYear(selectedYear)}
+                />}
                 {Object.keys(ddate).length && expense != "" ? <View >
-                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10,textAlign:'center' }}>
-                  
-                  {Object.keys(ddate).length > 1 &&  <TouchableOpacity onPress={handlePresslef}>
+                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, textAlign: 'center' }}>
+
+                    {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePresslef}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
-                    </TouchableOpacity> }
-                    <Text style={{ fontSize: 20, color: '#144714',textAlign:'center',flex:1}}>{Object.keys(ddate).length > 0 ? new Date(ddate[page]?.date ? ddate[page].date : ddate[0].date).toLocaleString('default', { month: 'long',year:'numeric' }) : console.log(ddate)}</Text>
-                   {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress
+                    </TouchableOpacity>}
+                    <Text style={{ fontSize: 20, color: '#144714', textAlign: 'center', flex: 1 }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page]?.date ? ddate[page].date : ddate[0].date).toLocaleString('default', { month: 'long', year: 'numeric' }) : console.log(ddate)}</Text>
+                    {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress
                     }>
                       <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />
                     </TouchableOpacity>}
                   </View>
 
-                <View style={{ padding: 16.8, top: -10, }}>
-                {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -16.8}}>
-                  <Image source={require('../../assets/logo/logo1.png')} style={{ top: -20, opacity: 0.3, width: 170 }} resizeMode='contain' />
-                  {/* <LoadingScreen/> */}
-                </View>:<DonutChart data={expense} total_sum={incomes.total_amount} />}
+                  <View style={{ padding: 16.8, top: -10, }}>
+                    {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -16.8 }}>
+                      <Image source={require('../../assets/logo/logo1.png')} style={{ top: -20, opacity: 0.3, width: 170 }} resizeMode='contain' />
+                      {/* <LoadingScreen/> */}
+                    </View> : <DonutChart data={expense} total_sum={incomes.total_amount} />}
 
                   </View>
                   <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center', }} onPress={() => { navigation.navigate('Expenses', { expense: expense, date: Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate) }) }}>
@@ -370,4 +368,3 @@ const Home = ({ navigation }) => {
 
 // Home.navigationOptions
 export default Home;
-

@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import Style from '../Style';
-import icon1 from '../../assets/Icon/necessities/n1.png';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomInput from '../CustomInput';
 import { axiosRequest } from '../../api_server/axios'
-
-const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
+import Loader from '../Starting/actionLoader';
+import ModalMessage from '../Modal';
+import ModalMessageE from '../ModalE';
+const InspectExpenses = ({ route, editMode, setEditMode,}) => {
+  const navigation = useNavigation()
   const { expense, date } = route.params;
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
@@ -14,6 +18,9 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
   const [amount, setAmount] = useState("");
   const [id,setId] = useState()
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [showModalEMessage, setShowModalEMessage] = useState(false);
+  const [action, setAction] = useState(false)
 
   const toggleDeleteModal = (data) => {
     setIsDeleteModalVisible(!isDeleteModalVisible);
@@ -33,12 +40,15 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
     // Implement your edit logic here
     // You can use the selectedExpense state to get the details of the expense being edited
     // Close the modal after editing
+    setAction(true);
     await axiosRequest.put(`gabay/transaction/edit/${id}/`,{
       "description": title,
       "amount": parseInt(amount)
   }).then((response)=>{
     console.log('success')
-    navigation.navigate('Home')
+    setAction(false);
+    setShowModalMessage(true);
+    setTimeout(() => setShowModalMessage(false), 500);
   }).catch(e=>{
     console.log('failed')
   })
@@ -52,9 +62,12 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
     // Implement your delete logic here
     // You can use the selectedExpense state to get the details of the expense being deleted
     // Close the modal after deleting
+    setAction(true);
     await axiosRequest.delete(`gabay/transaction/edit/${id}/`).then((response)=>{
     console.log('success')
-    navigation.navigate('Home')
+    setAction(false);
+    setShowModalEMessage(true)
+    setTimeout(() => setShowModalEMessage(false), 500);
   }).catch(e=>{
     console.log('failed')
   })
@@ -97,6 +110,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
   // console.log(expense)
   return (
     <View style={Style.common}>
+       
       <ScrollView contentContainerStyle={{ paddingBottom: 10, height: 'auto', }}>
 
         <View style={{ top: 10, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', }}>
@@ -137,6 +151,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
         }}
       >
         <View style={Style.modalContainer}>
+        <Loader visible={action} message="Updating..." />
           <View style={Style.modalContent}>
           <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Update record:</Text>
             <CustomInput
@@ -172,6 +187,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
         }}
       >
         <View style={styles.centeredView}>
+        <Loader visible={action} message="Removing..." />
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Are you sure you want to delete this?</Text>
             <View style={styles.buttonContainer}>
@@ -185,6 +201,8 @@ const InspectExpenses = ({ route, editMode, setEditMode,navigation }) => {
           </View>
         </View>
       </Modal>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Deleted succesfully!" icon={<MaterialCommunityIcons name="delete-circle-outline" size={200} color="#E3B448" />} navigateToScreen="Home"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Updated succesfully!" icon={<MaterialCommunityIcons name="note-check-outline" size={200} color="#E3B448" />} navigateToScreen="Home" />
     </View>
   );
 };

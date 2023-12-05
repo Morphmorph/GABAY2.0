@@ -57,6 +57,7 @@ export const Style = StyleSheet.create({
       backgroundColor: '#144714',
       padding: 7,
       borderRadius: 10,
+      paddingBottom: 2,
       borderWidth: 1,
       borderColor: 'transparent',  // Change the border color to match the CSS
       boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
