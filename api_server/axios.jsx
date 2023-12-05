@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosRequest = axios.create({
-    baseURL : "https://meljohnzer.pythonanywhere.com/"
+    baseURL : "http://192.168.100.159:8080/"
   });
 
-export const server = "https://meljohnzer.pythonanywhere.com/"
+export const server = "http://192.168.100.159:8080/"
