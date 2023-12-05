@@ -58,7 +58,7 @@ const AddExpenses = ({ route }) => {
       console.log('Selected Previous Month:', selectedPreviousMonth);
       console.log('Formatted Date:', formattedDate);
 
-      const update = { ...transaction, date: formattedDate, color: randomColor() };
+      const update = { ...transaction, date: selectedPreviousMonth, color: randomColor() };
       setAction(true);
       setTransaction(update);
       api(update);
@@ -91,7 +91,7 @@ const AddExpenses = ({ route }) => {
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth()
       const currentYear = currentDate.getFullYear(); // Get the current year
-      const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Get the last day of the month
+      const lastDayOfMonth = new Date(currentYear, currentMonth + 1,).getDate(); // Get the last day of the month
 
       const selectedMonthWithYear = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(lastDayOfMonth).padStart(2, '0')}`;
       setSelectedMonth(selectedMonthWithYear);
@@ -116,18 +116,33 @@ const AddExpenses = ({ route }) => {
       setPreviousMonthsVisible(true); // Display previous months options
     }
   };
+  const getLastDayOfMonth = (year, month) => new Date(year, month + 1, 0);
   const currentDate = new Date();
   const currentMonthIndex = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
 
   // Calculate previous months
   const previousMonths = [];
-  for (let i = 0; i < currentMonthIndex; i++) {
-    const lastDayOfMonth = new Date(selectedYear, i + 1, 0);
-    const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-    previousMonths.push(formattedDate);
+  // for (let i = 0; i < currentMonthIndex; i++) {
+  //   const lastDayOfMonth = new Date(selectedYear, i + 1, 0);
+  //   const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+  //   previousMonths.push(formattedDate);
+  // }
+  if (currentYear !== selectedYear) {
+    // Push all months for the previous year
+    for (let i = 0; i < 12; i++) {
+      const lastDayOfMonth = new Date(selectedYear, i+1,0);
+      const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+      previousMonths.push(formattedDate);
+    }
+  } else {
+    // Push previous months of the current year up to the current month
+    for (let i = 0; i < currentMonthIndex; i++) {
+      const lastDayOfMonth = new Date(currentYear, i+1,0);
+      const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+      previousMonths.push(formattedDate);
+    }
   }
-
   const toggleIconSelection = async (iconUrl, leg) => {
     if (selectedIcons === iconUrl) {
       setSelectedIcons(null); // Deselect the currently selected icon
@@ -172,14 +187,14 @@ const AddExpenses = ({ route }) => {
       // Format the date to 'YYYY-MM-DD'
       const formattedDate = new Date(data.date).toISOString().split('T')[0];
       data.date = formattedDate;
-
+      
       const response = await axiosRequest.post("gabay/transaction/", data, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
-
+        console.log(data)
       setAction(false);
 
       // Show the modal message upon successful submission
