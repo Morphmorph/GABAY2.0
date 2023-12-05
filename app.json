@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "GABAY2.0",
-    "slug": "GABAY2.0",
+    "slug": "gabay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.meljohnzer.gabay"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "26e8f1f6-58c7-4526-9c19-24ec578e6713"
+      }
     }
   }
 }
