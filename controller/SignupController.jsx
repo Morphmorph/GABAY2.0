@@ -72,12 +72,18 @@ const {setContext,setNav} = React.useContext(UserContext)
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(()=>{
-       
-        setContext({email:formData.email})
+      }).then((response)=>{
         SetLoader(false)
         setNav(false)
+        if(response.data == "Registered successfully"){
+        setContext({email:formData.email})
         setShowModalMessage(true);
+        }
+        else{
+          alert(response.data)
+        }
+
+
       }).catch((err)=>{
         console.log(formData)
         SetLoader(false)
