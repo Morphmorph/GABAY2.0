@@ -87,7 +87,7 @@ const {setContext,setNav} = React.useContext(UserContext)
       }).catch((err)=>{
         console.log(formData)
         SetLoader(false)
-        // alert("Something Went Wrong! Check your Intertnet Connection")
+        alert("Something Went Wrong! Check your Intertnet Connection")
       })
       
     }

@@ -46,7 +46,7 @@ export const useMonthlyIncomeController = () => {
 
         }).catch((e)=>{
           setTimeout(() => {
-            
+            alert("Something Went Wrong! Check your Intertnet Connection")
             setLoader(false)
             console.log(Data)
           }, 4000);

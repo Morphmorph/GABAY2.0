@@ -47,6 +47,7 @@ const SupportInbox = ({}) => {
         .catch(e =>{console.log("error:",e)})
         setTimeout(() => {
             setLoader(false)
+            alert("Something Went Wrong! Check your Intertnet Connection")
         }, 5000);
     };
     

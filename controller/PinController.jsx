@@ -49,6 +49,7 @@ export const usePinController = () => {
         })
         .catch((err) => {
           console.log(err);
+          alert("Something Went Wrong! Check your Intertnet Connection")
         });
     }
   };
