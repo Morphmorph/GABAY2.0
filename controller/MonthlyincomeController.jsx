@@ -45,8 +45,7 @@ export const useMonthlyIncomeController = () => {
           }, 4000);
 
         }).catch((e)=>{
-          setLoader(false)
-        console.log(err)
+          console.log(e)
         setShowModalEEMessage(true);
           setTimeout(() => setShowModalEEMessage(false), 500);
           
