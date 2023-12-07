@@ -5,5 +5,6 @@ export const usePinModel = () => {
   const [pinError, setPinError] = useState(null);
   const [loader,setLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
-  return { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage, loader, setLoader};
+  const [showModalEEMessage, setShowModalEEMessage] = useState(false);
+  return { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage, loader, setLoader, showModalEEMessage, setShowModalEEMessage};
 };

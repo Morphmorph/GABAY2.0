@@ -7,7 +7,7 @@ import { axiosRequest } from '../api_server/axios';
 
 export const usePinController = () => {
   const navigation = useNavigation();
-  const { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage,loader,setLoader } = usePinModel();
+  const { pin, setPin, pinError, setPinError, showModalMessage, setShowModalMessage,loader,setLoader, showModalEEMessage, setShowModalEEMessage } = usePinModel();
   const {context,nav} = React.useContext(UserContext)
   const reSend = () => {
     navigation.navigate('Verify');
@@ -48,8 +48,10 @@ export const usePinController = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
-          alert("Something Went Wrong! Check your Intertnet Connection")
+          setLoader(false)
+        console.log(err)
+        setShowModalEEMessage(true);
+          setTimeout(() => setShowModalEEMessage(false), 500);
         });
     }
   };
@@ -58,5 +60,5 @@ export const usePinController = () => {
     return viPin.test(pin);
   };
 
-  return { pin, setPin, pinError, setPinError, handleVerify, reSend, setShowModalMessage, showModalMessage, loader, setLoader };
+  return { pin, setPin, pinError, setPinError, handleVerify, reSend, setShowModalMessage, showModalMessage, loader, setLoader, showModalEEMessage, setShowModalEEMessage };
 };

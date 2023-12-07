@@ -8,7 +8,7 @@ import UserContext from '../api_server/context';
 export const useMonthlyIncomeController = () => {
     const {context} = React.useContext(UserContext)
     const navigation = useNavigation();
-    const { income, setIncome, incomeError, setIncomeError, showModalMessage, setShowModalMessage, loader, setLoader } = useMonthlyIncomeModel();
+    const { income, setIncome, incomeError, setIncomeError, showModalMessage, setShowModalMessage, loader, setLoader, showModalEEMessage, setShowModalEEMessage } = useMonthlyIncomeModel();
     const Data = {
       user : context.id,
       title : "Main",
@@ -45,15 +45,14 @@ export const useMonthlyIncomeController = () => {
           }, 4000);
 
         }).catch((e)=>{
-          setTimeout(() => {
-            alert("Something Went Wrong! Check your Intertnet Connection")
-            setLoader(false)
-            console.log(Data)
-          }, 4000);
+          setLoader(false)
+        console.log(err)
+        setShowModalEEMessage(true);
+          setTimeout(() => setShowModalEEMessage(false), 500);
           
         })
       }
     };
   
-    return { income, setIncome, incomeError, setIncomeError, handleIncomeChange, startButtonPressed,showModalMessage, setShowModalMessage,loader, setLoader };
+    return { income, setIncome, incomeError, setIncomeError, handleIncomeChange, startButtonPressed,showModalMessage, setShowModalMessage,loader, setLoader, showModalEEMessage, setShowModalEEMessage };
   };

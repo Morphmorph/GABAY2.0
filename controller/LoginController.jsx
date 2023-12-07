@@ -81,7 +81,7 @@ export const useLoginController = () => {
         console.log(err)
         setShowModalEEMessage(true);
           setTimeout(() => setShowModalEEMessage(false), 500);
-          alert("Something Went Wrong! Check your Intertnet Connection")
+         
       })
     }
   };

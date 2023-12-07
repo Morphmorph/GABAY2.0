@@ -7,10 +7,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMonthlyIncomeController } from '../../controller/MonthlyincomeController'; // Correct the import path
 import LoadingScreen from '../LoadingScreen';
 import ModalMessage from '../Modal';
+import ModalMessageEE from '../ModalEE';
 import Loader from './actionLoader';
 
 const MonthlyIncome = () => {
-  const { income, incomeError, setIncomeError, handleIncomeChange, startButtonPressed, showModalMessage, setShowModalMessage, loader, setLoader } = useMonthlyIncomeController();
+  const { income, incomeError, setIncomeError, handleIncomeChange, startButtonPressed, showModalMessage, setShowModalMessage, showModalEEMessage, setShowModalEEMessage, loader, setLoader } = useMonthlyIncomeController();
   const [isLoading, setIsLoading] = useState(true);
 
   // Use useEffect to mimic component lifecycle behavior
@@ -48,6 +49,7 @@ const MonthlyIncome = () => {
               <Text style={Style.signInButtonText}>Start</Text>
             </TouchableOpacity>
             <ModalMessage showAutomatically={showModalMessage} message="Main income successfully added!" icon={<MaterialCommunityIcons name="sack" size={200} color="#E3B448" />} navigateToScreen="Homescreen"/>
+            <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
           </View>   
         </View>
       )}

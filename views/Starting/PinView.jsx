@@ -7,10 +7,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePinController } from '../../controller/PinController'; // Import the controller
 import ModalMessage from '../Modal';
 import Loader from './actionLoader';
+import ModalMessageEE from '../ModalEE';
 
 const Pin = ({navigation}) => {
   const { height } = useWindowDimensions();
-  const { pin, setPin, pinError, setPinError, handleVerify, reSend, showModalMessage, setShowModalMessage, loader, setLoader } = usePinController();
+  const { pin, setPin, pinError, setPinError, handleVerify, reSend, showModalMessage, setShowModalMessage, loader, setLoader, showModalEEMessage, setShowModalEEMessage } = usePinController();
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
   };
@@ -68,6 +69,8 @@ const Pin = ({navigation}) => {
         </View>
       </View>
       <ModalMessage showAutomatically={showModalMessage} message="Your account is successfully verified!" icon={<MaterialCommunityIcons name="account-check" size={200} color="#E3B448" />} navigateToScreen=""/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
+      
     </View>
   );
 };
