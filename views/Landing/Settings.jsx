@@ -110,7 +110,7 @@ const Settings = ({navigation}) => {
     <View style={Style.footer}>
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
-        <Text style={Style.footerText}> gabaysupport@gmail.com</Text>
+        <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
         </View>
         <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
       </View>
