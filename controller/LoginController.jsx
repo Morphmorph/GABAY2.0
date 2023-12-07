@@ -7,7 +7,7 @@ import React from 'react';
 
 export const useLoginController = () => {
   const navigation = useNavigation();
-  const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, setShowModalMessage, showModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage} = useLoginModel();
+  const { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, setShowModalMessage, showModalEEEMessage, setShowModalEEEMessage, showModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage} = useLoginModel();
   const {setNav,setContext} = React.useContext(UserContext)
   const goToSignup = () => {
     navigation.navigate('Sign up');
@@ -56,7 +56,7 @@ export const useLoginController = () => {
           setContext(data)
 
          setShowModalMessage(true);
-         
+         setTimeout(() => setShowModalMessage(false), 500);
 
         }else if(response.data.status=== 100){
           const data = {email:response.data.user.email,id :response.data.user.id }
@@ -67,10 +67,9 @@ export const useLoginController = () => {
         
         else if(response.data.status == 401){
           // Change this alert to model
-          alert(response.data.Warning)
-
+         setShowModalEEEMessage(true)
           setNav(false)
-          navigation.navigate('Pin')
+          setTimeout(() => setShowModalEEEMessage(false), 500);
         }
         else{
           setShowModalEMessage(true);
@@ -86,5 +85,5 @@ export const useLoginController = () => {
     }
   };
 
-  return { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader, showModalMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage };
+  return { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn,loader,SetLoader, showModalEEEMessage, setShowModalEEEMessage, showModalMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage };
 };

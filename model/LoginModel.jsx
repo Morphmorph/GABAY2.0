@@ -10,6 +10,7 @@ export const useLoginModel = () => {
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [showModalEMessage, setShowModalEMessage] = useState(false);
   const [showModalEEMessage, setShowModalEEMessage] = useState(false);
+  const [showModalEEEMessage, setShowModalEEEMessage] = useState(false);
   const [errors, setErrors] = useState({});
 
   const isValidEmail = (email) => {
@@ -17,5 +18,5 @@ export const useLoginModel = () => {
     return emailRegex.test(email);
   };
 
-  return { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, showModalMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage};
+  return { inputs, setInputs, errors, setErrors, isValidEmail,loader,SetLoader, showModalMessage, showModalEEEMessage, setShowModalEEEMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage};
 };

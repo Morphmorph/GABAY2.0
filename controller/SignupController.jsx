@@ -19,7 +19,11 @@ export const useSignupController = () => {
     loader,
     SetLoader,
     showModalMessage,
-    setShowModalMessage
+    setShowModalMessage,
+    setShowModalEMessage,
+    setShowModalEEMessage,
+    showModalEMessage,
+    showModalEEMessage
   } = useSignupModel();
 
 
@@ -78,16 +82,19 @@ const {setContext,setNav} = React.useContext(UserContext)
         if(response.data == "Registered successfully!"){
         setContext({email:formData.email})
         setShowModalMessage(true);
+        setTimeout(() => setShowModalMessage(false), 500);
         }
         else{
-          alert(response.data)
+          setShowModalEMessage(true)
+          setTimeout(() => setShowModalEMessage(false), 500);
         }
 
 
       }).catch((err)=>{
         console.log(formData)
         SetLoader(false)
-        // alert("Something Went Wrong! Check your Intertnet Connection")
+        setShowModalEEMessage(true);
+        setTimeout(() => setShowModalEEMessage(false), 500);
       })
       
     }
@@ -123,6 +130,10 @@ const {setContext,setNav} = React.useContext(UserContext)
     loader,
     SetLoader,
     showModalMessage,
-    setShowModalMessage
+    setShowModalMessage,
+    setShowModalEMessage,
+    setShowModalEEMessage,
+    showModalEMessage,
+    showModalEEMessage
   };
 };

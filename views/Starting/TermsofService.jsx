@@ -1,8 +1,7 @@
-// TermsOfService.js
-
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Style from '../Style';
+import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const TermsofService = () => {
     return (
@@ -62,6 +61,10 @@ const TermsofService = () => {
                     borderTopWidth: 1,
                     borderColor: '#144714',
                 }}>
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
+        <Text style={Style.footerText}> gabaysupport@gmail.com</Text>
+        </View>
                     <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
                 </View>
             </ScrollView>
