@@ -8,6 +8,8 @@ import { useSignupController } from '../../controller/SignupController'; // Impo
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from './actionLoader';
 import ModalMessage from '../Modal';
+import ModalMessageE from '../ModalE';
+import ModalMessageEE from '../ModalEE';
 
 const Signup = ({navigation}) => {
   const { height } = useWindowDimensions();
@@ -26,7 +28,11 @@ const Signup = ({navigation}) => {
   loader,
   SetLoader,
   showModalMessage,
-  setShowModalMessage
+  setShowModalMessage,
+  setShowModalEMessage,
+    setShowModalEEMessage,
+    showModalEMessage,
+    showModalEEMessage
   } = useSignupController();
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
@@ -151,6 +157,9 @@ const Signup = ({navigation}) => {
         </View>
       </View>
       <ModalMessage showAutomatically={showModalMessage} message="Please verify your account!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#E3B448" />} navigateToScreen="Verify"/>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Account already exist!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Sign up"/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Sign up"/>
+    
     </View>
    
   );

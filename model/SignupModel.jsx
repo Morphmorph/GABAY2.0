@@ -15,6 +15,8 @@ export const useSignupModel = () => {
   const [hasSymbol, setHasSymbol] = useState(false);
   const [loader,SetLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
+  const [showModalEMessage, setShowModalEMessage] = useState(false);
+  const [showModalEEMessage, setShowModalEEMessage] = useState(false);
 
   useEffect(() => {
     if (formData.password) {
@@ -49,6 +51,10 @@ export const useSignupModel = () => {
     loader,
     SetLoader,
     showModalMessage,
-    setShowModalMessage
+    setShowModalMessage,
+    setShowModalEMessage,
+    setShowModalEEMessage,
+    showModalEMessage,
+    showModalEEMessage
   };
 };

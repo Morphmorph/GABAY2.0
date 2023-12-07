@@ -1,8 +1,7 @@
-// PrivacyPolicy.js
-
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Style from '../Style';
+import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PrivacyPolicy = () => {
   return (
@@ -40,10 +39,7 @@ const PrivacyPolicy = () => {
             b. Analyzing usage patterns to improve our services.
           </Text>
           <Text style={styles.listItem}>
-            c. Sending you important updates and notifications.
-          </Text>
-          <Text style={styles.listItem}>
-            d. Responding to user inquiries and support requests.
+            c. Responding to user inquiries and support requests.
           </Text>
         </View>
 
@@ -92,6 +88,10 @@ const PrivacyPolicy = () => {
             borderColor: '#144714',
           }}
         >
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
+        <Text style={Style.footerText}> gabaysupport@gmail.com</Text>
+        </View>
           <Text style={Style.footerText}>
             © 2023 GABAY. All Rights Reserved.
           </Text>
