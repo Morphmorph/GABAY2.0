@@ -75,7 +75,7 @@ const {setContext,setNav} = React.useContext(UserContext)
       }).then((response)=>{
         SetLoader(false)
         setNav(false)
-        if(response.data == "Registered successfully"){
+        if(response.data == "Registered successfully!"){
         setContext({email:formData.email})
         setShowModalMessage(true);
         }
