@@ -147,7 +147,7 @@ const AddIncome = ({route}) => {
       <View
         style={{
           backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-          padding: 10,
+          padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
           borderRadius: 5,
         }}
       >

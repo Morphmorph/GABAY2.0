@@ -218,7 +218,7 @@ const AddExpenses = ({ route }) => {
         })
 
       )
-
+        
       //     // Set the iconAssets state with the loaded assets
       //     setIconAssets(loadedAssets)
       //   }
@@ -227,6 +227,7 @@ const AddExpenses = ({ route }) => {
     }
   }, [])
 
+  console.log(screenWidth)
 
 
   return (
@@ -271,7 +272,7 @@ const AddExpenses = ({ route }) => {
         <View style={{ backgroundColor: '#2b5627',overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714', borderRadius: 20,alignItems:'center' }}>
           <ScrollView
             nestedScrollEnabled
-            contentContainerStyle={{ width:"100%", justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+            contentContainerStyle={{ width:"100%", justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,}}>
             {category1.necessities.map((iconUrl, index) => (
               <TouchableOpacity
                 key={index}
@@ -284,7 +285,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding: 10,
+                    padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >
@@ -331,7 +332,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding: 10,
+                    padding:  screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >
@@ -379,7 +380,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding: 10,
+                    padding:  screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >
