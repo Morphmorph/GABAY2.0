@@ -3,6 +3,7 @@
     "name": "Gabay", 
     "slug": "gabay",
     "version": "1.0.0",
+    "backgroundColor":"#3A6B35",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "Dark",
@@ -22,7 +23,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#3A6B35"
       },
-      "package": "com.meljohnzer.gabay"
+      "package": "com.teambesagunsa.gabay"
     },
     "web": {
       "favicon": "./assets/favicon.png"

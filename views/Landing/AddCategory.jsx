@@ -121,11 +121,12 @@ console.log(newCategory)
       <View style={{top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', marginBottom: 30}}>
         <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5 }}>Select icon</Text>
       </View>
+     
       <ScrollView contentContainerStyle={{paddingBottom: 90, height: 'auto'}}>
-      <View style={{height: 430, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20,  }}>
+      <View style={{backgroundColor: '#2b5627',height: 430,overflow: 'hidden', alignContent:"center",margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20 ,alignItems:'center' }}>
       <ScrollView 
       nestedScrollEnabled
-      contentContainerStyle={{ backgroundColor: '#2b5627', justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+      contentContainerStyle={{ width:"100%",justifyContent:'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
       {iconPaths.map((iconUrl, index) => (
       <TouchableOpacity
       key={index}
@@ -150,6 +151,7 @@ console.log(newCategory)
         </ScrollView>
         </View>
         </ScrollView>
+     
       <View
         style={{
           alignItems: 'center',
