@@ -267,12 +267,13 @@ const AddExpenses = ({ route }) => {
         <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5, }}>Select categories</Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 90, height: 'auto', }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90, height: 'auto', }}>
         <Text style={{ alignSelf: 'center', color: '#E3B448' }}>Necessities</Text>
         <View style={{ backgroundColor: '#2b5627',overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714', borderRadius: 20,alignItems:'center' }}>
           <ScrollView
             nestedScrollEnabled
-            contentContainerStyle={{ width:"100%", justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,}}>
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ width:"100%", justifyContent: 'flex-start', flexDirection: 'row',alignit:'center',flexWrap: 'wrap', padding: 5 ,}}>
             {category1.necessities.map((iconUrl, index) => (
               <TouchableOpacity
                 key={index}
@@ -285,7 +286,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
+                    padding: screenWidth < 390 ? 10 : screenWidth > 390 && screenWidth <= 413 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >
@@ -319,6 +320,7 @@ const AddExpenses = ({ route }) => {
         <View style={{ backgroundColor: '#2b5627',overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714', borderRadius: 20,alignItems:'center' }}>
           <ScrollView
             nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{width:"100%",  justifyContent: 'flex-start',alignSelf:'center', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
             {category1.wants.map((iconUrl, index) => (
               <TouchableOpacity
@@ -332,7 +334,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding:  screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
+                    padding:  screenWidth < 390 ? 10 : screenWidth > 390 && screenWidth <= 413 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >
@@ -367,6 +369,7 @@ const AddExpenses = ({ route }) => {
 
           <ScrollView
             nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{ width:"100%",justifyContent:'flex-start',alignSelf:'center', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
             {category1.savings.map((iconUrl, index) => (
               <TouchableOpacity
@@ -380,7 +383,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding:  screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
+                    padding:  screenWidth < 390 ? 10 : screenWidth > 390 && screenWidth <= 413 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >

@@ -126,6 +126,7 @@ console.log(newCategory)
       <View style={{backgroundColor: '#2b5627',height: 430,overflow: 'hidden', alignContent:"center",margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20 ,alignItems:'center' }}>
       <ScrollView 
       nestedScrollEnabled
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={{ width:"100%",justifyContent:'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 3 }}>
       {iconPaths.map((iconUrl, index) => (
       <TouchableOpacity
@@ -139,7 +140,7 @@ console.log(newCategory)
       <View
         style={{
           backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-          padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
+          padding: screenWidth < 390 ? 6 : screenWidth > 390 && screenWidth <= 413 ? 8 : 12,
           borderRadius: 5,
         }}
       >

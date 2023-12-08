@@ -134,6 +134,7 @@ const AddIncome = ({route}) => {
       <View style={{ backgroundColor: '#2b5627',top: 30, maxHeight: 280, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20, alignItems:'center' }}>
       <ScrollView 
       nestedScrollEnabled
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={{ width:"100%", flexDirection: 'row', flexWrap: 'wrap', padding: 5 ,alignSelf:"center", justifyContent: 'flex-start'}}>
       {incomeIcon.income.map((iconUrl, index) => (
       <TouchableOpacity
@@ -147,7 +148,7 @@ const AddIncome = ({route}) => {
       <View
         style={{
           backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-          padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 400 ? 8 : 12,
+          padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 413 ? 8 : 12,
           borderRadius: 5,
         }}
       >
