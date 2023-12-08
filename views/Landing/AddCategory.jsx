@@ -55,11 +55,11 @@ const AddCategory = ({route}) => {
 console.log(newCategory)
       
       if(destination == "Add expenses"){
-        const updatedNecessities = [newCategory, ...category1[cat].slice(0, 11 - 1)];
+        const updatedNecessities = [newCategory, ...category1[cat].slice(0)];
         setCategory1({ ...category1, [cat]: updatedNecessities });
         navigation.navigate(destination);
       }else if(destination == "Add income"){
-        const updatedNecessities = [newCategory, ...incomeIcon.income.slice(0, 17 - 1)];
+        const updatedNecessities = [newCategory, ...incomeIcon.income.slice(0)];
         setIncomeIcon({...incomeIcon,income:updatedNecessities})
         navigation.navigate(destination);
       }
