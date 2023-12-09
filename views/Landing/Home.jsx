@@ -21,7 +21,7 @@ const Home = ({ navigation }) => {
   const [chartloading, setChartLoading] = useState(false)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
-
+  const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
   const [expense, setExpense] = useState([])
   const [incomes, setIncomes] = useState([])
 
@@ -185,6 +185,7 @@ const Home = ({ navigation }) => {
         setExpense(response.data);
         // console.log("ddate",ddate);
         // console.log(ddate)
+        setIsLoading(false);
       })
       .catch((e) => {
         console.log("errer", e);
@@ -221,7 +222,9 @@ const Home = ({ navigation }) => {
                   [
               {
                 text: "Reload",
-                onPress: () => getIncome()
+                onPress: () => {getIncome() 
+                  api()
+                  }
                 ,
                 style: "yes"
               },   {
@@ -264,7 +267,7 @@ const Home = ({ navigation }) => {
       // setPdfPrint(null)
       setDelay(true)
 
-      const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
+     
       if (selectedDate) {
         getData(selectedDate);
         console.log(availableYears[0])
@@ -290,7 +293,7 @@ const Home = ({ navigation }) => {
       unsubscribe();
 
     };
-  }, [navigation, setDdate, page, availableYears, selectedYear]);
+  }, [navigation, setDdate,chartloading,page, availableYears, selectedYear]);
 
 
   useEffect(() => {
@@ -307,7 +310,7 @@ const Home = ({ navigation }) => {
     // console.log(ddate)  
 
 
-  }, [navigation, ddate, availableYears, selectedYear]);
+  }, [navigation, chartloading,ddate, availableYears, selectedYear]);
 
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
