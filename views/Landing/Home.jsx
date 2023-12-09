@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image, Modal, ScrollView, BackHandler } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Image,Modal, Alert,ScrollView, BackHandler } from 'react-native';
 import Logo from '../../assets/logo/logo1.png';
 import Peso from '../../assets/Icon/peso.png'
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -159,7 +159,23 @@ const Home = ({ navigation }) => {
         // setAvailableYears(uniqueYears);
       })
       .catch((e) => {
-        console.log(e);
+        console.log(e,"api");
+        Alert.alert("Network Error","Check Youre Internet Connection and Try Again",
+        [
+    {
+      text: "Reload",
+      onPress: () => api()
+      ,
+      style: "yes"
+    },   {
+          text: "Exit",
+          onPress: () => {BackHandler.exitApp()
+        }
+          ,
+          style: "cancel"
+        }
+  ]
+       )
       });
   };
 
@@ -174,7 +190,23 @@ const Home = ({ navigation }) => {
         console.log("errer", e);
         setExpense(null)
         // console.log(ddate)
-        setChartLoading(false);
+        setChartLoading(true)
+        Alert.alert("Network Error","Check Youre Internet Connection and Try Again",
+        [
+    {
+      text: "Reload",
+      onPress: () => getData(pagess)
+      ,
+      style: "yes"
+    },   {
+          text: "Exit",
+          onPress: () => {BackHandler.exitApp()
+        }
+          ,
+          style: "cancel"
+        }
+  ]
+       )
       });
   };
 
@@ -182,8 +214,26 @@ const Home = ({ navigation }) => {
     axiosRequest.get(`gabay/user/income/?user=${context.id}`).then((response) => {
       setIncomes(response.data)
       setTotalIncome(response.data.total_amount)
+      setIsLoading(false);
     }).catch((e) => {
-      console.log(e)
+      // alert("Check your internet connection!")
+          Alert.alert("Network Error","Check Youre Internet Connection and Try Again",
+                  [
+              {
+                text: "Reload",
+                onPress: () => getIncome()
+                ,
+                style: "yes"
+              },   {
+                    text: "Exit",
+                    onPress: () => {BackHandler.exitApp()
+                  }
+                    ,
+                    style: "cancel"
+                  }
+            ]
+                 )
+      
     })
   }
 
@@ -224,7 +274,7 @@ const Home = ({ navigation }) => {
         }
       }
       setTimeout(() => {
-        setIsLoading(false);
+        // setIsLoading(false);
         // if (!context.id) {
         //   navigation.navigate('Log in');
         // }
@@ -281,7 +331,7 @@ const Home = ({ navigation }) => {
               <View style={{ marginTop: 5, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
                 <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
                   <Image source={Peso} style={{ width: 20, height: 20 }} />
-                  <Text style={{ color: '#CBD18F', fontSize: 20 }}> {incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.00</Text>
+                  <Text style={{ color: '#CBD18F', fontSize: 20 }}> { incomes.total_amount ? incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):"00"}.00 </Text>
                 </View>
                 <Text style={{ color: '#E3B448', fontSize: 12 }}>Monthly income</Text>
               </View>
@@ -325,7 +375,7 @@ const Home = ({ navigation }) => {
                     {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -16.8 }}>
                       <Image source={require('../../assets/logo/logo1.png')} style={{ top: -20, opacity: 0.3, width: 170 }} resizeMode='contain' />
                       {/* <LoadingScreen/> */}
-                    </View> : <DonutChart data={expense} total_sum={incomes.total_amount} />}
+                    </View> : expense  ? <DonutChart data={expense} total_sum={incomes.total_amount} />:null}
 
                   </View>
                   <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center', }} onPress={() => { navigation.navigate('Expenses', { expense: expense, date: Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate) }) }}>
