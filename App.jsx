@@ -1011,21 +1011,21 @@ function CustomDrawerContent({}) {
     <View style={{ width:"100%",flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', padding:10, justifyContent: 'flex-start' }}>
       <Loader visible ={loader} message="Logging out..."/>
       <TouchableOpacity onPress={() => navigateToScreen('Home')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"flex-start",width:"100%" }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>
           <FontAwesome5 name="home" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Home</Text>
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
       <TouchableOpacity onPress={() => toggleModal()}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"flex-start",width:"100%"  }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:'hidden',justifyContent:"flex-start",width:"100%",padding:10  }}>
           <FontAwesome5 name="plus-circle" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Add History</Text>
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
       <TouchableOpacity onPress={() => navigateToScreen('Settings')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"flex-start",width:"100%"  }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"flex-start",width:"100%",padding:10 }}>
         <AntDesign name="setting" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Settings</Text>
         </View>
