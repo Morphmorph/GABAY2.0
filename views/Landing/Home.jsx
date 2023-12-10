@@ -160,7 +160,7 @@ const Home = ({ navigation }) => {
       })
       .catch((e) => {
         console.log(e,"api");
-        Alert.alert("Network Error","Check Youre Internet Connection and Try Again",
+        Alert.alert("Network Error","Check Your Internet Connection and Try Again",
         [
     {
       text: "Reload",
@@ -192,7 +192,7 @@ const Home = ({ navigation }) => {
         setExpense(null)
         // console.log(ddate)
         setChartLoading(true)
-        Alert.alert("Network Error","Check Youre Internet Connection and Try Again",
+        Alert.alert("Network Error","Check Your Internet Connection and Try Again",
         [
     {
       text: "Reload",
@@ -218,12 +218,13 @@ const Home = ({ navigation }) => {
       setIsLoading(false);
     }).catch((e) => {
       // alert("Check your internet connection!")
-          Alert.alert("Network Error","Check Youre Internet Connection and Try Again",
+          Alert.alert("Network Error","Check Your Internet Connection and Try Again",
                   [
               {
                 text: "Reload",
                 onPress: () => {getIncome() 
                   api()
+                  filterAPI()
                   }
                 ,
                 style: "yes"
