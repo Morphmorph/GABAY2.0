@@ -22,6 +22,7 @@ const Login = ({navigation}) => {
   const { inputs, setInputs, errors, setErrors, goToSignup, goToForgot, handleSignIn, loader, SetLoader, showModalEEEMessage, setShowModalEEEMessage, showModalMessage, setShowModalMessage, showModalEMessage, setShowModalEMessage, showModalEEMessage, setShowModalEEMessage } = useLoginController();
   const bol = loader
   return (
+    <>
     <View style={Style.common} pointerEvents={bol ? 'none' : 'auto'}>
       <Loader visible={loader} message="Signing in..." />
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
@@ -82,6 +83,11 @@ const Login = ({navigation}) => {
           </Text>
         </Text>
       </View>
+    
+      <ModalMessage showAutomatically={showModalMessage} message="WELCOME TO GABAY!" icon={<Image source={require('../../assets/logo/logo1.png')} style={{ width: 200, height: 200 }} resizeMode="contain"/>} navigateToScreen="Incomes"/>  
+      <ModalMessageE showAutomatically={showModalEMessage} message="Incorrect email or password!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
+      <ModalMessageEEE showAutomatically={showModalEEEMessage} message="Account not verified!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#810000" />} navigateToScreen="Pin"/>
       <View style={Style.footer}>
         <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
         <View style={Style.footerLinks}>
@@ -94,12 +100,10 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="WELCOME TO GABAY!" icon={<Image source={require('../../assets/logo/logo1.png')} style={{ width: 200, height: 200 }} resizeMode="contain"/>} navigateToScreen="Incomes"/>  
-      <ModalMessageE showAutomatically={showModalEMessage} message="Incorrect email or password!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
-      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
-      <ModalMessageEEE showAutomatically={showModalEEEMessage} message="Account not verified!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#810000" />} navigateToScreen="Pin"/>
-    
     </View>
+ 
+    </>
+
   );
 };
 

@@ -1007,33 +1007,33 @@ function CustomDrawerContent({}) {
     navigateToScreen('Log in');
   };
   return (
-
-    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', paddingHorizontal: 10, justifyContent: 'flex-start' }}>
+    
+    <View style={{ width:"100%",flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', padding:10, justifyContent: 'flex-start' }}>
       <Loader visible ={loader} message="Logging out..."/>
-      <TouchableOpacity onPress={() => navigateToScreen('HomeDrawer')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+      <TouchableOpacity onPress={() => navigateToScreen('Home')}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"flex-start",width:"100%" }}>
           <FontAwesome5 name="home" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Home</Text>
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
       <TouchableOpacity onPress={() => toggleModal()}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"flex-start",width:"100%"  }}>
           <FontAwesome5 name="plus-circle" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Add History</Text>
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
       <TouchableOpacity onPress={() => navigateToScreen('Settings')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"flex-start",width:"100%"  }}>
         <AntDesign name="setting" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Settings</Text>
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
 
-      <TouchableOpacity style={{ position: 'absolute', flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 80, backgroundColor: '#A2A869', borderRadius: 5}}>
+      <TouchableOpacity style={{ width:"100%",overflow:'hidden',position: 'absolute',flex:1, flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
+        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#A2A869', borderRadius: 5}}>
           <AntDesign name="logout" size={30} color={'#144714'} />
           <Text style={{ color: '#144714', fontSize: 16, padding: 15 }}>Logout</Text>
         </View>
@@ -1106,6 +1106,8 @@ function CustomDrawerContent({}) {
         </View>
       </Modal>
     </View>
+    
+    
   );
 }
 
