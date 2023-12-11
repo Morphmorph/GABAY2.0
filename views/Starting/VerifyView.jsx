@@ -59,6 +59,10 @@ const Verify = ({navigation}) => {
           </Text>
         </Text> */}
       </View>
+    
+      <ModalMessage showAutomatically={showModalMessage} message="The OTP already sent to your gmail!" icon={<MaterialCommunityIcons name="email-alert" size={200} color="#E3B448" />} navigateToScreen="Pin"/>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Email is not registered!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Verify"/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Verify"/>
       <View style={Style.footer}>
         <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
         <View style={Style.footerLinks}>
@@ -71,10 +75,6 @@ const Verify = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="The OTP already sent to your gmail!" icon={<MaterialCommunityIcons name="email-alert" size={200} color="#E3B448" />} navigateToScreen="Pin"/>
-      <ModalMessageE showAutomatically={showModalEMessage} message="Email is not registered!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Verify"/>
-      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Verify"/>
-    
     </View>
   );
 };

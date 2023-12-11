@@ -41,7 +41,7 @@ const Signup = ({navigation}) => {
     navigation.navigate('Privacy Policy');
   };
   return (
-   
+   <>
     <View style={Style.common} >
       <Loader visible ={loader} message="Registering..."/>
 
@@ -144,6 +144,10 @@ const Signup = ({navigation}) => {
           </Text>
         </Text>
       </View>
+  
+      <ModalMessage showAutomatically={showModalMessage} message="Please verify your account!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#E3B448" />} navigateToScreen="Verify"/>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Account already exist!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Sign up"/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Sign up"/>
       <View style={Style.footer}>
         <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
         <View style={Style.footerLinks}>
@@ -156,12 +160,8 @@ const Signup = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Please verify your account!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#E3B448" />} navigateToScreen="Verify"/>
-      <ModalMessageE showAutomatically={showModalEMessage} message="Account already exist!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Sign up"/>
-      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Sign up"/>
-    
     </View>
-   
+    </>
   );
 };
 

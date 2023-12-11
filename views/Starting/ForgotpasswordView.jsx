@@ -40,6 +40,7 @@ const ForgotPasswordView = ({navigation}) => {
   } = useForgotPasswordController();
 
   return (
+  <>
     <View style={Style.common}>
       <Loader visible ={loader} message="Updating..."/>
       <Image source={Logo} style={[Style.logo, { height: height * 0.19 }]} />
@@ -130,6 +131,9 @@ const ForgotPasswordView = ({navigation}) => {
           </Text>
         </Text>
       </View>
+ 
+      <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!" icon={<MaterialCommunityIcons name="lock-check" size={200} color="#E3B448" />} navigateToScreen="Log in"/>
+      <ModalMessageE showAutomatically={showModalEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Forgot password"/>
       <View style={Style.footer}>
         <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
         <View style={Style.footerLinks}>
@@ -142,10 +146,9 @@ const ForgotPasswordView = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!" icon={<MaterialCommunityIcons name="lock-check" size={200} color="#E3B448" />} navigateToScreen="Log in"/>
-      <ModalMessageE showAutomatically={showModalEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Forgot password"/>
-      
     </View>
+
+    </>
   );
 };
 

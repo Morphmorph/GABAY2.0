@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native'
+import { View, Text, TouchableOpacity,StyleSheet, ScrollView,Modal } from 'react-native'
 import React, { useState } from 'react';
 import Style from '../Style'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,6 +7,7 @@ import { useForgotPasswordController } from '../../controller/ForgotpasswordCont
 import ModalMessage from '../Modal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomInput from '../CustomInput';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 const Settings = ({navigation}) => {
   const {
@@ -48,7 +49,10 @@ const Settings = ({navigation}) => {
     navigation.navigate('Report inbox');
   };
   return (
+    <>
+   
     <View style={Style.common}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{flex:0}}>
       <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
         <View>
         <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Account</Text>
@@ -106,14 +110,11 @@ const Settings = ({navigation}) => {
         <Text style={{color: '#144714', fontSize: 15}}> Report a problem</Text>
         </View>
         </TouchableOpacity>
+        
       </View>
-    <View style={Style.footer}>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
-        <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
-        </View>
-        <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
-      </View>
+   
+   
+    
       <Modal
         animationType="slide"
         transparent={true}
@@ -203,7 +204,23 @@ const Settings = ({navigation}) => {
         </View>
       </Modal>
       <ModalMessage showAutomatically={showModalMessage} message="Your password is updated!" icon={<MaterialCommunityIcons name="lock-check" size={200} color="#E3B448" />} navigateToScreen="Log in"/>
+     
+     
+    
+      </ScrollView>
+      <View style={Style.footer}>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
+        <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
+        </View>
+        <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
+      </View>
     </View>
+
+    
+    
+    
+    </>
   )
 }
 const styles = StyleSheet.create({
