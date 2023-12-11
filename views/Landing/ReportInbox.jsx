@@ -47,10 +47,15 @@ const ReportInbox = ({}) => {
             setShowModalMessage(true);
             setTimeout(() => setShowModalMessage(false), 500);
         })
-        .catch(e =>{console.log("error:",e)})
-
+        .catch(e =>{console.log("error:",e)
         setShowModalEMessage(true);
         setTimeout(() => setShowModalEMessage(false), 500);
+    
+    
+    
+    })
+
+       
     };
     
     return (

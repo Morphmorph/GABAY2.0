@@ -419,7 +419,7 @@ const App = ({navigation}) => {
 
         <UserContext.Provider value={providervalue}>
           <Stack.Navigator
-            // initialRouteName={async()=>{}}
+            initialRouteName={"Logo"}
             screenOptions={{
               headerShown: false,
               animation: 'fade',
@@ -427,15 +427,15 @@ const App = ({navigation}) => {
           >
             {/* {context.id ? () : first ? () : () */}
 
-          {context?.id && <Stack.Screen
+          <Stack.Screen
               name="Homescreen"
               component={DrawerScreen}
-            />}
+            />
 
-            { first && <Stack.Screen
+           <Stack.Screen
               name="Onboarding"
               component={OnboardingScreen}
-            /> }
+            /> 
 
             <Stack.Screen
             name="Log in"
@@ -980,12 +980,12 @@ function CustomDrawerContent({}) {
   };
 
   const handleLogout = async() => {
-    try {
-      await AsyncStorage.clear();
-      console.log('AsyncStorage cleared successfully.');
-    } catch (error) {
-      console.error('Error clearing AsyncStorage:', error);
-    }
+    // try {
+    //   await AsyncStorage.clear();
+    //   console.log('AsyncStorage cleared successfully.');
+    // } catch (error) {
+    //   console.error('Error clearing AsyncStorage:', error);
+    // }
   };
 
   const handleLogoutConfirmed = async () => {
