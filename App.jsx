@@ -38,6 +38,7 @@ import SupportInbox from './views/Landing/SupportInbox';
 import ReportInbox from './views/Landing/ReportInbox';
 import  AsyncStorage  from '@react-native-async-storage/async-storage'
 import { getItem } from './utils/asyncStorage';
+import Logo from './views/Logo';
 
 
 
@@ -446,15 +447,12 @@ const App = ({navigation}) => {
           component={ForecastSavings}
 
         /> 
-
-      
-
+  
+            <Stack.Screen
+            name="Logo"
+            component={Logo}
+          />
           
-              
-            {/* <Stack.Screen
-            name="Log in"
-            component={Login}
-          /> */}
             <Stack.Screen
               name="Incomes"
               component={MonthlyIncome}
