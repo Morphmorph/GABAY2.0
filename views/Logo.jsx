@@ -9,29 +9,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const Logo = ({navigation}) => {
 const {context} = useContext(UserContext)
 
-useEffect(() => {
-  const checkNavigation = async () => {
-    const board = await AsyncStorage.getItem("onboarded");
-    const id = await AsyncStorage.getItem("user")
+// useEffect(() => {
+//   const checkNavigation = async () => {
+//     const board = await AsyncStorage.getItem("onboarded");
+//     const id = await AsyncStorage.getItem("user")
 
-    const user = JSON.parse(id)
-    // console.log(log)
+//     const user = JSON.parse(id)
+//     // console.log(log)
 
   
 
-      if (user.id) {
-        navigation.navigate("Homescreen");
-      } else if (!board) {
-        navigation.navigate("Onboarding");
-      } else if(board && !user.id) {
-       await navigation.navigate("Log in");
-      }
+//       if (user.id) {
+//         navigation.navigate("Homescreen");
+//       } else if (!board) {
+//         navigation.navigate("Onboarding");
+//       } else if(board && !user.id) {
+//        await navigation.navigate("Log in");
+//       }
 
  
-  };
+//   };
   
-  checkNavigation();
-}, [context.id])
+//   checkNavigation();
+// }, [navigation])
   return (
     <View style={{ flex: 1,
       justifyContent: 'center',

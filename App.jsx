@@ -419,7 +419,7 @@ const App = ({navigation}) => {
 
         <UserContext.Provider value={providervalue}>
           <Stack.Navigator
-            initialRouteName={"Logo"}
+            // initialRouteName={"Logo"}
             screenOptions={{
               headerShown: false,
               animation: 'fade',
@@ -427,15 +427,15 @@ const App = ({navigation}) => {
           >
             {/* {context.id ? () : first ? () : () */}
 
-          <Stack.Screen
+         { context.id && <Stack.Screen
               name="Homescreen"
               component={DrawerScreen}
-            />
+            /> }
 
-           <Stack.Screen
+         { first && <Stack.Screen
               name="Onboarding"
               component={OnboardingScreen}
-            /> 
+            /> }
 
             <Stack.Screen
             name="Log in"

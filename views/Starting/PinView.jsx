@@ -57,8 +57,8 @@ const Pin = ({navigation}) => {
         </Text>
       </View>
      
-      <ModalMessage showAutomatically={showModalMessage} message="Your account is successfully verified!" icon={<MaterialCommunityIcons name="account-check" size={200} color="#E3B448" />} navigateToScreen=""/>
-      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
+      <ModalMessage showAutomatically={showModalMessage} message="Your account is successfully verified!" icon={<MaterialCommunityIcons name="account-check" size={200} color="#E3B448" />} navigateToScreen="Log in"/>
+      <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen=""/>
       <View style={Style.footer}>
         <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
         <View style={Style.footerLinks}>

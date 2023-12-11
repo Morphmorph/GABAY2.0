@@ -33,8 +33,8 @@ export const usePinController = () => {
           if (response.data.status === 200) {
             setTimeout(() => {
               setLoader(false);
-             
-              navigation.navigate('Log in');
+              setShowModalMessage(true)
+              // navigation.navigate('Log in');
             }, 4000);
           } else if (response.data.status === 208 && nav) {
             setTimeout(() => {
@@ -46,6 +46,8 @@ export const usePinController = () => {
             setLoader(false);
             setPinError('Wrong PIN');
           }
+
+
         })
         .catch((err) => {
           setLoader(false)

@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "Gabay", 
+    "name": "Gabay",
     "slug": "gabay",
     "version": "1.0.0",
-    "backgroundColor":"#3A6B35",
+    "backgroundColor": "#3A6B35",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "Dark",
@@ -30,7 +30,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "26e8f1f6-58c7-4526-9c19-24ec578e6713"
+        "projectId": "0349038d-3a65-4295-bc21-b8f42c88a5d7"
       }
     }
   }
