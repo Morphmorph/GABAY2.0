@@ -30,7 +30,7 @@ const MonthlyIncome = () => {
         <View style={[Style.common, { justifyContent: 'center' }]}>
           <Loader visible={loader} message="Adding..." />
           <View style={Style.container}>
-            <Text style={Style.textcolor}>TOTAL MONTHLY INCOME</Text>
+            <Text style={Style.textcolor}>MONTHLY MAIN INCOME</Text>
 
             <CustomInput
               iconName="currency-php"

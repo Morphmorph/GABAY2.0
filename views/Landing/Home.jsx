@@ -215,6 +215,11 @@ const Home = ({ navigation }) => {
     axiosRequest.get(`gabay/user/income/?user=${context.id}`).then((response) => {
       setIncomes(response.data)
       setTotalIncome(response.data.total_amount)
+      console.log(response.data) 
+      if(!response.data.total_amount){
+          navigation.navigate("Incomes")
+        }
+
       setIsLoading(false);
     }).catch((e) => {
       // alert("Check your internet connection!")
@@ -263,6 +268,8 @@ const Home = ({ navigation }) => {
         setSelectedYear(availableYears[0])
 
       }
+     
+      
       filterAPI()
       getIncome()
       // setPdfPrint(null)
@@ -307,6 +314,7 @@ const Home = ({ navigation }) => {
       //   setSelectedYear(availableYears[0])
       //   console.log(availableYears[0])
       // } 
+      console.log(incomes.total_amount)
     } else { }
     // console.log(ddate)  
 
