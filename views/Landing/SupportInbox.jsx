@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Dimensions, ScrollView } fro
 import { RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import Loader from '../Starting/actionLoader';
 import ModalMessage from '../Modal';
+import ModalMessageE from '../ModalEE';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserContext from '../../api_server/context';
 import { axiosRequest } from '../../api_server/axios';
@@ -14,6 +15,7 @@ function stripHtmlTags(html) {
 const SupportInbox = ({}) => {
     const [loader,setLoader] = useState(false)
     const [showModalMessage, setShowModalMessage] = useState(false);
+    const [showModalEMessage, setShowModalEMessage] = useState(false);
     const [subject, setSubject] = useState('');
     const {context} = useContext(UserContext)
     const [subjectError, setSubjectError] = useState(null);
@@ -42,13 +44,14 @@ const SupportInbox = ({}) => {
         setLoader(true)
         axiosRequest.post(`gabay/report/problem/?type=Support`,{from_email : context.email,subject:`Support: ${subject}`,message:plainTextContent})
         .then((response)=>{
+            
             setShowModalMessage(true);
+            setTimeout(() => setShowModalMessage(false), 500);
         })
         .catch(e =>{console.log("error:",e)})
-        setTimeout(() => {
-            setLoader(false)
-            alert("Something Went Wrong! Check your Intertnet Connection")
-        }, 5000);
+          
+          setShowModalEMessage(true);
+          setTimeout(() => setShowModalEMessage(false), 500);
     };
     
     return (
@@ -94,6 +97,7 @@ const SupportInbox = ({}) => {
 
                 <Button title="Send" onPress={handleSend} />
                 <ModalMessage showAutomatically={showModalMessage} message="Support message send!" icon={<MaterialCommunityIcons name="comment-check" size={200} color="#E3B448" />}navigateToScreen="Settings"/>
+                <ModalMessageE showAutomatically={showModalEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen=""/>
             </View>
               
         </View>

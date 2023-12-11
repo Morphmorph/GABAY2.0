@@ -7,6 +7,7 @@ import { useForgotPasswordController } from '../../controller/ForgotpasswordCont
 import ModalMessage from '../Modal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomInput from '../CustomInput';
+import Loader from '../Starting/actionLoader';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 const Settings = ({navigation}) => {
@@ -124,6 +125,7 @@ const Settings = ({navigation}) => {
         }}
       >
         <View style={Style.modalContainer}>
+        <Loader visible={loader} message="Updating..." />
           <View style={Style.modalContent}>
           <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Change Password:</Text>
           <CustomInput
