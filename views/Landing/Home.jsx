@@ -164,7 +164,7 @@ const Home = ({ navigation }) => {
         [
     {
       text: "Reload",
-      onPress: () => api()
+      onPress: () => {api() }
       ,
       style: "yes"
     },   {
