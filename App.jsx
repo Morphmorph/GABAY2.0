@@ -970,10 +970,10 @@ function CustomDrawerContent({}) {
     setSelectedAddOption(option);
     if (selectedAddOption === 'expenses') {
       setSelectedAddOption('income');
-      setTimeout(() => setSelectedAddOption(false), 100);
+    
     } else {
       setSelectedAddOption('expenses');
-      setTimeout(() => setSelectedAddOption(false), 100);
+      
     }
     setIsModalVisible(!isModalVisible);
   };
