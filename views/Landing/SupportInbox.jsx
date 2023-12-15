@@ -91,14 +91,14 @@ const SupportInbox = ({}) => {
         />
     </ScrollView>
                 
-                <RichToolbar
+                {/* <RichToolbar
                     editor={richText}
                     style={styles.toolbar}
                     iconTint
                     unselectedButtonStyle
                     selectedIconTint
                     selectedButtonStyle
-                />
+                /> */}
 
                 <Button title="Send" onPress={handleSend} />
                 <ModalMessage showAutomatically={showModalMessage} message="Support message send!" icon={<MaterialCommunityIcons name="comment-check" size={200} color="#E3B448" />}navigateToScreen="Settings"/>

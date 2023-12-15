@@ -107,7 +107,7 @@ const InspectExpenses = ({ route, editMode, setEditMode,}) => {
     require('../../assets/Icon/Icons/c11.png'),
   ];
   // console.log(icon1)
-  // console.log(expense)
+  
   return (
     <View style={Style.common}>
        
@@ -131,8 +131,9 @@ const InspectExpenses = ({ route, editMode, setEditMode,}) => {
             <View style={{ backgroundColor: '#144714', borderRadius: 5, flexDirection: 'row', flex: 1, }}>
               <Image source={parseInt(data.icon, 10)} style={{ width: 80, height: 80, margin: 10, backgroundColor: 'transparent', borderRadius: 10 }} />
               <View style={{ flexDirection: 'column', alignSelf: 'center', marginRight: 10, borderLeftWidth: 2, borderColor: '#E3B448', backgroundColor: '#144714', borderBottomRightRadius: 5, borderTopRightRadius: 5, flex: 1 }}>
-                <View style={{ paddingVertical: 10 }}>
+                <View style={{ paddingVertical: 10 ,flexDirection:'row',justifyContent:'space-between'}}>
                   <Text style={{ color: '#CBD18F', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> {data.key} </Text>
+                  <Text style={{ color: '#CBD18F', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> {data.category == 1 ? "Necessities": data.category == 2 ? "Wants" : data.category == 3 && "Savings" } </Text>
                 </View>
                 <View style={{ borderTopWidth: 1, borderColor: '#E3B448', paddingVertical: 10 }}>
                   <Text style={{ color: '#E3B448', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> <Iconn name="currency-php" style={{ fontSize: 15 }} /> {data.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>

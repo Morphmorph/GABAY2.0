@@ -22,7 +22,6 @@ export const Style = StyleSheet.create({
     footer: {
       backgroundColor: 'transparent', // Set your desired background color
       padding: 5,
-      flex:0,
       overflow:'hidden',      
       // position:'absolute',
       alignItems:'stretch',

@@ -6,7 +6,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 const PrivacyPolicy = () => {
   return (
     <View style={[Style.common]}>
-      <ScrollView style={{ paddingTop: 10 }}>
+      <ScrollView style={{ marginTop:10}}>
         <Text style={[styles.paragraph, { marginTop: -10 }]}>
           This Privacy Policy describes how{' '}
           <Text style={{ color: '#E3B448' }}>GABAY</Text> collects, uses, and
@@ -84,13 +84,12 @@ const PrivacyPolicy = () => {
             bottom: 5,
             left: 0,
             right: 0,
-            borderTopWidth: 1,
-            borderColor: '#144714',
+           
           }}
         >
      
         </View>
-      </ScrollView>
+        <View style={{position:'absolute',bottom:0,left:0,right:0}}>
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
         <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
@@ -98,6 +97,9 @@ const PrivacyPolicy = () => {
           <Text style={Style.footerText}>
             © 2023 GABAY. All Rights Reserved.
           </Text>
+          </View>
+      </ScrollView>
+    
     </View>
   );
 };

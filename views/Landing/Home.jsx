@@ -215,7 +215,7 @@ const Home = ({ navigation }) => {
     axiosRequest.get(`gabay/user/income/?user=${context.id}`).then((response) => {
       setIncomes(response.data)
       setTotalIncome(response.data.total_amount)
-      console.log(response.data) 
+      // console.log(response.data) 
       if(!response.data.total_amount){
           navigation.navigate("Incomes")
         }
@@ -278,7 +278,7 @@ const Home = ({ navigation }) => {
      
       if (selectedDate) {
         getData(selectedDate);
-        console.log(availableYears[0])
+        // console.log(availableYears[0])
         if (Object.keys(availableYears).length > 0) {
           setSelectedYear(availableYears[0])
 
@@ -301,7 +301,7 @@ const Home = ({ navigation }) => {
       unsubscribe();
 
     };
-  }, [navigation, setDdate,chartloading,page, availableYears, selectedYear]);
+  }, [navigation,chartloading,page, availableYears, selectedYear]);
 
 
   useEffect(() => {
@@ -309,12 +309,12 @@ const Home = ({ navigation }) => {
     const selectedDate = (ddate[page]?.date || ddate[0]?.date || null);
     if (selectedDate) {
       getData(selectedDate);
-      console.log(selectedDate)
+      // console.log(selectedDate)
       // if(Object.keys(availableYears).length > 0){
       //   setSelectedYear(availableYears[0])
       //   console.log(availableYears[0])
       // } 
-      console.log(incomes.total_amount)
+      // console.log(incomes.total_amount)
     } else { }
     // console.log(ddate)  
 
@@ -376,7 +376,7 @@ const Home = ({ navigation }) => {
                     {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePresslef}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
                     </TouchableOpacity>}
-                    <Text style={{ fontSize: 20, color: '#144714', textAlign: 'center', flex: 1 }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page]?.date ? ddate[page].date : ddate[0].date).toLocaleString('default', { month: 'long', year: 'numeric' }) : console.log(ddate)}</Text>
+                    <Text style={{ fontSize: 20, color: '#144714', textAlign: 'center', flex: 1 }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page]?.date ? ddate[page].date : ddate[0].date).toLocaleString('default', { month: 'long'}) : null}</Text>
                     {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress
                     }>
                       <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />

@@ -62,7 +62,7 @@ const App = ({navigation}) => {
     email: null,
     otp: null
   })
-  const [delay,setDelay] = useState(true)
+  const [delay,setDelay] = useState(true) 
 
   const [local,setLocal] = useState("Onboarding")
   const [totalincome,setTotalIncome] = React.useState()
@@ -791,7 +791,7 @@ function DrawerScreen({navigation,route }) {
 
           return(
           delay ? null:
-          <TouchableOpacity style={{padding:20}} onPress={() => Linking.openURL(pdfprint)}>
+          <TouchableOpacity style={{padding:20}} onPress={() => setPdfPrint(true)}>
               <Image
            source={require('./assets/pdf.png')}
            style={{ width: 30, height: 30}}

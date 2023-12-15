@@ -528,7 +528,7 @@ const AddExpenses = ({ route }) => {
               <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
                 Select Month and Year:
               </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'space-between',marginBottom: 20 }}>
 
                 <Picker
                   selectedValue={selectedYear}

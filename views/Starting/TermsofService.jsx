@@ -6,7 +6,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 const TermsofService = () => {
     return (
         <View style={[Style.common]}>
-            <ScrollView style={{ paddingTop: 10 }}>
+            <ScrollView style={{ marginTop: 10 }}>
                 <Text style={[styles.paragraph, {marginTop: -10}]}>
                     Welcome to <Text style={{color: '#E3B448'}}>GABAY</Text>, the savings forecasting system mobile application. By using
                     GABAY, you agree to comply with and be bound by the following terms and
@@ -58,17 +58,19 @@ const TermsofService = () => {
                     bottom: 5,
                     left: 0,
                     right: 0,
-                    borderTopWidth: 1,
-                    borderColor: '#144714',
+                    
                 }}>
                     
                 </View>
+       
             </ScrollView>
+            <View style={{position:'absolute',bottom:0,left:0,right:0}}>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
         <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
         </View>
                     <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
+                    </View>
         </View>
     );
 };

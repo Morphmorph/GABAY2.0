@@ -52,19 +52,16 @@ const ForecastSavings = ({navigation}) => {
   }
 
   const toggleModal1 = () => {
-    setIsPDFModalVisible(!isPDFModalVisible)
+    setPdfPrint(!pdfprint)
   };
 
   const handlePDF = async() => {
    
       setTimeout(() => {
-        // fileDownload(response.data,
-        //   'Gabay_Report.pdf')
-      
-        // console.log(response.data)
         Linking.openURL(server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`)
         setIsLoading(false); 
-      }, 3000);
+        
+      }, 1000);
 
    
   };
@@ -79,7 +76,7 @@ const ForecastSavings = ({navigation}) => {
     handlePDF(); 
     setLoader(false);
     navigateToScreen('Forecast Savings');
-    setShowModalMessage(true);
+    // setShowModalMessage(true);
     setTimeout(() => setShowModalMessage(false), 500);
   };
   const history = [
@@ -118,8 +115,7 @@ const ForecastSavings = ({navigation}) => {
           data = response.data.avarage
           setForcast(data)
           setValue(response.data.forecast)
-          const Download = server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
-          setPdfPrint(Download)
+          // setPdfPrint(true)
           console.log(pdfprint)
           console.log(response.data.forecast)
 
@@ -238,7 +234,7 @@ const ForecastSavings = ({navigation}) => {
             <Modal
         animationType="fade"
         transparent={true}
-        visible={isPDFModalVisible}
+        visible={pdfprint}
         onRequestClose={toggleModal1}
       >
         <View style={styles.centeredView}>
