@@ -5,7 +5,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const TermsofService = () => {
     return (
-        <View style={[Style.common]}>
+        <View style={[Style.common,]}>
             <ScrollView style={{ marginTop: 10 }}>
                 <Text style={[styles.paragraph, {marginTop: -10}]}>
                     Welcome to <Text style={{color: '#E3B448'}}>GABAY</Text>, the savings forecasting system mobile application. By using
@@ -50,27 +50,34 @@ const TermsofService = () => {
                 </Text>
 
                 {/* Add more terms of service content as needed */}
-                <View style={{
-                    backgroundColor: 'transparent', // Set your desired background color
-                    padding: 5,
-                    marginHorizontal: 5,
-                    marginTop: 20,
-                    bottom: 5,
-                    left: 0,
-                    right: 0,
-                    
-                }}>
-                    
-                </View>
-       
-            </ScrollView>
-            <View style={{position:'absolute',bottom:0,left:0,right:0}}>
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        
+                <View
+          style={{
+            backgroundColor: 'transparent', // Set your desired background color
+            padding: 5,
+            marginHorizontal: 5,
+            marginTop: 20,
+            bottom: 5,
+            left: 0,
+            right: 0,
+           
+          }}
+        >
+     
+        </View>
+                <View style={Style.footer}>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
         <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
         </View>
-                    <Text style={Style.footerText}>© 2023 GABAY. All Rights Reserved.</Text>
-                    </View>
+          <Text style={Style.footerText}>
+            © 2023 GABAY. All Rights Reserved.
+          </Text>
+          </View>
+                    
+       
+            </ScrollView>
+         
         </View>
     );
 };

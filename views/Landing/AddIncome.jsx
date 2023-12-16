@@ -128,7 +128,7 @@ const AddIncome = ({route}) => {
         </View>
       </View>
       <View style={{ top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center' }}>
-        <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5 }}>Select categories</Text>
+        <Text style={{ color: iconError ? '#810000' : '#E3B448', paddingVertical: 5 }}>Select Description</Text>
       </View>
       
       <View style={{ backgroundColor: '#2b5627',top: 30, maxHeight: 280, overflow: 'hidden', margin: 10, borderWidth: 1, borderColor: iconError ? '#810000' : '#144714',  borderRadius: 20, alignItems:'center' }}>

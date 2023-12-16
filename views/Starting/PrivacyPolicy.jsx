@@ -89,7 +89,7 @@ const PrivacyPolicy = () => {
         >
      
         </View>
-        <View style={{position:'absolute',bottom:0,left:0,right:0}}>
+        <View style={Style.footer}>
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Iconn name='email' style={{ fontSize: 15, color: '#144714' }} />
         <Text style={Style.footerText}> team.gabay404@gmail.com</Text>
@@ -99,7 +99,8 @@ const PrivacyPolicy = () => {
           </Text>
           </View>
       </ScrollView>
-    
+   
+
     </View>
   );
 };

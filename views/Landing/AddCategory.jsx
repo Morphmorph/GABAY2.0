@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext,useLayoutEffect } from 'react'
 import Style from '../Style'
 import CustomInput from '../CustomInput'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -72,6 +72,11 @@ console.log(newCategory)
 
     }
   };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'Add New Description',
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const loadIcons = async () => {
@@ -87,6 +92,8 @@ console.log(newCategory)
 
     loadIcons()
   }, [])
+
+
 
   return (
     <View style={Style.common}>
