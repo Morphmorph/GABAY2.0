@@ -813,7 +813,7 @@ function DrawerScreen({navigation,route }) {
       />
       <Drawer.Screen
         name="Forecast Savings"
-        component={ForecastSavings}
+        component={Homescreen}
         options={{
           drawerLabel: 'Forecast Savings',
           headerShown:true
@@ -1021,13 +1021,13 @@ function CustomDrawerContent({}) {
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Add History</Text>
         </View>
       </TouchableOpacity>
-      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
+      {/* <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
       <TouchableOpacity onPress={() => navigateToScreen('Forecast Savings')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>
           <FontAwesome5 name="crosshairs" size={30} color={'#CBD18F'} />
           <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Forecast savings</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
       <TouchableOpacity onPress={() => navigateToScreen('Settings')}>
         <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"flex-start",width:"100%",padding:10 }}>
