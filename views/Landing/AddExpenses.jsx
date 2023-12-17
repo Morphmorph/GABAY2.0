@@ -286,7 +286,7 @@ const AddExpenses = ({ route }) => {
                 <View
                   style={{
                     backgroundColor: selectedIcons === iconUrl ? '#CBD18F' : 'transparent',
-                    padding: screenWidth < 390 ? 10 : screenWidth > 390 && screenWidth <= 413 ? 8 : 12,
+                    padding: screenWidth < 360 ? 10 : screenWidth > 360 && screenWidth <= 413 ? 8 : 12,
                     borderRadius: 5,
                   }}
                 >

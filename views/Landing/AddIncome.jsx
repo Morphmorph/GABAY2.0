@@ -154,7 +154,7 @@ const AddIncome = ({route}) => {
       >
         <Image source={iconUrl.icon} style={{ width: 50, height: 50}} />
       </View>
-      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold' }}>{iconUrl.text}</Text>
+      <Text style={{ marginTop: 5, color: '#E3B448', fontSize: 10, fontWeight: 'bold', textTransform: "capitalize" }}>{iconUrl.text}</Text>
     </TouchableOpacity>
   ))}
   <TouchableOpacity
