@@ -6,6 +6,7 @@ import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useForgotPasswordController } from '../../controller/ForgotpasswordController';
 import ModalMessage from '../Modal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import CustomInput from '../CustomInput';
 import Loader from '../Starting/actionLoader';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -26,8 +27,9 @@ const Settings = ({navigation}) => {
     loader,
     setLoader
   } = useForgotPasswordController();
-
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
+  const [loader1,setLoader1] = useState(false)
   const handleTOS = () => {
     navigation.navigate('Terms of Service');
   };
@@ -49,10 +51,39 @@ const Settings = ({navigation}) => {
   const Report = () => {
     navigation.navigate('Report inbox');
   };
+  const toggleModal1 = () => {
+    setIsDeleteModalVisible(!isDeleteModalVisible)
+  };
+
+  const handleDelete = async() => {
+    // try {
+    //   await AsyncStorage.clear();
+    //   console.log('AsyncStorage cleared successfully.');
+    // } catch (error) {
+    //   console.error('Error clearing AsyncStorage:', error);
+    // }
+  };
+  const handleDeleteConfirmed = async () => {
+
+
+    toggleModal1(); // Close the logout modal
+    setLoader1(true); // Show the loading indicator
+  
+    // Simulate an asynchronous logout process
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Replace this with your actual logout logic
+    
+    // Once the logout process is complete, navigate to the login screen and hide the loader
+    handleDelete(); 
+    const data = {email:null,id :null,otp:null }
+    setContext(data)
+    setLoader1(false);
+    navigateToScreen('Log in');
+  };
   return (
     <>
    
     <View style={Style.common}>
+    <Loader visible ={loader1} message="Deleting account..."/>
     <ScrollView showsVerticalScrollIndicator={false} style={{flex:0}}>
       <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
         <View>
@@ -113,7 +144,32 @@ const Settings = ({navigation}) => {
         </TouchableOpacity>
         
       </View>
-   
+      <TouchableOpacity style={{ width:"100%",overflow:'hidden',position: 'absolute',flex:1, flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
+        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#810000', borderRadius: 5}}>
+          <AntDesign name="delete" size={30} color={'#E3B448'} />
+          <Text style={{ color: '#E3B448', fontSize: 16, padding: 15 }}>Delete account</Text>
+        </View>
+      </TouchableOpacity>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isDeleteModalVisible}
+        onRequestClose={toggleModal1}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to delete your account?</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.yesButton} onPress={handleDeleteConfirmed}>
+                <Text style={styles.buttonText}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.noButton} onPress={toggleModal1}>
+                <Text style={styles.buttonText2}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
    
     
       <Modal
