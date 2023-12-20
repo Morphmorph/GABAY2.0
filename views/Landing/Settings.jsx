@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity,StyleSheet, ScrollView,Modal } from 'react-native'
-import React, { useState } from 'react';
+import { View, Text, TouchableOpacity,StyleSheet, ScrollView,Modal, Alert } from 'react-native'
+import React, { useContext, useState } from 'react';
 import Style from '../Style'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +9,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomInput from '../CustomInput';
 import Loader from '../Starting/actionLoader';
+import UserContext from '../../api_server/context';
+import { axiosRequest } from '../../api_server/axios';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 const Settings = ({navigation}) => {
@@ -27,6 +29,9 @@ const Settings = ({navigation}) => {
     loader,
     setLoader
   } = useForgotPasswordController();
+
+  const {context,setContext} = useContext(UserContext)
+
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [loader1,setLoader1] = useState(false)
@@ -75,9 +80,24 @@ const Settings = ({navigation}) => {
     // Once the logout process is complete, navigate to the login screen and hide the loader
     handleDelete(); 
     const data = {email:null,id :null,otp:null }
-    setContext(data)
-    setLoader1(false);
-    navigateToScreen('Log in');
+
+    await axiosRequest.delete(`/auth/user/delete/${context.id}/`)
+    .then((response)=>{
+      setContext(data)
+      setLoader1(false);
+      Alert.alert(
+        'Account Deleted',
+        'Click Contnue to Proceed to Sign In',
+        [
+          { text: 'Continue', onPress: () => navigation.navigate('Log in') }
+        ],
+        { cancelable: false }
+      );
+
+    })
+    .catch(e => setLoader1(false))
+
+    
   };
   return (
     <>
@@ -114,7 +134,7 @@ const Settings = ({navigation}) => {
         </View>
         </TouchableOpacity>
       </View>
-      <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
+      <View style={{borderBottomWidth: 0, borderColor: '#144714', marginHorizontal: 10}}>
         <View>
         <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Help and Support</Text>
         </View>
@@ -142,14 +162,18 @@ const Settings = ({navigation}) => {
         <Text style={{color: '#144714', fontSize: 15}}> Report a problem</Text>
         </View>
         </TouchableOpacity>
-        
-      </View>
-      <TouchableOpacity style={{ width:"100%",overflow:'hidden',position: 'absolute',flex:1, flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
-        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#810000', borderRadius: 5}}>
-          <AntDesign name="delete" size={30} color={'#E3B448'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 15 }}>Delete account</Text>
+        <View>
+        <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Help and Support</Text>
+        </View>
+        <TouchableOpacity  onPress={toggleModal1}>
+        <View style={{backgroundColor: '#810000', top: -5, marginBottom: -1, padding:10,margin: 10, alignItems: 'center', borderRadius: 10, flexDirection: 'row', justifyContent: 'center'}}>
+        {/* <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#810000', borderRadius: 10}}> */}
+          <AntDesign name="delete" size={20} color={'#E3B448'} />
+          <Text style={{ color: '#E3B448', fontSize: 15 }}>Delete account</Text>
         </View>
       </TouchableOpacity>
+      </View>
+     
       <Modal
         animationType="fade"
         transparent={true}
