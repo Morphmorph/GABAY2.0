@@ -767,6 +767,7 @@ function DrawerScreen({navigation,route }) {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: true,
+        swipeEnabled:false,
         animation: 'slide_from_left',
         headerStyle: {
           backgroundColor: '#144714',

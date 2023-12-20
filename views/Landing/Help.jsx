@@ -46,7 +46,7 @@ const Help = () => {
                         <Text style={{ color: '#E3B448' }}>II.</Text> Select the "add expenses".
                     </Text>
                     <Text style={styles.listItem}>
-                        <Text style={{ color: '#E3B448' }}>III.</Text> Enter your expenses value and choose category from the list below it.
+                        <Text style={{ color: '#E3B448' }}>III.</Text> Enter your expenses value and choose description from the list below it.
                     </Text>
                     <Text style={styles.listItem}>
                         <Text style={{ color: '#E3B448' }}>IV.</Text> Click the add button.
@@ -73,7 +73,7 @@ const Help = () => {
                         <Text style={{ color: '#E3B448' }}>II.</Text> Select the "add income".
                     </Text>
                     <Text style={styles.listItem}>
-                        <Text style={{ color: '#E3B448' }}>III.</Text> Enter your income value and choose category from the list below it.
+                        <Text style={{ color: '#E3B448' }}>III.</Text> Enter your income value and choose description from the list below it.
                     </Text>
                     <Text style={styles.listItem}>
                         <Text style={{ color: '#E3B448' }}>IV.</Text> Click the add button.
@@ -142,7 +142,7 @@ const Help = () => {
                         <Text style={{ color: '#E3B448' }}>V.</Text> Click "view details" button for much clearer details.
                     </Text>
                 </View>
-                <Text style={styles.subheading}>8. How to add new category</Text>
+                <Text style={styles.subheading}>8. How to add new icon with short description</Text>
                 <View style={styles.listContainer}>
                 <Text style={styles.listItem}>
                         <Text style={{ color: '#E3B448' }}>I.</Text> Click the "plus icon" in the home page located at the bottom center of the screen.
@@ -151,13 +151,13 @@ const Help = () => {
                         <Text style={{ color: '#E3B448' }}>II.</Text> Select the "add income" or "add expenses".
                     </Text>
                     <Text style={styles.listItem}>
-                        <Text style={{ color: '#E3B448' }}>III.</Text> Click the "plus icon" inside each category.
+                        <Text style={{ color: '#E3B448' }}>III.</Text> Click the "plus icon" inside each icon whith short description.
                     </Text>
                     <Text style={styles.listItem}>
-                        <Text style={{ color: '#E3B448' }}>IV.</Text> It will navigate you to add new category screen.
+                        <Text style={{ color: '#E3B448' }}>IV.</Text> It will navigate you to add new description screen.
                     </Text>
                     <Text style={styles.listItem}>
-                        <Text style={{ color: '#E3B448' }}>V.</Text> Enter your category title and select your own icon.
+                        <Text style={{ color: '#E3B448' }}>V.</Text> Enter your short description and select your own icon.
                     </Text>
                     <Text style={styles.listItem}>
                         <Text style={{ color: '#E3B448' }}>VI.</Text> Click "add" button.

@@ -122,7 +122,7 @@ console.log(newCategory)
               setCategoryError(null)
             }}
           />
-          <Text style={{ top: -10, textAlign: 'center', color: '#E3B448' }}>Category</Text>
+          <Text style={{ top: -10, textAlign: 'center', color: '#E3B448' }}>Description</Text>
         </View>
       </View>
       <View style={{top: 30, borderBottomWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', marginBottom: 30}}>
