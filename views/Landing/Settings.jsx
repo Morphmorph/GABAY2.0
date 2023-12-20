@@ -163,7 +163,7 @@ const Settings = ({navigation}) => {
         </View>
         </TouchableOpacity>
         <View>
-        <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Help and Support</Text>
+        <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Delete User and Account</Text>
         </View>
         <TouchableOpacity  onPress={toggleModal1}>
         <View style={{backgroundColor: '#810000', top: -5, marginBottom: -1, padding:10,margin: 10, alignItems: 'center', borderRadius: 10, flexDirection: 'row', justifyContent: 'center'}}>
