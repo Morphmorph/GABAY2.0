@@ -159,7 +159,7 @@ const AddIncome = ({route}) => {
   ))}
   <TouchableOpacity
             style={{
-              margin: 2,
+              margin: margin,
               alignItems: 'center',
             }}
             onPress={openAddCategory}

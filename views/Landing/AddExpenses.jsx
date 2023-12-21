@@ -298,7 +298,7 @@ const AddExpenses = ({ route }) => {
             ))}
             <TouchableOpacity
               style={{
-                margin: 2,
+                margin: margin,
                 alignItems: 'center',
               }}
               onPress={() => openAddCategory("necessities")}
@@ -345,7 +345,7 @@ const AddExpenses = ({ route }) => {
             ))}
             <TouchableOpacity
               style={{
-                margin: 2,
+                margin: margin,
                 alignItems: 'center',
               }}
               onPress={() => openAddCategory("wants")}
@@ -394,7 +394,7 @@ const AddExpenses = ({ route }) => {
             ))}
             <TouchableOpacity
               style={{
-                margin: 2,
+                margin: margin,
                 alignItems: 'center',
               }}
               onPress={() => openAddCategory("savings")}
