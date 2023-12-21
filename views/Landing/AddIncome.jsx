@@ -167,7 +167,7 @@ const AddIncome = ({route}) => {
             <View
               style={{
                 backgroundColor: 'transparent', // You can set your desired background color
-                padding: 5,
+                padding: screenWidth < 360 ? 10 : screenWidth > 360 && screenWidth <= 413 ? 8 : 12,
                 margin: 5,
                 borderRadius: 5,
               }}
