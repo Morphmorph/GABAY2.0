@@ -107,7 +107,7 @@ function DonutChart({ data, total_sum,predict = null }) {
           <Labels />
         </PieChart>
         <View style={styles.centeredTextContainer}>
-          <Text style={[styles.centeredText, { fontSize: getFontSize(), color: totalExpense > total_sum ? 'red' : '#144714' }]}>₱{predict ? predict.toLocaleString():totalExpense.toLocaleString()}</Text>
+          <Text style={[styles.centeredText, { fontSize: getFontSize(), color: totalExpense > total_sum ? 'red' : '#144714' }]}>₱{predict || predict == 0 ? predict.toLocaleString():totalExpense.toLocaleString()}</Text>
         </View>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -137,13 +137,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 80,
     height: 40,
-    backgroundColor: '#CBD18F',
+    backgroundColor: 'transparent',
     borderRadius: 5,
     zIndex: 2,
   },
   centeredText: {
     fontSize: 15,
     fontWeight: 'bold',
+    width:"100%",
+    textAlign:'center',
     color: '#144714'
   },
   legend: {
