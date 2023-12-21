@@ -134,7 +134,7 @@ const Settings = ({navigation}) => {
         </View>
         </TouchableOpacity>
       </View>
-      <View style={{borderBottomWidth: 0, borderColor: '#144714', marginHorizontal: 10}}>
+      <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
         <View>
         <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Help and Support</Text>
         </View>
@@ -162,14 +162,17 @@ const Settings = ({navigation}) => {
         <Text style={{color: '#144714', fontSize: 15}}> Report a problem</Text>
         </View>
         </TouchableOpacity>
-        <View>
-        <Text style={{marginTop: 5, fontSize: 25, color: '#CBD18f'}}>Delete User and Account</Text>
+      
+      </View>
+      <View style={{borderBottomWidth: 1, borderColor: '#144714', marginHorizontal: 10}}>
+      <View>
+        <Text style={{margin: 5, fontSize: 25, color: '#CBD18f'}}>Delete User and Account</Text>
         </View>
         <TouchableOpacity  onPress={toggleModal1}>
-        <View style={{backgroundColor: '#810000', top: -5, marginBottom: -1, padding:10,margin: 10, alignItems: 'center', borderRadius: 10, flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{backgroundColor: '#810000', top: -10, marginBottom: -1, padding:10,margin: 10, alignItems: 'center', borderRadius: 10, flexDirection: 'row', justifyContent: 'center'}}>
         {/* <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#810000', borderRadius: 10}}> */}
           <AntDesign name="delete" size={20} color={'#E3B448'} />
-          <Text style={{ color: '#E3B448', fontSize: 15 }}>Delete account</Text>
+          <Text style={{ color: '#E3B448', fontSize: 15 }}> Delete account</Text>
         </View>
       </TouchableOpacity>
       </View>
