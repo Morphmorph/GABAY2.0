@@ -353,8 +353,8 @@ const AddExpenses = ({ route }) => {
               <View
                 style={{
                   backgroundColor: 'transparent', // You can set your desired background color
-                  padding: screenWidth < 360 ? 10 : screenWidth > 360 && screenWidth <= 413 ? 8 : 12,
-                  margin: 5,
+                  padding: screenWidth <= 360 ? 10 : screenWidth > 360 && screenWidth <= 413 ? 8 : 12,
+                  // margin: 5,
                   borderRadius: 5,
                 }}
               >
@@ -456,7 +456,7 @@ const AddExpenses = ({ route }) => {
                 }}
                 onPress={() => toggleModal('Previous month')}
               >
-                <Text style={{ color: '#144714', fontSize: 18, }}>Previous month</Text>
+                <Text style={{ color: '#144714', fontSize: 18, }}>Custom month</Text>
               </TouchableOpacity>
               {previousMonthsVisible && (
                 <ScrollView>
@@ -529,7 +529,7 @@ const AddExpenses = ({ route }) => {
                 Select Month and Year:
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'space-between',marginBottom: 20 }}>
-
+              <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
                 <Picker
                   selectedValue={selectedYear}
                   style={{ height: 50, width: 150, color: '#144714' }}
@@ -541,7 +541,8 @@ const AddExpenses = ({ route }) => {
                     return <Picker.Item key={year} label={year.toString()} value={year} />;
                   })}
                 </Picker>
-
+                </View>
+                <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
                 <Picker
                   selectedValue={selectedPreviousMonth}
                   style={{ height: 50, width: 150, color: '#144714' }}
@@ -552,7 +553,7 @@ const AddExpenses = ({ route }) => {
                     <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
                   ))}
                 </Picker>
-
+                </View>
               </View>
               <TouchableOpacity
                 style={{

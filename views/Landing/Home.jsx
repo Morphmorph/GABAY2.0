@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Image,Modal, Alert,ScrollView, BackHandler } from 'react-native';
 import Logo from '../../assets/logo/logo1.png';
-import Peso from '../../assets/Icon/peso.png'
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
 import { Header, Icon } from 'react-native-elements';
@@ -342,8 +341,8 @@ const Home = ({ navigation }) => {
 
               <View style={{ marginTop: 5, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
                 <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
-                  <Image source={Peso} style={{ width: 20, height: 20 }} />
-                  <Text style={{ color: '#CBD18F', fontSize: 20 }}> { incomes.total_amount ? incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):"00"}.00 </Text>
+                  
+                  <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ { incomes.total_amount ? incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):"00"}.00 </Text>
                 </View>
                 <Text style={{ color: '#E3B448', fontSize: 12 }}>Monthly income</Text>
               </View>

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Modal,Linking } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
+import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation,useIsFocused } from '@react-navigation/native'
@@ -13,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ModalMessageE from '../ModalE';
 import ModalMessage from '../Modal';
 import i from '../../assets/Icon/Icons/Savings.png'
+import GSC2 from './GSC2';
 // import fileDownload from 'js-file-download';
 // import RNFetchBlob from 'rn-fetch-blob';
 
@@ -22,6 +24,7 @@ const ForecastSavings = ({navigation}) => {
   const screenWidth = Dimensions.get('window').width;
   const margin = screenWidth === 360 ? 5 : 2.2;
   const [showModalEMessage, setShowModalEMessage] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [income, setIncome] = useState(null)
   const [incomeError, setIncomeError] = useState(null)
   const [selectedOption, setSelectedOption] = useState('Year');
@@ -32,7 +35,14 @@ const ForecastSavings = ({navigation}) => {
   const [isPDFModalVisible, setIsPDFModalVisible] = useState(false);
   const [loader,setLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
-
+  const [selectedOption1, setSelectedOption1] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
+  const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
+  const [selectedPreviousYearVisible, setSelectedPreviousYearVisible] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
+  const [applyButtonDisabled1, setApplyButtonDisabled1] = useState(true);
   const Download = server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
 
   const navigateToScreen = (screenName) => {
@@ -50,11 +60,87 @@ const ForecastSavings = ({navigation}) => {
 
     setIncome(formattedIncome)
   }
+  useEffect(() => {
+    // Enable the Apply button if both year and month are selected
+    setApplyButtonDisabled(!selectedYear || !selectedPreviousMonth);
+  }, [selectedYear, selectedPreviousMonth]);
 
+  useEffect(() => {
+    // Enable the Apply button if both year and month are selected
+    setApplyButtonDisabled1(!selectedYear);
+  }, [selectedYear]);
+
+  const handleApplySelection = () => {
+    setIsSelectionApplied(true);
+
+    if (selectedYear && selectedPreviousMonth) {
+      // Create a new Date object using selectedYear and selectedPreviousMonth
+      const selectedDate = new Date(selectedYear, new Date(selectedPreviousMonth).getMonth() + 1, 0);
+
+      // Format the date to 'YYYY-MM-DD'
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+
+      // Log the selected values and formatted date
+      console.log('Selected Year:', selectedYear);
+      console.log('Selected Previous Month:', selectedPreviousMonth);
+      console.log('Formatted Date:', formattedDate);
+
+      const update = { ...transaction, date: selectedPreviousMonth, color: randomColor() };
+      setAction(true);
+      setTransaction(update);
+      api(update);
+    }
+
+    setPreviousMonthsVisible(false);
+    setSelectedPreviousYearVisible(false);
+  };
   const toggleModal1 = () => {
     setPdfPrint(!pdfprint)
   };
+  const toggleModal = (option) => {
+    setSelectedOption1(option);
+    setIsModalVisible(!isModalVisible);
+    setPreviousMonthsVisible(false);
+    setSelectedPreviousYearVisible(false);
 
+    if (option === 'Monthly') {
+      setPreviousMonthsVisible(true);
+      
+    } else if (option === 'Yearly') {
+      setSelectedPreviousYearVisible(true); // Display previous months options
+    }
+    // else if (option === 'Overall') {
+    //   setPdfPrint(!pdfprint)
+    // }
+  };
+
+  const getLastDayOfMonth = (year, month) => new Date(year, month + 1, 0);
+  const currentDate = new Date();
+  const currentMonthIndex = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+
+  // Calculate previous months
+  const previousMonths = [];
+  // for (let i = 0; i < currentMonthIndex; i++) {
+  //   const lastDayOfMonth = new Date(selectedYear, i + 1, 0);
+  //   const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+  //   previousMonths.push(formattedDate);
+  // }
+  if (currentYear !== selectedYear) {
+    // Push all months for the previous year
+    for (let i = 0; i < 12; i++) {
+      const lastDayOfMonth = new Date(selectedYear, i+1,0);
+      const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+      previousMonths.push(formattedDate);
+    }
+  } else {
+    // Push previous months of the current year up to the current month
+    for (let i = 0; i < currentMonthIndex; i++) {
+      const lastDayOfMonth = new Date(currentYear, i+1,0);
+      const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+      previousMonths.push(formattedDate);
+    }
+  }
   const handlePDF = async() => {
    
       setTimeout(() => {
@@ -106,6 +192,9 @@ const ForecastSavings = ({navigation}) => {
     setSelectedOption(selectedOption === 'Year' ? 'Month' : 'Year');
   };
 
+  const opencalc = () => {
+    navigation.navigate('Savings Calculator')
+  }
   const Forecast = async () => {
     setIsLoading(true);
     
@@ -199,9 +288,11 @@ const ForecastSavings = ({navigation}) => {
           alignSelf: 'center',
           width: '100%',
           paddingHorizontal: 20,
+          flexDirection: 'row',
+          justifyContent: 'flex-end'
         }}
       >
-        <View style={{ width: '45%' }}>
+        <View style={{ width: '45%', marginRight: 30}}>
           <TouchableOpacity
             style={{
               backgroundColor: '#A2A869',
@@ -216,7 +307,13 @@ const ForecastSavings = ({navigation}) => {
             <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
           </TouchableOpacity>
         </View>
-
+        <TouchableOpacity style={{padding:20, justifyContent: 'flex-end'}} onPress={opencalc}>
+              <Image
+           source={require('../../assets/Icon/calculatore.png')}
+           style={{ width: 30, height: 30}}
+           resizeMode="contain"
+         />
+           </TouchableOpacity>
       </View>
       <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, }}>
         <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
@@ -231,7 +328,7 @@ const ForecastSavings = ({navigation}) => {
               <MaterialCommunityIcons name="content-save-outline" size={30} color="#144714" />
             </View>
             </TouchableOpacity> */}
-            <Modal
+            {/* <Modal
         animationType="fade"
         transparent={true}
         visible={pdfprint}
@@ -250,7 +347,209 @@ const ForecastSavings = ({navigation}) => {
             </View>
           </View>
         </View>
+      </Modal> */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={pdfprint}
+        onRequestClose={toggleModal1}
+      >
+        <View style={Style.modalContainer}>
+          <View style={Style.modalContent}>
+
+            <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>What records and reports do you want to download?</Text>
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => toggleModal('Monthly')}
+            >
+              <Text style={Style.modalButtonText}>Monthly</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => toggleModal('Yearly')}
+            >
+              <Text style={Style.modalButtonText}>Yearly</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => toggleModal('Overall')}
+            >
+              <Text style={Style.modalButtonText}>Overall</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[Style.modalButton, Style.modalCancelButton]}
+              onPress={toggleModal1}
+            >
+              <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </Modal>
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={previousMonthsVisible}
+          onRequestClose={() => {
+            setPreviousMonthsVisible(!previousMonthsVisible);
+          }}
+        >
+          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
+            <View
+              style={{
+                backgroundColor: '#3A6B35',
+                width: '100%',
+                paddingVertical: 20,
+                paddingHorizontal: 30,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            >
+              <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
+                Select Month and Year:
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'space-between', marginBottom: 20,}}>
+              <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
+
+                <Picker
+                  selectedValue={selectedYear}
+                  style={{ height: 50, width: 150, color: '#144714', }}
+                  onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                >
+
+                  <Picker.Item label="Year" value={null} />
+                  {Array.from({ length: 5 }, (_, index) => {
+                    const year = currentYear - index;
+                    return <Picker.Item key={year} label={year.toString()} value={year} />;
+                  })}
+                </Picker>
+              </View>
+              <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
+                <Picker
+                  selectedValue={selectedPreviousMonth}
+                  style={{ height: 50, width: 150, color: '#144714' }}
+                  onValueChange={(itemValue) => setSelectedPreviousMonth(itemValue)}
+                >
+                  <Picker.Item label="Month" value={null} />
+                  {previousMonths.map((month) => (
+                    <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
+                  ))}
+                </Picker>
+              </View>
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: applyButtonDisabled ? 'gray' : '#A2A869',
+                  padding: 10,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => {
+                  if (!applyButtonDisabled) {
+                    handleApplySelection(); // Function to handle applying the selection
+                    setPreviousMonthsVisible(false);
+                  }
+                }}
+                disabled={applyButtonDisabled}
+
+              >
+                <Text style={{ color: applyButtonDisabled ? '#E3B448' : '#144714', fontSize: 18 }}>Apply</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#810000',
+                  padding: 10,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}
+                onPress={() => setPreviousMonthsVisible(false)}
+              >
+                <Text style={{ color: '#CBD18F', fontSize: 18, }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={selectedPreviousYearVisible}
+          onRequestClose={() => {
+            setSelectedPreviousYearVisible(!selectedPreviousYearVisible);
+          }}
+        >
+          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
+            <View
+              style={{
+                backgroundColor: '#3A6B35',
+                width: '100%',
+                paddingVertical: 20,
+                paddingHorizontal: 30,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            >
+              <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
+                Select Year:
+              </Text>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent:'space-between',marginBottom: 20, borderWidth: .5,  borderColor: '#144714', borderRadius: 10,}}>
+
+                <Picker
+                  selectedValue={selectedYear}
+                  style={{ height: 50, width: '100%', color: '#144714',}}
+                  onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                >
+                  <Picker.Item label="Year" value={null} />
+                  {Array.from({ length: 5 }, (_, index) => {
+                    const year = currentYear - index;
+                    return <Picker.Item key={year} label={year.toString()} value={year} />;
+                  })}
+                </Picker>
+
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: applyButtonDisabled1 ? 'gray' : '#A2A869',
+                  padding: 10,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => {
+                  if (!applyButtonDisabled1) {
+                    handleApplySelection(); // Function to handle applying the selection
+                    selectedPreviousYearVisible(false);
+                  }
+                }}
+                disabled={applyButtonDisabled1}
+
+              >
+                <Text style={{ color: applyButtonDisabled1 ? '#E3B448' : '#144714', fontSize: 18 }}>Apply</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#810000',
+                  padding: 10,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}
+                onPress={() => setSelectedPreviousYearVisible(false)}
+              >
+                <Text style={{ color: '#CBD18F', fontSize: 18, }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </Modal>
             <View style={{ padding: 18.8, marginBottom: 20, }}>
               <DonutChart data={forecast} predict={value} />
 

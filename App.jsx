@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,useMemo } from 'react';
+import React, { useState, useEffect, useContext,useMemo, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
@@ -15,6 +15,7 @@ import Verify from './views/Starting/VerifyView';
 import Pin from './views/Starting/PinView';
 import Home from './views/Landing/Home';
 import Forgot from './views/Starting/ForgotpasswordView';
+import GSC2 from './views/Landing/GSC2';
 import MonthlyIncome from './views/Starting/MonthlyincomeView';
 import InspectExpenses from './views/Landing/InspectExpenses';
 import InspectIncome from './views/Landing/InspectIncome';
@@ -39,6 +40,7 @@ import ReportInbox from './views/Landing/ReportInbox';
 import  AsyncStorage  from '@react-native-async-storage/async-storage'
 import { getItem } from './utils/asyncStorage';
 import Logo from './views/Logo';
+import CalcInstruction from './views/Landing/CalcInstruction';
 
 
 
@@ -407,6 +409,9 @@ const App = ({navigation}) => {
     setIncomeIcon,totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,
       totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay]);
 
+      // const openAbout = () => {
+      //   navigation.navigate('Calculator Guide')
+      // }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#3A6B35'}}>
       <ExpoStatusBar
@@ -668,6 +673,47 @@ const App = ({navigation}) => {
                 headerTitleAlign:'center'
               }}
             />
+            
+            <Stack.Screen
+              name="Savings Calculator"
+              component={GSC2}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_right',
+                headerStyle: {
+                  backgroundColor: '#144714',
+                  height: 80,
+                },
+                headerTintColor: '#E3B448',
+                headerTitleStyle: {
+                  fontSize: 24,
+                  fontWeight: 'normal',
+                },
+                // headerRight: () => (
+                //   <TouchableOpacity onPress={() => openAbout()} style={{ marginRight: 1}}>
+                //     <AntDesign name="exclamationcircleo" size={30} color={'#E3B448'} />
+                //   </TouchableOpacity>
+                // ),
+              }}
+            />
+            <Stack.Screen
+              name="Calculator Guide"
+              component={CalcInstruction}
+              options={{
+                headerShown: true,
+                animation: 'slide_from_bottom',
+                headerStyle: {
+                  backgroundColor: '#144714', // Background color for the header
+                  height: 80,
+                },
+                headerTintColor: '#E3B448', // Text color
+                headerTitleStyle: {
+                  fontSize: 24, // Font size for the title
+                  fontWeight: 'normal', // Font weight for the title
+                },
+                
+              }}
+            />
             <Stack.Screen
               name="About"
               component={About}
@@ -826,16 +872,29 @@ function DrawerScreen({navigation,route }) {
 
 function Homescreen({ navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedAddOption, setSelectedAddOption] = useState('');
+  const selectedAddOptionRef = useRef('');
+
   const toggleModal = (option) => {
-    setSelectedAddOption(option);
-    if (selectedAddOption === 'expenses') {
-      setSelectedAddOption('income');
-    } else {
-      setSelectedAddOption('expenses');
-    }
+    selectedAddOptionRef.current = option;
     setIsModalVisible(!isModalVisible);
   };
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      const selectedAddOption = selectedAddOptionRef.current;
+  
+      if (selectedAddOption === 'expenses') {
+        navigation.navigate('Add expenses');
+      } else if (selectedAddOption === 'income') {
+        navigation.navigate('Add income');
+      }
+  
+      // Reset the selected option after navigating
+      selectedAddOptionRef.current = '';
+    }
+  }, [isModalVisible, navigation]);
+  
+  
 
   return (
     <View style={Style.common}>
@@ -843,9 +902,7 @@ function Homescreen({ navigation }) {
         animationType="slide"
         transparent={true}
         visible={isModalVisible}
-        onRequestClose={() => {
-          setIsModalVisible(!isModalVisible);
-        }}
+        onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={Style.modalContainer}>
           <View style={Style.modalContent}>
@@ -853,31 +910,22 @@ function Homescreen({ navigation }) {
             <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Select an option:</Text>
             <TouchableOpacity
               style={Style.modalButton}
-              onPress={() => {
-
-                setIsModalVisible(!isModalVisible);
-                if (selectedAddOption == 'expenses') {
-                  navigation.navigate('Add expenses');
-                }
-              }}
+              onPress={() => toggleModal('expenses')}
             >
               <Text style={Style.modalButtonText}>Add Expenses</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={Style.modalButton}
-              onPress={() => {
-
-                setIsModalVisible(!isModalVisible);
-                if (selectedAddOption == 'income') {
-                  navigation.navigate('Add income');
-                }
-              }}
+              onPress={() => toggleModal('income')}
             >
               <Text style={Style.modalButtonText}>Add Income</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[Style.modalButton, Style.modalCancelButton]}
-              onPress={() => setIsModalVisible(!isModalVisible)}
+              onPress={() => {
+                setIsModalVisible(false);
+                selectedAddOptionRef.current = 'cancel'; // Set a flag to indicate cancel
+              }}
             >
               <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
             </TouchableOpacity>
@@ -940,7 +988,7 @@ function Homescreen({ navigation }) {
       </Tab.Navigator>
       <View style={{ position: 'absolute', width: 55, height: 55, bottom: -10, backgroundColor: '#144714', borderRadius: 30, justifyContent: 'center', alignSelf: 'center', alignItems: 'center', marginBottom: Platform.OS == 'android' ? 50 : 30 }}>
         <TouchableOpacity
-          onPress={() => toggleModal()}
+         onPress={() => toggleModal(selectedAddOptionRef.current === 'expenses' ? 'income' : 'expenses')}
           style={{ width: 50, height: 50, }}
         >
           <Image source={plus} style={{ width: 50, height: 50 }} />
@@ -961,21 +1009,30 @@ function CustomDrawerContent({}) {
   };
 
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedAddOption, setSelectedAddOption] = useState(true);
   const [loader,setLoader] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const selectedAddOptionRef = useRef('');
 
   const toggleModal = (option) => {
-    setSelectedAddOption(option);
-    if (selectedAddOption === 'expenses') {
-      setSelectedAddOption('income');
-    
-    } else {
-      setSelectedAddOption('expenses');
-      
-    }
+    selectedAddOptionRef.current = option;
     setIsModalVisible(!isModalVisible);
   };
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      const selectedAddOption = selectedAddOptionRef.current;
+  
+      if (selectedAddOption === 'expenses') {
+        navigation.navigate('Add expenses');
+      } else if (selectedAddOption === 'income') {
+        navigation.navigate('Add income');
+      }
+  
+      // Reset the selected option after navigating
+      selectedAddOptionRef.current = '';
+    }
+  }, [isModalVisible, navigation]);
+
   const toggleModal1 = () => {
     setIsLogoutModalVisible(!isLogoutModalVisible)
   };
@@ -1070,9 +1127,7 @@ function CustomDrawerContent({}) {
         animationType="slide"
         transparent={true}
         visible={isModalVisible}
-        onRequestClose={() => {
-          setIsModalVisible(!isModalVisible);
-        }}
+        onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={Style.modalContainer}>
           <View style={Style.modalContent}>
@@ -1080,31 +1135,22 @@ function CustomDrawerContent({}) {
             <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Select an option:</Text>
             <TouchableOpacity
               style={Style.modalButton}
-              onPress={() => {
-
-                setIsModalVisible(!isModalVisible);
-                if (selectedAddOption == 'expenses') {
-                  navigation.navigate('Add expenses');
-                }
-              }}
+              onPress={() => toggleModal('expenses')}
             >
               <Text style={Style.modalButtonText}>Add Expenses</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={Style.modalButton}
-              onPress={() => {
-
-                setIsModalVisible(!isModalVisible);
-                if (selectedAddOption == 'income') {
-                  navigation.navigate('Add income');
-                }
-              }}
+              onPress={() => toggleModal('income')}
             >
               <Text style={Style.modalButtonText}>Add Income</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[Style.modalButton, Style.modalCancelButton]}
-              onPress={() => setIsModalVisible(!isModalVisible)}
+              onPress={() => {
+                setIsModalVisible(false);
+                selectedAddOptionRef.current = 'cancel'; // Set a flag to indicate cancel
+              }}
             >
               <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
             </TouchableOpacity>
