@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Modal,Linking } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Modal, Linking } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation,useIsFocused } from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native'
 import DonutChart from './DonutChart'
 import { axiosRequest, server } from '../../api_server/axios';
 import UserContext from '../../api_server/context';
@@ -18,7 +18,7 @@ import GSC2 from './GSC2';
 // import fileDownload from 'js-file-download';
 // import RNFetchBlob from 'rn-fetch-blob';
 
-const ForecastSavings = ({navigation}) => {
+const ForecastSavings = ({ navigation }) => {
   // const navigation = useNavigation()
   const isFocused = useIsFocused();
   const screenWidth = Dimensions.get('window').width;
@@ -29,21 +29,22 @@ const ForecastSavings = ({navigation}) => {
   const [incomeError, setIncomeError] = useState(null)
   const [selectedOption, setSelectedOption] = useState('Year');
   const [forecast, setForcast] = useState([])
-  const { context, totalincome,pdfprint,setPdfPrint,delay,setDelay } = useContext(UserContext)
+  const { context, totalincome, pdfprint, setPdfPrint, delay, setDelay } = useContext(UserContext)
   const [value, setValue] = useState(null)
   const [isLoading, setIsLoading] = useState(false);
   const [isPDFModalVisible, setIsPDFModalVisible] = useState(false);
-  const [loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [selectedOption1, setSelectedOption1] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
   const [selectedPreviousMonth, setSelectedPreviousMonth] = useState(null);
   const [selectedPreviousYearVisible, setSelectedPreviousYearVisible] = useState(null);
+  const [selectedOverallVisible, setSelectedOverallVisible] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
   const [applyButtonDisabled1, setApplyButtonDisabled1] = useState(true);
-  const Download = server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
+  const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
 
   const navigateToScreen = (screenName) => {
     navigation.navigate(screenName);
@@ -93,26 +94,30 @@ const ForecastSavings = ({navigation}) => {
 
     setPreviousMonthsVisible(false);
     setSelectedPreviousYearVisible(false);
+    setSelectedOverallVisible(false);
   };
   const toggleModal1 = () => {
-    setPdfPrint(!pdfprint)
+    console.log('Before toggle:', pdfprint);
+    setPdfPrint(!pdfprint);
+    console.log('After toggle:', !pdfprint);
   };
+  
   const toggleModal = (option) => {
     setSelectedOption1(option);
     setIsModalVisible(!isModalVisible);
     setPreviousMonthsVisible(false);
     setSelectedPreviousYearVisible(false);
+    setSelectedOverallVisible(false);
 
     if (option === 'Monthly') {
       setPreviousMonthsVisible(true);
-      
     } else if (option === 'Yearly') {
-      setSelectedPreviousYearVisible(true); // Display previous months options
+      setSelectedPreviousYearVisible(true);
+    } else if (option === 'Overall') {
+      // Set the state to show the pdfprint modal
+      setSelectedOverallVisible(true);
     }
-    // else if (option === 'Overall') {
-    //   setPdfPrint(!pdfprint)
-    // }
-  };
+  }
 
   const getLastDayOfMonth = (year, month) => new Date(year, month + 1, 0);
   const currentDate = new Date();
@@ -129,37 +134,38 @@ const ForecastSavings = ({navigation}) => {
   if (currentYear !== selectedYear) {
     // Push all months for the previous year
     for (let i = 0; i < 12; i++) {
-      const lastDayOfMonth = new Date(selectedYear, i+1,0);
+      const lastDayOfMonth = new Date(selectedYear, i + 1, 0);
       const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
       previousMonths.push(formattedDate);
     }
   } else {
     // Push previous months of the current year up to the current month
     for (let i = 0; i < currentMonthIndex; i++) {
-      const lastDayOfMonth = new Date(currentYear, i+1,0);
+      const lastDayOfMonth = new Date(currentYear, i + 1, 0);
       const formattedDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
       previousMonths.push(formattedDate);
     }
   }
-  const handlePDF = async() => {
-   
-      setTimeout(() => {
-        Linking.openURL(server+`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`)
-        setIsLoading(false); 
-        
-      }, 1000);
+  const handlePDF = async () => {
 
-   
+    setTimeout(() => {
+      Linking.openURL(server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`)
+      setIsLoading(false);
+
+    }, 1000);
+
+
   };
   const handlePDFConfirmed = async () => {
     toggleModal1(); // Close the logout modal
+    toggleModal();
     setLoader(true); // Show the loading indicator
-  
+
     // Simulate an asynchronous logout process
     await new Promise(resolve => setTimeout(resolve, 5000)); // Replace this with your actual logout logic
-  
+
     // Once the logout process is complete, navigate to the login screen and hide the loader
-    handlePDF(); 
+    handlePDF();
     setLoader(false);
     navigateToScreen('Forecast Savings');
     // setShowModalMessage(true);
@@ -197,7 +203,7 @@ const ForecastSavings = ({navigation}) => {
   }
   const Forecast = async () => {
     setIsLoading(true);
-    
+
     axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}`)
       .then((response) => {
         setTimeout(() => {
@@ -222,31 +228,31 @@ const ForecastSavings = ({navigation}) => {
 
   useEffect(() => {
     const onFocus = async () => {
-   if(Object.keys(forecast).length){
-    setDelay(false)
-    // console.log(forecast)
-   }else{
- 
-   }
-  }
-  if(Object.keys(forecast).length){
-    setDelay(false)
-    // console.log(forecast)
-   }else{
- 
-   }
+      if (Object.keys(forecast).length) {
+        setDelay(false)
+        // console.log(forecast)
+      } else {
 
-  const unsubscribe = navigation.addListener('focus', onFocus);
-   return () => {
-     unsubscribe();
+      }
+    }
+    if (Object.keys(forecast).length) {
+      setDelay(false)
+      // console.log(forecast)
+    } else {
 
-   };
+    }
+
+    const unsubscribe = navigation.addListener('focus', onFocus);
+    return () => {
+      unsubscribe();
+
+    };
   }, [forecast]);
 
   return (
     <View style={Style.common}>
       <Loader visible={isLoading} message="Analyzing Data..." />
-      <Loader visible ={loader} message="Generating PDF..."/>
+      <Loader visible={loader} message="Generating PDF..." />
       <View style={{ marginBottom: 20, }}>
         <View
           style={{
@@ -292,7 +298,7 @@ const ForecastSavings = ({navigation}) => {
           justifyContent: 'flex-end'
         }}
       >
-        <View style={{ width: '45%', marginRight: 30}}>
+        <View style={{ width: '45%', marginRight: 30 }}>
           <TouchableOpacity
             style={{
               backgroundColor: '#A2A869',
@@ -307,13 +313,13 @@ const ForecastSavings = ({navigation}) => {
             <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{padding:20, justifyContent: 'flex-end'}} onPress={opencalc}>
-              <Image
-           source={require('../../assets/Icon/calculatore.png')}
-           style={{ width: 30, height: 30}}
-           resizeMode="contain"
-         />
-           </TouchableOpacity>
+        <TouchableOpacity style={{ padding: 20, justifyContent: 'flex-end' }} onPress={opencalc}>
+          <Image
+            source={require('../../assets/Icon/calculatore.png')}
+            style={{ width: 30, height: 30 }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
       </View>
       <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, }}>
         <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
@@ -328,236 +334,276 @@ const ForecastSavings = ({navigation}) => {
               <MaterialCommunityIcons name="content-save-outline" size={30} color="#144714" />
             </View>
             </TouchableOpacity> */}
-            {/* <Modal
-        animationType="fade"
-        transparent={true}
-        visible={pdfprint}
-        onRequestClose={toggleModal1}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Do you want to save it to PDF file?</Text>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.yesButton} onPress={handlePDFConfirmed}>
-                <Text style={styles.buttonText}>Yes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.noButton} onPress={toggleModal1}>
-                <Text style={styles.buttonText2}>No</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal> */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={pdfprint}
-        onRequestClose={toggleModal1}
-      >
-        <View style={Style.modalContainer}>
-          <View style={Style.modalContent}>
-
-            <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>What records and reports do you want to download?</Text>
-            <TouchableOpacity
-              style={Style.modalButton}
-              onPress={() => toggleModal('Monthly')}
+           
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={pdfprint}
+              onRequestClose={toggleModal1}
             >
-              <Text style={Style.modalButtonText}>Monthly</Text>
-            </TouchableOpacity>
+              <View style={Style.modalContainer}>
+                <View style={Style.modalContent}>
+
+                  <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>What records and reports do you want to download?</Text>
+                  <TouchableOpacity
+                    style={Style.modalButton}
+                    onPress={() => toggleModal('Monthly')}
+                  >
+                    <Text style={Style.modalButtonText}>Monthly</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={Style.modalButton}
+                    onPress={() => toggleModal('Yearly')}
+                  >
+                    <Text style={Style.modalButtonText}>Yearly</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={Style.modalButton}
+                    onPress={() => toggleModal('Overall')}
+                  >
+                    <Text style={Style.modalButtonText}>Overall</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[Style.modalButton, Style.modalCancelButton]}
+                    onPress={toggleModal1}
+                  >
+                    <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={previousMonthsVisible}
+              onRequestClose={() => {
+                setPreviousMonthsVisible(!previousMonthsVisible);
+              }}
+            >
+              <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
+                <View
+                  style={{
+                    backgroundColor: '#3A6B35',
+                    width: '100%',
+                    paddingVertical: 20,
+                    paddingHorizontal: 30,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
+                >
+                  <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
+                    Select Month and Year:
+                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, }}>
+                    <View style={{ borderWidth: .5, borderColor: '#144714', borderRadius: 10 }}>
+
+                      <Picker
+                        selectedValue={selectedYear}
+                        style={{ height: 50, width: 150, color: '#144714', }}
+                        onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                      >
+
+                        <Picker.Item label="Year" value={null} />
+                        {Array.from({ length: 5 }, (_, index) => {
+                          const year = currentYear - index;
+                          return <Picker.Item key={year} label={year.toString()} value={year} />;
+                        })}
+                      </Picker>
+                    </View>
+                    <View style={{ borderWidth: .5, borderColor: '#144714', borderRadius: 10 }}>
+                      <Picker
+                        selectedValue={selectedPreviousMonth}
+                        style={{ height: 50, width: 150, color: '#144714' }}
+                        onValueChange={(itemValue) => setSelectedPreviousMonth(itemValue)}
+                      >
+                        <Picker.Item label="Month" value={null} />
+                        {previousMonths.map((month) => (
+                          <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
+                        ))}
+                      </Picker>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: applyButtonDisabled ? 'gray' : '#A2A869',
+                      padding: 10,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => {
+                      if (!applyButtonDisabled) {
+                        handleApplySelection(); // Function to handle applying the selection
+                        setPreviousMonthsVisible(false);
+                      }
+                    }}
+                    disabled={applyButtonDisabled}
+
+                  >
+                    <Text style={{ color: applyButtonDisabled ? '#E3B448' : '#144714', fontSize: 18 }}>Apply</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#810000',
+                      padding: 10,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 10,
+                    }}
+                    onPress={() => setPreviousMonthsVisible(false)}
+                  >
+                    <Text style={{ color: '#CBD18F', fontSize: 18, }}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+
+                </View>
+              </View>
+            </Modal>
             
-            <TouchableOpacity
-              style={Style.modalButton}
-              onPress={() => toggleModal('Yearly')}
-            >
-              <Text style={Style.modalButtonText}>Yearly</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Style.modalButton}
-              onPress={() => toggleModal('Overall')}
-            >
-              <Text style={Style.modalButtonText}>Overall</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[Style.modalButton, Style.modalCancelButton]}
-              onPress={toggleModal1}
-            >
-              <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <Modal
-          animationType="slide"
-          transparent={true}
-          visible={previousMonthsVisible}
-          onRequestClose={() => {
-            setPreviousMonthsVisible(!previousMonthsVisible);
-          }}
-        >
-          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
-            <View
-              style={{
-                backgroundColor: '#3A6B35',
-                width: '100%',
-                paddingVertical: 20,
-                paddingHorizontal: 30,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={selectedPreviousYearVisible}
+              onRequestClose={() => {
+                setSelectedPreviousYearVisible(!selectedPreviousYearVisible);
               }}
             >
-              <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
-                Select Month and Year:
-              </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'space-between', marginBottom: 20,}}>
-              <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
-
-                <Picker
-                  selectedValue={selectedYear}
-                  style={{ height: 50, width: 150, color: '#144714', }}
-                  onValueChange={(itemValue) => setSelectedYear(itemValue)}
+              <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
+                <View
+                  style={{
+                    backgroundColor: '#3A6B35',
+                    width: '100%',
+                    paddingVertical: 20,
+                    paddingHorizontal: 30,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
                 >
+                  <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
+                    Select Year:
+                  </Text>
+                  <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-between', marginBottom: 20, borderWidth: .5, borderColor: '#144714', borderRadius: 10, }}>
 
-                  <Picker.Item label="Year" value={null} />
-                  {Array.from({ length: 5 }, (_, index) => {
-                    const year = currentYear - index;
-                    return <Picker.Item key={year} label={year.toString()} value={year} />;
-                  })}
-                </Picker>
-              </View>
-              <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
-                <Picker
-                  selectedValue={selectedPreviousMonth}
-                  style={{ height: 50, width: 150, color: '#144714' }}
-                  onValueChange={(itemValue) => setSelectedPreviousMonth(itemValue)}
-                >
-                  <Picker.Item label="Month" value={null} />
-                  {previousMonths.map((month) => (
-                    <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
-                  ))}
-                </Picker>
-              </View>
-              </View>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: applyButtonDisabled ? 'gray' : '#A2A869',
-                  padding: 10,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  if (!applyButtonDisabled) {
-                    handleApplySelection(); // Function to handle applying the selection
-                    setPreviousMonthsVisible(false);
-                  }
-                }}
-                disabled={applyButtonDisabled}
+                    <Picker
+                      selectedValue={selectedYear}
+                      style={{ height: 50, width: '100%', color: '#144714', }}
+                      onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                    >
+                      <Picker.Item label="Year" value={null} />
+                      {Array.from({ length: 5 }, (_, index) => {
+                        const year = currentYear - index;
+                        return <Picker.Item key={year} label={year.toString()} value={year} />;
+                      })}
+                    </Picker>
 
-              >
-                <Text style={{ color: applyButtonDisabled ? '#E3B448' : '#144714', fontSize: 18 }}>Apply</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#810000',
-                  padding: 10,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: 10,
-                }}
-                onPress={() => setPreviousMonthsVisible(false)}
-              >
-                <Text style={{ color: '#CBD18F', fontSize: 18, }}>
-                  Cancel
-                </Text>
-              </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: applyButtonDisabled1 ? 'gray' : '#A2A869',
+                      padding: 10,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => {
+                      if (!applyButtonDisabled1) {
+                        handleApplySelection(); // Function to handle applying the selection
+                        selectedPreviousYearVisible(false);
+                      }
+                    }}
+                    disabled={applyButtonDisabled1}
 
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={selectedPreviousYearVisible}
-          onRequestClose={() => {
-            setSelectedPreviousYearVisible(!selectedPreviousYearVisible);
-          }}
-        >
-          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
-            <View
-              style={{
-                backgroundColor: '#3A6B35',
-                width: '100%',
-                paddingVertical: 20,
-                paddingHorizontal: 30,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
+                  >
+                    <Text style={{ color: applyButtonDisabled1 ? '#E3B448' : '#144714', fontSize: 18 }}>Apply</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#810000',
+                      padding: 10,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 10,
+                    }}
+                    onPress={() => setSelectedPreviousYearVisible(false)}
+                  >
+                    <Text style={{ color: '#CBD18F', fontSize: 18, }}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={selectedOverallVisible}
+              onRequestClose={() => {
+                setSelectedOverallVisible(!selectedOverallVisible);
               }}
             >
-              <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
-                Select Year:
-              </Text>
-              <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent:'space-between',marginBottom: 20, borderWidth: .5,  borderColor: '#144714', borderRadius: 10,}}>
-
-                <Picker
-                  selectedValue={selectedYear}
-                  style={{ height: 50, width: '100%', color: '#144714',}}
-                  onValueChange={(itemValue) => setSelectedYear(itemValue)}
+              <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', }}>
+                <View
+                  style={{
+                    backgroundColor: '#3A6B35',
+                    width: '100%',
+                    paddingVertical: 20,
+                    paddingHorizontal: 30,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
                 >
-                  <Picker.Item label="Year" value={null} />
-                  {Array.from({ length: 5 }, (_, index) => {
-                    const year = currentYear - index;
-                    return <Picker.Item key={year} label={year.toString()} value={year} />;
-                  })}
-                </Picker>
+                  <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
+                    Do you want to download the overall records and reports?
+                  </Text>
+                  
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#CBD18F',
+                      padding: 10,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 10,
+                    }}
+                    onPress={handlePDFConfirmed}
+                  >
+                    <Text style={{ color: '#144714', fontSize: 18, }}>
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#810000',
+                      padding: 10,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 10,
+                    }}
+                    onPress={() => setSelectedOverallVisible(false)}
+                  >
+                    <Text style={{ color: '#CBD18F', fontSize: 18, }}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
 
+                </View>
               </View>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: applyButtonDisabled1 ? 'gray' : '#A2A869',
-                  padding: 10,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  if (!applyButtonDisabled1) {
-                    handleApplySelection(); // Function to handle applying the selection
-                    selectedPreviousYearVisible(false);
-                  }
-                }}
-                disabled={applyButtonDisabled1}
-
-              >
-                <Text style={{ color: applyButtonDisabled1 ? '#E3B448' : '#144714', fontSize: 18 }}>Apply</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#810000',
-                  padding: 10,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: 10,
-                }}
-                onPress={() => setSelectedPreviousYearVisible(false)}
-              >
-                <Text style={{ color: '#CBD18F', fontSize: 18, }}>
-                  Cancel
-                </Text>
-              </TouchableOpacity>
-
-            </View>
-          </View>
-        </Modal>
+            </Modal>
             <View style={{ padding: 18.8, marginBottom: 20, }}>
               <DonutChart data={forecast} predict={value} />
 
             </View>
 
-            <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => { 
-              
-              navigation.navigate('History', { details: forecast }) }}>
+            <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => {
+
+              navigation.navigate('History', { details: forecast })
+            }}>
               <Text style={{ color: '#144714', fontSize: 18, }}>View details</Text>
             </TouchableOpacity>
           </View> : <View style={{ justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: 13, width: '100%' }}>
@@ -569,7 +615,7 @@ const ForecastSavings = ({navigation}) => {
           </View>}
       </View>
       <ModalMessageE showAutomatically={showModalEMessage} message="Something went wrong!" icon={<MaterialIcons name="warning" size={200} color="#810000" />} navigateToScreen="" />
-      <ModalMessage showAutomatically={showModalMessage} message="Download completed!" icon={<MaterialCommunityIcons name="file-download-outline" size={200} color="#CBD28F" />} navigateToScreen=""/>
+      <ModalMessage showAutomatically={showModalMessage} message="Download completed!" icon={<MaterialCommunityIcons name="file-download-outline" size={200} color="#CBD28F" />} navigateToScreen="" />
     </View>
   )
 }
