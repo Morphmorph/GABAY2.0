@@ -61,7 +61,7 @@ const AddExpenses = ({ route }) => {
       const update = { ...transaction, date: selectedPreviousMonth, color: randomColor() };
       setAction(true);
       setTransaction(update);
-      api(update);
+      api(update,"No");
     }
 
     setPreviousMonthsVisible(false);
@@ -91,7 +91,7 @@ const AddExpenses = ({ route }) => {
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth()
       const currentYear = currentDate.getFullYear(); // Get the current year
-      const lastDayOfMonth = new Date(currentYear, currentMonth + 1,).getDate(); // Get the last day of the month
+      const lastDayOfMonth = new Date(currentYear, currentMonth + 1,0).getDate(); // Get the last day of the month
 
       const selectedMonthWithYear = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(lastDayOfMonth).padStart(2, '0')}`;
       setSelectedMonth(selectedMonthWithYear);
@@ -100,7 +100,7 @@ const AddExpenses = ({ route }) => {
       const update = { ...transaction, date: selectedMonthWithYear, color: randomColor() }
       setAction(l)
       setTransaction(update)
-      api(update)
+      api(update,"No")
       // navigation.navigate('Home', {
       //   expenses: expenses,
       //   selectedIcons: selectedIcons,
@@ -182,26 +182,48 @@ const AddExpenses = ({ route }) => {
     }
   };
 
-  const api = async (data) => {
+  const api = async (data,overwrite) => {
     try {
       // Format the date to 'YYYY-MM-DD'
       const formattedDate = new Date(data.date).toISOString().split('T')[0];
       data.date = formattedDate;
       
-      const response = await axiosRequest.post("gabay/transaction/", data, {
+      const response = await axiosRequest.post(`gabay/transaction/?overwrite=${overwrite}`, data, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
-        console.log(data)
+        console.log(response.data.code)
       setAction(false);
 
       // Show the modal message upon successful submission
       setShowModalMessage(true);
       setTimeout(() => setShowModalMessage(false), 500);
     } catch (error) {
-      console.log(error);
+      console.log(data);
+      if(error.response.data.code == 226){
+
+
+        Alert.alert(`${data.description} Already Exist!`,"Save and Continue?",
+        [
+    {
+      text: "Yes",
+      onPress: () => {api(data,"Yes")
+        }
+      ,
+      style: "yes"
+    },   {
+          text: "No",
+          onPress: () => {
+        }
+          ,
+          style: "cancel"
+        }
+  ]
+       )
+      }
+ 
       setAction(false);
     }
   };

@@ -151,7 +151,7 @@ const App = ({navigation}) => {
       },
       {
         icon: require('./assets/Icon/necessities/n2.png'),
-        text: 'Ensurance',
+        text: 'Insurance',
       },
       {
         icon: require('./assets/Icon/necessities/n3.png'),
@@ -838,7 +838,8 @@ function DrawerScreen({navigation,route }) {
 
           return(
           delay ? null:
-          <TouchableOpacity style={{padding:20}} onPress={() => setPdfPrint(true)}>
+          <TouchableOpacity style={{padding:20}} onPress={() => {setPdfPrint(true)
+          }}>
               <Image
            source={require('./assets/pdf.png')}
            style={{ width: 30, height: 30}}

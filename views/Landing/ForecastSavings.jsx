@@ -71,36 +71,25 @@ const ForecastSavings = ({ navigation }) => {
     setApplyButtonDisabled1(!selectedYear);
   }, [selectedYear]);
 
-  const handleApplySelection = () => {
-    setIsSelectionApplied(true);
+  const handleApplySelection = (freq) => {
+    console.log(selectedYear)
+    setLoader(true);
+    setPdfPrint(!pdfprint);
+    setTimeout(() => {
+      Linking.openURL(server + `gabay/generate-pdf/${context.id}/?year=${selectedYear}&month=${selectedPreviousMonth}&freq=${freq}`)
+      setLoader(false);
+      setIsModalVisible(false)
+    }, 1000);
 
-    if (selectedYear && selectedPreviousMonth) {
-      // Create a new Date object using selectedYear and selectedPreviousMonth
-      const selectedDate = new Date(selectedYear, new Date(selectedPreviousMonth).getMonth() + 1, 0);
-
-      // Format the date to 'YYYY-MM-DD'
-      const formattedDate = selectedDate.toISOString().split('T')[0];
-
-      // Log the selected values and formatted date
-      console.log('Selected Year:', selectedYear);
-      console.log('Selected Previous Month:', selectedPreviousMonth);
-      console.log('Formatted Date:', formattedDate);
-
-      const update = { ...transaction, date: selectedPreviousMonth, color: randomColor() };
-      setAction(true);
-      setTransaction(update);
-      api(update);
-    }
-
-    setPreviousMonthsVisible(false);
-    setSelectedPreviousYearVisible(false);
-    setSelectedOverallVisible(false);
   };
   const toggleModal1 = () => {
     console.log('Before toggle:', pdfprint);
     setPdfPrint(!pdfprint);
     console.log('After toggle:', !pdfprint);
   };
+  const [availableYears, setAvailableYears] = useState([]);
+  const [availableMonth, setAvailableMonth] = useState({});
+
   
   const toggleModal = (option) => {
     setSelectedOption1(option);
@@ -109,16 +98,54 @@ const ForecastSavings = ({ navigation }) => {
     setSelectedPreviousYearVisible(false);
     setSelectedOverallVisible(false);
 
+    const filterAPI = () => {
+      axiosRequest.get(`gabay/same/year/${context.id}/?year=${selectedYear}`)
+        .then((response) => {
+          const date = { ...response.data };
+          // setDdate(date);
+           console.log(response.data)
+          // // Extract the unique years from the expenses data
+          const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
+          setAvailableYears(uniqueYears);
+  
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+
+
+
     if (option === 'Monthly') {
       setPreviousMonthsVisible(true);
+      filterAPI()
     } else if (option === 'Yearly') {
       setSelectedPreviousYearVisible(true);
+
+
+      filterAPI()
     } else if (option === 'Overall') {
       // Set the state to show the pdfprint modal
       setSelectedOverallVisible(true);
     }
   }
 
+  const filterAPmonth = (year) => {
+    axiosRequest.get(`gabay/same/month/year/${context.id}/?year=${year}`)
+      .then((response) => {
+        // setDdate(date);
+         console.log(response.data)
+         data = response.data
+        // // Extract the unique years from the expenses data
+        // const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
+        setAvailableMonth(data);
+        console.log(data);
+
+      })
+      .catch((e) => {
+        console.log(availableMonth);
+      });
+  }
   const getLastDayOfMonth = (year, month) => new Date(year, month + 1, 0);
   const currentDate = new Date();
   const currentMonthIndex = currentDate.getMonth();
@@ -401,14 +428,19 @@ const ForecastSavings = ({ navigation }) => {
                       <Picker
                         selectedValue={selectedYear}
                         style={{ height: 50, width: 150, color: '#144714', }}
-                        onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                        onValueChange={(itemValue) => {setSelectedYear(itemValue)
+                        filterAPmonth(itemValue)
+                        }}
                       >
 
                         <Picker.Item label="Year" value={null} />
-                        {Array.from({ length: 5 }, (_, index) => {
+                        {/* {Array.from({ length: 5 }, (_, index) => {
                           const year = currentYear - index;
-                          return <Picker.Item key={year} label={year.toString()} value={year} />;
-                        })}
+                          return <Picker.Item key={availableYears} label={availableYears.toString()} value={availableYears} />;
+                        })} */}
+                         {availableYears.map((year)=> (
+                           <Picker.Item key={year} label={year.toString()} value={year} />
+                        ))}
                       </Picker>
                     </View>
                     <View style={{ borderWidth: .5, borderColor: '#144714', borderRadius: 10 }}>
@@ -418,8 +450,8 @@ const ForecastSavings = ({ navigation }) => {
                         onValueChange={(itemValue) => setSelectedPreviousMonth(itemValue)}
                       >
                         <Picker.Item label="Month" value={null} />
-                        {previousMonths.map((month) => (
-                          <Picker.Item key={month} label={new Date(month).toLocaleString('default', { month: 'long' })} value={month} />
+                        { availableMonth && Array.isArray(availableMonth) && availableMonth.map((month) => (
+                          <Picker.Item key={month.date} label={new Date(month.date).toLocaleString('default', { month: 'long' })} value={month.date} />
                         ))}
                       </Picker>
                     </View>
@@ -434,7 +466,7 @@ const ForecastSavings = ({ navigation }) => {
                     }}
                     onPress={() => {
                       if (!applyButtonDisabled) {
-                        handleApplySelection(); // Function to handle applying the selection
+                        handleApplySelection("Monthly"); // Function to handle applying the selection
                         setPreviousMonthsVisible(false);
                       }
                     }}
@@ -493,10 +525,9 @@ const ForecastSavings = ({ navigation }) => {
                       onValueChange={(itemValue) => setSelectedYear(itemValue)}
                     >
                       <Picker.Item label="Year" value={null} />
-                      {Array.from({ length: 5 }, (_, index) => {
-                        const year = currentYear - index;
-                        return <Picker.Item key={year} label={year.toString()} value={year} />;
-                      })}
+                      {availableYears.map((year)=> (
+                           <Picker.Item key={year} label={year.toString()} value={year} />
+                        ))}
                     </Picker>
 
                   </View>
@@ -510,8 +541,8 @@ const ForecastSavings = ({ navigation }) => {
                     }}
                     onPress={() => {
                       if (!applyButtonDisabled1) {
-                        handleApplySelection(); // Function to handle applying the selection
-                        selectedPreviousYearVisible(false);
+                        handleApplySelection("Yearly"); // Function to handle applying the selection
+                        setSelectedPreviousYearVisible(false);
                       }
                     }}
                     disabled={applyButtonDisabled1}
