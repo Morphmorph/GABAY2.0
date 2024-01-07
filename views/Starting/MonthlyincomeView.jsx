@@ -30,7 +30,7 @@ const MonthlyIncome = () => {
         <View style={[Style.common, { justifyContent: 'center' }]}>
           <Loader visible={loader} message="Adding..." />
           <View style={Style.container}>
-            <Text style={Style.textcolor}>MONTHLY MAIN INCOME</Text>
+            <Text style={Style.textcolor}>MONTHLY GROSS INCOME</Text>
 
             <CustomInput
               iconName="currency-php"
@@ -48,7 +48,7 @@ const MonthlyIncome = () => {
             <TouchableOpacity style={Style.signInButton} onPress={startButtonPressed}>
               <Text style={Style.signInButtonText}>Start</Text>
             </TouchableOpacity>
-            <ModalMessage showAutomatically={showModalMessage} message="Main income successfully added!" icon={<MaterialCommunityIcons name="sack" size={200} color="#E3B448" />} navigateToScreen="Homescreen"/>
+            <ModalMessage showAutomatically={showModalMessage} message="Gross income successfully added!" icon={<MaterialCommunityIcons name="sack" size={200} color="#E3B448" />} navigateToScreen="Homescreen"/>
             <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
           </View>   
         </View>

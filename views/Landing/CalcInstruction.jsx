@@ -11,7 +11,7 @@ const CalcInstruction = () => {
         <Text style={[styles.paragraph, { marginTop: -10 }]}>
         How To Use Our Savings Calculator? {'\n\n'}
         <Text style={{ color: '#E3B448' }}>For using our Savings Calculator</Text>, you need to put certain information in the mentioned required fields, such as the amount you want to contribute, the frequency rate you will adopt (e.g. monthly, quarterly, yearly), and the length of the total time you want to invest in the program.
-            Our calculator will use your given information to estimate the overall returns on your total investment, based on the current interest rate. 
+            Our calculator will use your given information to estimate the overall returns on your total savings, based on the current interest rate. 
         </Text>
         
 

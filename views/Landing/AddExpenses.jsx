@@ -8,10 +8,12 @@ import { useNavigation } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
 import UserContext from '../../api_server/context'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import randomColor from 'randomcolor'
 import { axiosRequest } from '../../api_server/axios'
 import Loader from '../Starting/actionLoader'
 import ModalMessage from '../Modal'
+import ModalMessage2 from '../ModalE2';
 
 const AddExpenses = ({ route }) => {
   const navigation = useNavigation()
@@ -21,6 +23,7 @@ const AddExpenses = ({ route }) => {
     navigation.navigate('Add Category', { destination: 'Add expenses', cat: cat });
   };
   const [showModalMessage, setShowModalMessage] = useState(false);
+  const [showModal2Message, setShowModal2Message] = useState(false);
   const [isSelectionApplied, setIsSelectionApplied] = useState(false);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
   const [expenses, setExpenses] = useState('')
@@ -203,25 +206,27 @@ const AddExpenses = ({ route }) => {
     } catch (error) {
       console.log(data);
       if(error.response.data.code == 226){
-
-
-        Alert.alert(`${data.description} Already Exist!`,"Save and Continue?",
-        [
-    {
-      text: "Yes",
-      onPress: () => {api(data,"Yes")
-        }
-      ,
-      style: "yes"
-    },   {
-          text: "No",
-          onPress: () => {
-        }
-          ,
-          style: "cancel"
-        }
-  ]
-       )
+        setAction(true);
+        setShowModal2Message(true);
+        setTimeout(() => setShowModal2Message(false), 500);
+  //       Alert.alert(`${data.description} Already Exist!`,"Save and Continue?",
+  //       [
+  //   {
+  //     text: "Yes",
+  //     onPress: () => {api(data,"Yes")
+  //     setAction(true)
+  //       }
+  //     ,
+  //     style: "yes"
+  //   },   {
+  //         text: "No",
+  //         onPress: () => {
+  //       }
+  //         ,
+  //         style: "cancel"
+  //       }
+  // ]
+  //      )
       }
  
       setAction(false);
@@ -660,7 +665,12 @@ const AddExpenses = ({ route }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current={route.name} />
+      <ModalMessage2 showAutomatically={showModal2Message} data={transaction} icon={<MaterialIcons name="warning" size={200} color="#810000" />} navigateToScreen="Home" again={false} current={route.name}
+      onYesPress={() => {
+        api(transaction, "Yes");
+        setAction(true);
+      }}
+    /><ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current={route.name} />
     </View>
   )
 }

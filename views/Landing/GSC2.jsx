@@ -5,12 +5,12 @@ import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { AntDesign } from '@expo/vector-icons';
 
-const GSC2 = ({navigation}) => {
+const GSC2 = ({ navigation }) => {
   const [principleAmount, setPrincipleAmount] = useState(null);
   const [interestRate, setInterestRate] = useState(null);
   const [contribution, setContribution] = useState(null);
   const [timePeriod, setTimePeriod] = useState(null);
-  const [frequency, setFrequency] = useState('weekly'); 
+  const [frequency, setFrequency] = useState('weekly');
   const [principleAmountError, setPrincipleAmountError] = useState(null);
   const [interestRateError, setInterestRateError] = useState(null);
   const [contributionError, setContributionError] = useState(null);
@@ -27,7 +27,7 @@ const GSC2 = ({navigation}) => {
   };
 
   const handleInterestRateChange = (text) => {
-    
+
 
     const numericValue = text.replace(/[^0-9]/g, '');
     const interestRateValue = Math.min(100, Math.max(0, parseInt(numericValue, 10)));
@@ -57,7 +57,7 @@ const GSC2 = ({navigation}) => {
   };
 
   const handleValidate = () => {
-    if (!principleAmount || !interestRate || !contribution || !timePeriod) {
+    if (!principleAmount || !interestRate || !timePeriod) {
       setValidationError('All fields must be filled');
       setResult(null);
     } else {
@@ -65,15 +65,65 @@ const GSC2 = ({navigation}) => {
 
       const principle = parseFloat(principleAmount.replace(/,/g, ''));
       const rate = parseFloat(interestRate);
-      const contributionValue = parseFloat(contribution.replace(/,/g, ''));
+      const contributionValue = contribution !== null && contribution !== undefined && contribution !== ''
+        ? parseFloat(contribution.replace(/,/g, ''))
+        : 0;
       const time = parseFloat(timePeriod);
-      const periodsPerYear = getPeriodsPerYear(frequency);
 
-      // Calculate future value
-      const futureValue = calculateFutureValue(principle, rate, contributionValue, time, periodsPerYear);
+      // Calculate future value based on whether contribution is provided or not
+      let futureValue;
+
+      if (contributionValue !== null && contributionValue !== undefined && contributionValue !== 0) {
+        futureValue = calculateFutureValueWithContribution(principle, rate, contributionValue, time, getPeriodsPerYear(frequency));
+      } else {
+        futureValue = calculateFutureValueWithoutContribution(principle, rate, time, getPeriodsPerYear(frequency));
+      }
+
       // Format the result, adjust as needed
-      setResult(futureValue.toFixed(2)); 
+      setResult(futureValue.toFixed(2));
     }
+  };
+
+
+  // Calculate future value with contribution
+  const calculateFutureValueWithContribution = (principle, rate, contribution, time, periodsPerYear) => {
+    const r = rate / 100 / periodsPerYear; // Convert annual rate to periodic rate
+    const n = periodsPerYear * time; // Total number of compounding periods
+
+    let futureValue = principle;
+
+    if (contribution >= 0) {
+      for (let i = 1; i <= n; i++) {
+        futureValue = futureValue * (1 + r);
+        futureValue += contribution;
+      }
+    } else {
+      for (let i = 1; i <= n; i++) {
+        futureValue = futureValue * (1 + r);
+      }
+    }
+
+    // Round to 2 decimal places for precision
+    futureValue = Math.round(futureValue * 100) / 100;
+
+    return futureValue;
+  };
+
+  // Calculate future value without contribution
+  const calculateFutureValueWithoutContribution = (principle, rate, time) => {
+    const r = rate / 100; // Convert annual rate to periodic rate
+    const n = time; // Total number of compounding periods
+
+    let futureValue = principle;
+
+    for (let i = 1; i <= n; i++) {
+      futureValue = futureValue * (1 + r);
+    }
+
+    // Round to 2 decimal places for precision
+    futureValue = Math.round(futureValue * 100) / 100;
+
+    return futureValue;
   };
 
   // number of compounding periods per year based on frequency
@@ -91,46 +141,27 @@ const GSC2 = ({navigation}) => {
         return 1;
       default:
         // Default to annually
-        return 1; 
+        return 1;
     }
   };
 
-//  calculate future value
-const calculateFutureValue = (principle, rate, contribution, time, periodsPerYear) => {
-  const r = rate / 100 / periodsPerYear; // Convert annual rate to periodic rate
-  const n = periodsPerYear * time; // Total number of compounding periods
 
-  let futureValue = principle;
-
-  for (let i = 1; i <= n; i++) {
-    futureValue = futureValue * (1 + r) + contribution;
-  }
-
-  // Round to 2 decimal places for precision
-  futureValue = Math.round(futureValue * 100) / 100;
-
-  return futureValue;
-};
-const openAbout = () => {
-  navigation.navigate('Calculator Guide')
-}
-
-useEffect(() => {
-  handleValidate();
-}, [principleAmount, interestRate, contribution, timePeriod, frequency]);
+  useEffect(() => {
+    handleValidate();
+  }, [principleAmount, interestRate, contribution, timePeriod, frequency]);
 
   return (
     <View style={[Style.common, { padding: 10 }]}>
-      <View style={{justifyContent: 'center', padding: 10}}>
-          <TouchableOpacity onPress={() => openAbout()}>
-          <View style={{flexDirection: 'row', justifyContent: 'center',}}>
-      <AntDesign name="exclamationcircleo" size={15} color={'#E3B448'} style={{marginHorizontal: 5}} />
-          <Text style={{color: '#E3B448'}}>How to use Savings calculator?</Text>
+      <View style={{ justifyContent: 'center', padding: 10 }}>
+        <TouchableOpacity onPress={() => openAbout()}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
+            <AntDesign name="exclamationcircleo" size={15} color={'#E3B448'} style={{ marginHorizontal: 5 }} />
+            <Text style={{ color: '#E3B448' }}>How to use Savings calculator?</Text>
           </View>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+      </View>
       <View style={{ padding: 10 }}>
-      
+
         <CustomInput
           iconName="cash"
           placeholder="Principle Amount"
@@ -148,14 +179,6 @@ useEffect(() => {
           error={interestRateError}
         />
         <CustomInput
-          iconName="cash"
-          placeholder="Contribution Amount"
-          keyboardType="numeric"
-          value={contribution}
-          onChangeText={handleContributionChange}
-          error={contributionError}
-        />
-        <CustomInput
           iconName="clock"
           placeholder="Time Period (years)"
           keyboardType="numeric"
@@ -163,33 +186,44 @@ useEffect(() => {
           onChangeText={handleTimePeriodChange}
           error={timePeriodError}
         />
-        <View style={{ marginBottom: 10 }}>
-          <Text style={{ color: '#E3B448' }}>Select Frequency:</Text>
-          <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
-          <Picker
-            selectedValue={frequency}
-            onValueChange={handleFrequencyChange}
-            style={{ color: '#CBD18F' }}
-          >
-            <Picker.Item label="Weekly" value="weekly" />
-            <Picker.Item label="Bi-Weekly" value="biweekly" />
-            <Picker.Item label="Monthly" value="monthly" />
-            <Picker.Item label="Quarterly" value="quarterly" />
-            <Picker.Item label="Annually" value="annually" />
-          </Picker>
+        <CustomInput
+          iconName="cash"
+          placeholder="Contribution Amount"
+          keyboardType="numeric"
+          value={contribution}
+          onChangeText={handleContributionChange}
+          error={contributionError}
+        />
+
+
+        <View style={{ paddingBottom: 20, borderBottomWidth: 1, borderColor: '#144714', }}>
+          <Text style={{ color: '#E3B448', marginBottom: 10, }}>Contribution Frequency:</Text>
+          <View style={{ borderWidth: .5, borderColor: '#144714', borderRadius: 10 }}>
+            <Picker
+              selectedValue={frequency}
+              onValueChange={handleFrequencyChange}
+              style={{ color: '#CBD18F' }}
+            >
+              <Picker.Item label="Weekly" value="weekly" />
+              <Picker.Item label="Bi-Weekly" value="biweekly" />
+              <Picker.Item label="Monthly" value="monthly" />
+              <Picker.Item label="Quarterly" value="quarterly" />
+              <Picker.Item label="Annually" value="annually" />
+            </Picker>
           </View>
         </View>
-        <View style={{ alignItems: 'center', paddingTop: 10, marginTop: 10, borderTopWidth: 1, borderColor: '#144714',}}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5, color: '#E3B448' }}>
-              Estimated Savings:
-            </Text>
-            <View style={{backgroundColor: '#CBD18F', width: '100%', height: '30%', justifyContent: 'center', alignItems: 'center', borderRadius: 10}}>
-            <Text style={{ fontSize: 40, color: '#144714' }}>
+
+        <View style={{ alignItems: 'center', paddingTop: 10, marginTop: 10, }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5, color: '#E3B448' }}>
+            Estimated Savings:
+          </Text>
+          <View style={{ backgroundColor: '#CBD18F', width: '100%', height: '30%', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}>
+            <Text style={{ fontSize: 35, color: '#144714' }}>
               ₱{result && parseFloat(result).toLocaleString('en-US', { maximumFractionDigits: 2 })}
             </Text>
-            </View>
           </View>
-       
+        </View>
+
       </View>
     </View>
   );

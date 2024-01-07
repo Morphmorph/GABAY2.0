@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const ModalPopup = ({ visible, children }) => {
   const [showModal, setShowModal] = useState(visible);
+ 
 
   useEffect(() => {
     toggleModal();
@@ -24,7 +25,7 @@ const ModalPopup = ({ visible, children }) => {
   );
 };
 
-const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, navigateToScreen, again = true, current }) => {
+const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, navigateToScreen, again = true, current, onYesPress, data  }) => {
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -41,18 +42,26 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
 
     setVisible(false);
   };
+  const handleYesPress = () => {
+     setVisible(false);
+    if (onYesPress) {
+      onYesPress();
+    }
+  };
 
-  const handleAddPress = () => {
+  const handleClose = () => {
     if (current) {
       navigation.navigate(current);
     }
     setVisible(false);
   };
+
+
   return (
     <View style={styles.container}>
       <ModalPopup visible={visible}>
         <View style={styles.iconContainer}>{icon}</View>
-        <Text style={styles.messageText}>{message}</Text>
+        <Text style={styles.messageText}> <Text style={{color: '#E3B448'}}>{`${data.description}`}</Text> Already Exist!{'\n'}<Text>Save and Continue?</Text></Text>
         {again ? <TouchableOpacity onPress={handleOkayPress} style={styles.okayButton}>
           <Text style={styles.okayButtonText}>Okay</Text>
         </TouchableOpacity> :
@@ -64,7 +73,7 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
               padding: 10,
               margin: 5,
               alignItems: 'center',
-            }} onPress={handleOkayPress} >
+            }} onPress={handleYesPress} >
               <Text style={{
                 color: '#144714',
                 fontSize: 16,
@@ -72,16 +81,16 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
             </TouchableOpacity>
             <TouchableOpacity style={{
               flex: 1,
-              backgroundColor: '#',
+              backgroundColor: '#810000',
               borderRadius: 5,
               padding: 10,
               margin: 5,
               alignItems: 'center',
-            }} onPress={handleAddPress}>
+            }} onPress={handleClose} >
               <Text style={{
-                color: '#CBD18F',
+                color: '#E3B448',
                 fontSize: 16,
-              }}>Add</Text>
+              }}>No</Text>
             </TouchableOpacity>
           </View>}
       </ModalPopup>
