@@ -61,7 +61,7 @@ const ModalMessage = ({ showAutomatically, message = "Please wait...", icon, nav
     <View style={styles.container}>
       <ModalPopup visible={visible}>
         <View style={styles.iconContainer}>{icon}</View>
-        <Text style={styles.messageText}> <Text style={{color: '#E3B448'}}>{`${data.description}`}</Text> Already Exist!{'\n'}<Text>Save and Continue?</Text></Text>
+        <Text style={styles.messageText}> <Text style={{color: '#E3B448'}}>{`${data?.description ? data.description:data.title}`}</Text> Already Exist!{'\n'}<Text>Save and Continue?</Text></Text>
         {again ? <TouchableOpacity onPress={handleOkayPress} style={styles.okayButton}>
           <Text style={styles.okayButtonText}>Okay</Text>
         </TouchableOpacity> :
