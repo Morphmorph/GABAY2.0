@@ -803,6 +803,168 @@ const App = ({navigation}) => {
 };
 
 
+function CustomDrawerContent({}) {
+  const navigation = useNavigation();
+  
+  const {setContext} = useContext(UserContext)
+  const navigateToScreen = (screenName) => {
+    navigation.navigate(screenName);
+  };
+
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+  const [loader,setLoader] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const selectedAddOptionRef = useRef('');
+
+  const toggleModal = (option) => {
+    selectedAddOptionRef.current = option;
+    setIsModalVisible(!isModalVisible);
+  };
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      const selectedAddOption = selectedAddOptionRef.current;
+  
+      if (selectedAddOption === 'expenses') {
+        navigation.navigate('Add expenses');
+      } else if (selectedAddOption === 'income') {
+        navigation.navigate('Add income');
+      }
+  
+      // Reset the selected option after navigating
+      selectedAddOptionRef.current = '';
+    }
+  }, [isModalVisible, navigation]);
+
+  const toggleModal1 = () => {
+    setIsLogoutModalVisible(!isLogoutModalVisible)
+  };
+
+  const handleLogout = async() => {
+    // try {
+    //   await AsyncStorage.clear();
+    //   console.log('AsyncStorage cleared successfully.');
+    // } catch (error) {
+    //   console.error('Error clearing AsyncStorage:', error);
+    // }
+  };
+
+  const handleLogoutConfirmed = async () => {
+
+
+    toggleModal1(); // Close the logout modal
+    setLoader(true); // Show the loading indicator
+  
+    // Simulate an asynchronous logout process
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Replace this with your actual logout logic
+    
+    // Once the logout process is complete, navigate to the login screen and hide the loader
+    handleLogout(); 
+    const data = {email:null,id :null,otp:null }
+    setContext(data)
+    setLoader(false);
+    navigateToScreen('Log in');
+  };
+  return (
+    
+    <View style={{ width:"100%",flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', padding:10, justifyContent: 'flex-start' }}>
+      <Loader visible ={loader} message="Logging out..."/>
+      <TouchableOpacity onPress={() => navigateToScreen('Home')}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>
+          <FontAwesome5 name="home" size={30} color={'#CBD18F'} />
+          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Home</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
+      <TouchableOpacity onPress={() => toggleModal()}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:'hidden',justifyContent:"flex-start",width:"100%",padding:10  }}>
+          <FontAwesome5 name="plus-circle" size={30} color={'#CBD18F'} />
+          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Add History</Text>
+        </View>
+      </TouchableOpacity>
+      {/* <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
+      <TouchableOpacity onPress={() => navigateToScreen('Forecast Savings')}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>
+          <FontAwesome5 name="crosshairs" size={30} color={'#CBD18F'} />
+          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Forecast savings</Text>
+        </View>
+      </TouchableOpacity> */}
+      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
+      <TouchableOpacity onPress={() => navigateToScreen('Settings')}>
+        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"flex-start",width:"100%",padding:10 }}>
+        <AntDesign name="setting" size={30} color={'#CBD18F'} />
+          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Settings</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
+
+      <TouchableOpacity style={{ width:"100%",overflow:'hidden',position: 'absolute',flex:1, flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
+        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#A2A869', borderRadius: 5}}>
+          <AntDesign name="logout" size={30} color={'#144714'} />
+          <Text style={{ color: '#144714', fontSize: 16, padding: 15 }}>Logout</Text>
+        </View>
+      </TouchableOpacity>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isLogoutModalVisible}
+        onRequestClose={toggleModal1}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to log out?</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.yesButton} onPress={handleLogoutConfirmed}>
+                <Text style={styles.buttonText}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.noButton} onPress={toggleModal1}>
+                <Text style={styles.buttonText2}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View style={Style.modalContainer}>
+          <View style={Style.modalContent}>
+
+            <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Select an option:</Text>
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => toggleModal('expenses')}
+            >
+              <Text style={Style.modalButtonText}>Add Expenses</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Style.modalButton}
+              onPress={() => toggleModal('income')}
+            >
+              <Text style={Style.modalButtonText}>Add Income</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[Style.modalButton, Style.modalCancelButton]}
+              onPress={() => {
+                setIsModalVisible(false);
+                selectedAddOptionRef.current = 'cancel'; // Set a flag to indicate cancel
+              }}
+            >
+              <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
+    
+    
+  );
+}
 function DrawerScreen({navigation,route }) {
 
   const {pdfprint,setPdfPrint,delay,setDelay} = useContext(UserContext)
@@ -811,6 +973,7 @@ function DrawerScreen({navigation,route }) {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
+      drawerType="front" // or "back"
       screenOptions={{
         headerShown: true,
         swipeEnabled:false,
@@ -1001,168 +1164,6 @@ function Homescreen({ navigation }) {
   );
 }
 
-function CustomDrawerContent({}) {
-  const navigation = useNavigation();
-  
-  const {setContext} = useContext(UserContext)
-  const navigateToScreen = (screenName) => {
-    navigation.navigate(screenName);
-  };
-
-  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
-  const [loader,setLoader] = useState(false)
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const selectedAddOptionRef = useRef('');
-
-  const toggleModal = (option) => {
-    selectedAddOptionRef.current = option;
-    setIsModalVisible(!isModalVisible);
-  };
-
-  useEffect(() => {
-    if (!isModalVisible) {
-      const selectedAddOption = selectedAddOptionRef.current;
-  
-      if (selectedAddOption === 'expenses') {
-        navigation.navigate('Add expenses');
-      } else if (selectedAddOption === 'income') {
-        navigation.navigate('Add income');
-      }
-  
-      // Reset the selected option after navigating
-      selectedAddOptionRef.current = '';
-    }
-  }, [isModalVisible, navigation]);
-
-  const toggleModal1 = () => {
-    setIsLogoutModalVisible(!isLogoutModalVisible)
-  };
-
-  const handleLogout = async() => {
-    // try {
-    //   await AsyncStorage.clear();
-    //   console.log('AsyncStorage cleared successfully.');
-    // } catch (error) {
-    //   console.error('Error clearing AsyncStorage:', error);
-    // }
-  };
-
-  const handleLogoutConfirmed = async () => {
-
-
-    toggleModal1(); // Close the logout modal
-    setLoader(true); // Show the loading indicator
-  
-    // Simulate an asynchronous logout process
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Replace this with your actual logout logic
-    
-    // Once the logout process is complete, navigate to the login screen and hide the loader
-    handleLogout(); 
-    const data = {email:null,id :null,otp:null }
-    setContext(data)
-    setLoader(false);
-    navigateToScreen('Log in');
-  };
-  return (
-    
-    <View style={{ width:"100%",flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', padding:10, justifyContent: 'flex-start' }}>
-      <Loader visible ={loader} message="Logging out..."/>
-      <TouchableOpacity onPress={() => navigateToScreen('Home')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>
-          <FontAwesome5 name="home" size={30} color={'#CBD18F'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Home</Text>
-        </View>
-      </TouchableOpacity>
-      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
-      <TouchableOpacity onPress={() => toggleModal()}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:'hidden',justifyContent:"flex-start",width:"100%",padding:10  }}>
-          <FontAwesome5 name="plus-circle" size={30} color={'#CBD18F'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Add History</Text>
-        </View>
-      </TouchableOpacity>
-      {/* <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
-      <TouchableOpacity onPress={() => navigateToScreen('Forecast Savings')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>
-          <FontAwesome5 name="crosshairs" size={30} color={'#CBD18F'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Forecast savings</Text>
-        </View>
-      </TouchableOpacity> */}
-      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
-      <TouchableOpacity onPress={() => navigateToScreen('Settings')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"flex-start",width:"100%",padding:10 }}>
-        <AntDesign name="setting" size={30} color={'#CBD18F'} />
-          <Text style={{ color: '#E3B448', fontSize: 16, padding: 20 }}>Settings</Text>
-        </View>
-      </TouchableOpacity>
-      <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
-
-      <TouchableOpacity style={{ width:"100%",overflow:'hidden',position: 'absolute',flex:1, flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
-        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#A2A869', borderRadius: 5}}>
-          <AntDesign name="logout" size={30} color={'#144714'} />
-          <Text style={{ color: '#144714', fontSize: 16, padding: 15 }}>Logout</Text>
-        </View>
-      </TouchableOpacity>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={isLogoutModalVisible}
-        onRequestClose={toggleModal1}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Are you sure you want to log out?</Text>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.yesButton} onPress={handleLogoutConfirmed}>
-                <Text style={styles.buttonText}>Yes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.noButton} onPress={toggleModal1}>
-                <Text style={styles.buttonText2}>No</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => setIsModalVisible(false)}
-      >
-        <View style={Style.modalContainer}>
-          <View style={Style.modalContent}>
-
-            <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Select an option:</Text>
-            <TouchableOpacity
-              style={Style.modalButton}
-              onPress={() => toggleModal('expenses')}
-            >
-              <Text style={Style.modalButtonText}>Add Expenses</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Style.modalButton}
-              onPress={() => toggleModal('income')}
-            >
-              <Text style={Style.modalButtonText}>Add Income</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[Style.modalButton, Style.modalCancelButton]}
-              onPress={() => {
-                setIsModalVisible(false);
-                selectedAddOptionRef.current = 'cancel'; // Set a flag to indicate cancel
-              }}
-            >
-              <Text style={{ color: '#CBD18F', fontSize: 18, }}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
-    
-    
-  );
-}
 
 export default App;
 

@@ -149,7 +149,11 @@ const GSC2 = ({ navigation }) => {
   useEffect(() => {
     handleValidate();
   }, [principleAmount, interestRate, contribution, timePeriod, frequency]);
-
+      
+  const openAbout = () => {
+    navigation.navigate('Calculator Guide')
+  }
+  
   return (
     <View style={[Style.common, { padding: 10 }]}>
       <View style={{ justifyContent: 'center', padding: 10 }}>

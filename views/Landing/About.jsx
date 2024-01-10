@@ -46,7 +46,7 @@ const About = () => {
        <Text style={{ color: '#E3B448' }}>8.</Text> We limit our collection and storage of personal data to what’s adequate, relevant and necessary.{'\n\t'}
        <Text style={{ color: '#E3B448' }}>9.</Text> We keep your personal data accurate and up to date, where appropriate.{'\n\t'}
        <Text style={{ color: '#E3B448' }}>10.</Text> We process your personal data using appropriate security and confidentiality.{'\n\t'}
-       <Text style={{ color: '#E3B448' }}>11.</Text> We demonstrate accountability and responsibility under applicable privacy laws.{'\n\t'}
+       {/* <Text style={{ color: '#E3B448' }}>11.</Text> We demonstrate accountability and responsibility under applicable privacy laws.{'\n\t'} */}
 
 
         </Text>
