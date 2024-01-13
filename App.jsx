@@ -975,7 +975,7 @@ function DrawerScreen({navigation,route }) {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      drawerType="front" // or "back"
+      drawerType="back"
       screenOptions={{
         headerShown: true,
         swipeEnabled:false,
