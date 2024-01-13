@@ -10,15 +10,15 @@ import W from '../../assets/Icon/Icons/Wants.png'
 const InspectHistory = ({route}) => {
   const {details} = route.params
 
-  console.log(details)
+  console.log(details[0]?.icon)
   return (
     <View style={Style.common}>
       <ScrollView contentContainerStyle={{paddingBottom: 10, height: 'auto',}}>
         <View style={{ margin: 5, padding: 10, backgroundColor: '#CBD18F', borderRadius: 5 }}>
-          <Text style={{ color: '#144714', fontSize: 17, top: -5, alignSelf: 'center' }}>[ Predicted Average Per Month ]</Text>
+          {<Text style={{ color: '#144714', fontSize: 17, top: -5, alignSelf: 'center' }}>{details[0]?.icon ? "[  Predicted Amount  ]":  "[  Predicted Average Per Month  ]"}</Text>}
           <View style={{ flexDirection: 'col', justifyContent: 'space-between' }}>
             {details.map((data,index)=>(<View key={index} style={{ backgroundColor: '#144714', borderRadius: 10, flexDirection: 'row', flex: 1,margin:5 }}>
-              <Image source={data.key == "Necessities" ? N : data.key == "Wants" ? W : S } style={{ width: 80, height: 80, margin: 10, backgroundColor: '#3A6B35', borderRadius: 10 }} />
+            {  data.icon ? <Image source={data.icon} style={{ width: 80, height: 80, margin: 10, backgroundColor: '#3A6B35', borderRadius: 10 }} /> :<Image source={data.key == "Necessities" ? N : data.key == "Wants" ? W : S } style={{ width: 80, height: 80, margin: 10, backgroundColor: '#3A6B35', borderRadius: 10 }} /> }
               <View style={{ flexDirection: 'column', alignSelf: 'center', marginRight: 10, borderLeftWidth: 2, borderColor: '#E3B448', backgroundColor: '#3A6B35', borderBottomRightRadius: 5, borderTopRightRadius: 5, flex: 1 }}>
                 <View style={{ paddingVertical: 10 }}>
                   <Text style={{ color: '#E3B448', marginLeft: 5, fontWeight: 'bold', width: 'auto' }}> {data.key} </Text>

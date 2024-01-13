@@ -29,8 +29,11 @@ const ForecastSavings = ({ navigation }) => {
   const [incomeError, setIncomeError] = useState(null)
   const [selectedOption, setSelectedOption] = useState('Year');
   const [forecast, setForcast] = useState([])
+  const [predict,setPredict] =useState([])
   const { context, totalincome, pdfprint, setPdfPrint, delay, setDelay } = useContext(UserContext)
   const [value, setValue] = useState(null)
+  const [select,setSelect] = useState(null)
+  const [savings,setSavings] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [isPDFModalVisible, setIsPDFModalVisible] = useState(false);
   const [loader, setLoader] = useState(false)
@@ -235,7 +238,11 @@ const ForecastSavings = ({ navigation }) => {
       .then((response) => {
         setTimeout(() => {
           data = response.data.avarage
+          savings_data = response.data.saving_description
+          setSavings(savings_data)
           setForcast(data)
+          setPredict(data)
+          setSelect(response.data.forecast)
           setValue(response.data.forecast)
           // setPdfPrint(true)
           console.log(pdfprint)
@@ -627,13 +634,31 @@ const ForecastSavings = ({ navigation }) => {
               </View>
             </Modal>
             <View style={{ padding: 18.8, marginBottom: 20, }}>
-              <DonutChart data={forecast} predict={value} />
+            <Picker
+                      selectedValue={value}
+                      style={{ height: 50, width: '100%', color: '#144714', }}
+                      onValueChange={(itemValue) => {
+                        setValue(itemValue)
+                        if (itemValue != select){
+                          setPredict(savings)
+                          console.log(itemValue)
+                        }else{
+                          setPredict(forecast)
+                        }
+                      }}
+                    >
+                      <Picker.Item label="Overall" value={select} />
+                      {savings.map((description)=> (
+                           <Picker.Item key={description} label={description.key} value={description.value} />
+                        ))}
+                    </Picker>
+              <DonutChart data={predict} predict={value} />
 
             </View>
 
             <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => {
 
-              navigation.navigate('History', { details: forecast })
+              navigation.navigate('History', { details: predict })
             }}>
               <Text style={{ color: '#144714', fontSize: 18, }}>View details</Text>
             </TouchableOpacity>

@@ -4,11 +4,12 @@ import Plus from '../../assets/Icon/plus.png';
 import Style from '../Style';
 import CustomInput from '../CustomInput';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import UserContext from '../../api_server/context';
 import { axiosRequest } from '../../api_server/axios';
 import ModalMessage from '../Modal';
+import ModalMessage2 from '../ModalE2';
 import Loader from '../Starting/actionLoader';
 
 const AddIncome = ({route}) => {
@@ -24,10 +25,12 @@ const AddIncome = ({route}) => {
 
   // Declare state variables
   const [income, setIncome] = useState('');
+  const [showModal2Message, setShowModal2Message] = useState(false);
   const [incomeError, setIncomeError] = useState(null);
   const [selectedIcons, setSelectedIcons] = useState(null);
   const [iconAssets, setIconAssets] = useState([]);
   const [iconError, setIconError] = useState(null);
+  const [data,setData] = useState({})
   const { context, incomeIcon } = useContext(UserContext);
 
   const handleIncomeChange = (text) => {
@@ -58,29 +61,47 @@ const AddIncome = ({route}) => {
     if (!selectedIcons) {
       setIconError('no_icon_selected');
     } else if (!incomeError && !iconError && income) {
-      try {
-        setShowLoader(true); // Show loader before making the API request
 
-        const Data = {
+        setShowLoader(true); // Show loader before making the API request
+        const transaction = {
           user: context.id,
           title: selectedIcons.text,
           amount: parseInt(income.replace(/,/g, ''), 10),
           icon: selectedIcons.icon,
-        };
+        }
+         setData(transaction)
+         api(transaction,"No")
 
-        // Perform the async operation and wait for it to complete
-        const response = await axiosRequest.post('gabay/add/', Data);
+    }
+  };
 
-        // Hide loader after the request is complete
-        setShowLoader(false);
+  const api = async (data,overwrite) => {
+    try {
+      // Format the date to 'YYYY-MM-DD'
+      
+      
+      const response = await axiosRequest.post(`gabay/add/?overwrite=${overwrite}`, data, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+        console.log(response.data.code)
+      // setAction(false);
 
-        // Show success modal after the request is complete
-        setShowModalMessage(true);
-        setTimeout(() => setShowModalMessage(false), 500);
-      } catch (error) {
-        console.log('Error:', error);
-        setShowLoader(false); // Hide loader in case of an error
+      // Show the modal message upon successful submission
+      setShowModalMessage(true);
+      setTimeout(() => setShowModalMessage(false), 500);
+    } catch (error) {
+      console.log(data);
+      if(error.response.data.code == 226){
+        // setAction(true);
+        setShowModal2Message(true);
+        setTimeout(() => setShowModal2Message(false), 500);
+
       }
+      setShowLoader(false); // Hide loader in case of an error
+      // setAction(false);
     }
   };
 
@@ -223,6 +244,12 @@ const AddIncome = ({route}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalMessage2 showAutomatically={showModal2Message} data={data} icon={<MaterialIcons name="warning" size={200} color="#810000" />} navigateToScreen="Home" again={false} current={route.name}
+      onYesPress={() => {
+        api(data, "Yes");
+        // setAction(true);
+      }}
+    />
       <ModalMessage showAutomatically={showModalMessage} message="Income successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current = {route.name}/>
     </View>
   )
