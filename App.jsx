@@ -897,13 +897,14 @@ function CustomDrawerContent({}) {
         </View>
       </TouchableOpacity>
       <View style={{ borderBottomWidth: 1, borderColor: '#144714' }}></View>
-
-      <TouchableOpacity style={{ width:"100%",overflow:'hidden',position: 'absolute',flex:1, flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
+      <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#3A6B35', padding: 10, justifyContent: 'flex-end' }}>
+      <TouchableOpacity style={{ width: "100%", overflow: 'hidden', flexDirection: 'row', alignSelf: 'center', bottom: 10,  }} onPress={toggleModal1}>
         <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:"center",width:"100%", backgroundColor: '#A2A869', borderRadius: 5}}>
           <AntDesign name="logout" size={30} color={'#144714'} />
           <Text style={{ color: '#144714', fontSize: 16, padding: 15 }}>Logout</Text>
         </View>
       </TouchableOpacity>
+      </View>
       <Modal
         animationType="fade"
         transparent={true}
@@ -973,7 +974,7 @@ function DrawerScreen({navigation,route }) {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      drawerType="front" // or "back"
+      drawerType="slide"
       screenOptions={{
         headerShown: true,
         swipeEnabled:false,
