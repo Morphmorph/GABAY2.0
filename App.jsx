@@ -689,6 +689,7 @@ const App = ({navigation}) => {
                   fontSize: 24,
                   fontWeight: 'normal',
                 },
+                headerTitleAlign:'center'
                 // headerRight: () => (
                 //   <TouchableOpacity onPress={() => openAbout()} style={{ marginRight: 1}}>
                 //     <AntDesign name="exclamationcircleo" size={30} color={'#E3B448'} />
@@ -711,6 +712,7 @@ const App = ({navigation}) => {
                   fontSize: 24, // Font size for the title
                   fontWeight: 'normal', // Font weight for the title
                 },
+                headerTitleAlign:'center'
                 
               }}
             />
