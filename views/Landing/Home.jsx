@@ -372,11 +372,11 @@ const Home = ({ navigation }) => {
                 {Object.keys(ddate).length && expense != "" ? <View >
                   <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, textAlign: 'center' }}>
 
-                    {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePresslef}>
+                    {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
                     </TouchableOpacity>}
                     <Text style={{ fontSize: 20, color: '#144714', textAlign: 'center', flex: 1 }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page]?.date ? ddate[page].date : ddate[0].date).toLocaleString('default', { month: 'long'}) : null}</Text>
-                    {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress
+                    {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePresslef
                     }>
                       <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />
                     </TouchableOpacity>}
