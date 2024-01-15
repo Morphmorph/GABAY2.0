@@ -310,7 +310,7 @@ const ForecastSavings = ({ navigation }) => {
               setIncomeError(null)
             }}
           />
-          <View style={{ top: -10, flexDirection: 'row', justifyContent: 'space-evenly', }}>
+          <View style={{ top: -10, flexDirection: 'row', justifyContent: 'space-evenly',}}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center', }}>
               <Text style={{ textAlign: 'center', color: '#E3B448', width: "100%", }}>{selectedOption}</Text>
             </View>
@@ -322,17 +322,19 @@ const ForecastSavings = ({ navigation }) => {
           </View>
         </View>
       </View>
+      {/* <View style={{flexDirection: 'row', alignContent: 'center', backgroundColor: 'red' }}> */}
       <View
         style={{
           alignItems: 'center',
           alignSelf: 'center',
-          width: '100%',
+          width: '80%',
+          
           paddingHorizontal: 20,
           flexDirection: 'row',
-          justifyContent: 'flex-end'
+          justifyContent: 'space-evenly'
         }}
       >
-        <View style={{ width: '45%', marginRight: 30 }}>
+        <View style={{ width: '45%'}}>
           <TouchableOpacity
             style={{
               backgroundColor: '#A2A869',
@@ -347,14 +349,17 @@ const ForecastSavings = ({ navigation }) => {
             <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{ padding: 20, justifyContent: 'flex-end' }} onPress={opencalc}>
+        <View style={{ position: 'absolute', right: 0}}>
+        <TouchableOpacity style={{  justifyContent: 'flex-end',}} onPress={opencalc}>
           <Image
             source={require('../../assets/Icon/calculatore.png')}
             style={{ width: 30, height: 30 }}
             resizeMode="contain"
           />
         </TouchableOpacity>
+        </View>
       </View>
+      {/* </View> */}
       <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, }}>
         <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
       </View>
