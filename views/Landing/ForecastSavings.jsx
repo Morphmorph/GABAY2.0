@@ -310,7 +310,7 @@ const ForecastSavings = ({ navigation }) => {
               setIncomeError(null)
             }}
           />
-          <View style={{ top: -10, flexDirection: 'row', justifyContent: 'space-evenly', }}>
+          <View style={{ top: -10, flexDirection: 'row', justifyContent: 'space-evenly',}}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignItems: 'center', }}>
               <Text style={{ textAlign: 'center', color: '#E3B448', width: "100%", }}>{selectedOption}</Text>
             </View>
@@ -322,17 +322,19 @@ const ForecastSavings = ({ navigation }) => {
           </View>
         </View>
       </View>
+     
       <View
         style={{
           alignItems: 'center',
           alignSelf: 'center',
-          width: '100%',
-          paddingHorizontal: 20,
+          width: '80%',
+          
+          paddingHorizontal: 0,
           flexDirection: 'row',
-          justifyContent: 'flex-end'
+          justifyContent: 'space-evenly'
         }}
       >
-        <View style={{ width: '45%', marginRight: 30 }}>
+        <View style={{ width: '50%'}}>
           <TouchableOpacity
             style={{
               backgroundColor: '#A2A869',
@@ -347,14 +349,17 @@ const ForecastSavings = ({ navigation }) => {
             <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{ padding: 20, justifyContent: 'flex-end' }} onPress={opencalc}>
+        <View style={{ position: 'absolute', right: 0}}>
+        <TouchableOpacity style={{  justifyContent: 'flex-end',}} onPress={opencalc}>
           <Image
             source={require('../../assets/Icon/calculatore.png')}
             style={{ width: 30, height: 30 }}
             resizeMode="contain"
           />
         </TouchableOpacity>
+        </View>
       </View>
+      
       <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, }}>
         <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
       </View>
@@ -429,7 +434,7 @@ const ForecastSavings = ({ navigation }) => {
                   <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448' }}>
                     Select Month and Year:
                   </Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 20, }}>
                     <View style={{ borderWidth: .5, borderColor: '#144714', borderRadius: 10 }}>
 
                       <Picker
@@ -530,6 +535,7 @@ const ForecastSavings = ({ navigation }) => {
                       selectedValue={selectedYear}
                       style={{ height: 50, width: '100%', color: '#144714', }}
                       onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                      dropdownIconColor={'red'}
                     >
                       <Picker.Item label="Year" value={null} />
                       {availableYears.map((year)=> (
@@ -633,7 +639,8 @@ const ForecastSavings = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <View style={{ padding: 18.8, marginBottom: 20, }}>
+            <View style={{ top: -5, padding: 18.8, paddingHorizontal: 10, marginBottom: 10, }}>
+            <View style={{borderWidth: .5, borderRadius: 10,}}>
             <Picker
                       selectedValue={value}
                       style={{ height: 50, width: '100%', color: '#144714', }}
@@ -652,16 +659,18 @@ const ForecastSavings = ({ navigation }) => {
                            <Picker.Item key={description} label={description.key} value={description.value} />
                         ))}
                     </Picker>
+                    </View>
               <DonutChart data={predict} predict={value} />
 
             </View>
-
-            <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => {
+            <View style={{marginBottom: -10}}>
+            <TouchableOpacity style={{ bottom: 20, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => {
 
               navigation.navigate('History', { details: predict })
             }}>
               <Text style={{ color: '#144714', fontSize: 18, }}>View details</Text>
             </TouchableOpacity>
+            </View>
           </View> : <View style={{ justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: 13, width: '100%' }}>
             <Image source={require('../../assets/logo/logo1.png')} style={{ top: 20, opacity: 0.3, width: 170 }} resizeMode='contain' />
             <Text style={{ fontSize: 24, fontWeight: '400', fontStyle: 'italic', marginTop: 60.5, color: '#144714', opacity: 0.3, letterSpacing: 2, textAlign: 'center' }}>

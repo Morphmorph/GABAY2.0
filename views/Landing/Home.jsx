@@ -325,13 +325,12 @@ const Home = ({ navigation }) => {
   };
 
   return (
-
+    
     <View style={Style.common}>
-
-      {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <>
+    {isLoading ? (
+      <LoadingScreen />
+    ) : ( 
+     
           <View>
 
             <View style={Style.glass}>
@@ -362,15 +361,19 @@ const Home = ({ navigation }) => {
 
             {selectedOption === 'Income' && (
 
-              <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
-                {expense != "" && <YearPicker
+              <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10,}}>
+                {expense != "" &&<View style={{ padding: 10, }}>
+                <View style={{borderWidth: .5, borderRadius: 10,}}>
+                 <YearPicker
                   selectedYear={selectedYear}
                   onYearChange={setSelectedYear}
                   years={availableYears}
                   onBlur={() => setSelectedYear(selectedYear)}
-                />}
+                />
+                </View>
+                </View>}
                 {Object.keys(ddate).length && expense != "" ? <View >
-                  <View style={{ top: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, textAlign: 'center' }}>
+                  <View style={{ top: 0, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, textAlign: 'center', }}>
 
                     {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePress}>
                       <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
@@ -382,16 +385,18 @@ const Home = ({ navigation }) => {
                     </TouchableOpacity>}
                   </View>
 
-                  <View style={{ padding: 16.8, top: -10, }}>
+                  <View style={{ padding: 18.8, top: -15, }}>
                     {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -16.8 }}>
                       <Image source={require('../../assets/logo/logo1.png')} style={{ top: -20, opacity: 0.3, width: 170 }} resizeMode='contain' />
                       {/* <LoadingScreen/> */}
                     </View> : expense  ? <DonutChart data={expense} total_sum={incomes.total_amount} />:null}
 
                   </View>
-                  <TouchableOpacity style={{ bottom: 10, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center', }} onPress={() => { navigation.navigate('Expenses', { expense: expense, date: Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate) }) }}>
+                  <View style={{marginBottom: -10}}>
+                  <TouchableOpacity style={{ bottom: 20, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center', }} onPress={() => { navigation.navigate('Expenses', { expense: expense, date: Object.keys(ddate).length > 0 ? new Date(ddate[page].date).toLocaleString('default', { month: 'long' }) : console.log(ddate) }) }}>
                     <Text style={{ color: '#144714', fontSize: 18, }}>View details</Text>
                   </TouchableOpacity>
+                  </View>
                 </View> : <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%' }}>
                   <Image source={require('../../assets/logo/logo1.png')} style={{ top: 20, opacity: 0.3, width: 170 }} resizeMode='contain' />
                   <Text style={{ fontSize: 24, fontWeight: '400', fontStyle: 'italic', marginTop: 60.5, color: '#144714', opacity: 0.3, letterSpacing: 2, textAlign: 'center' }}>
@@ -419,11 +424,11 @@ const Home = ({ navigation }) => {
             )}
           </View>
 
-
-        </>
-      )}
-
+)}
     </View>
+ 
+      
+
   );
 };
 

@@ -13,10 +13,23 @@ export default function OnboardingScreen() {
   const navigation = useNavigation();
   const {context} = useContext(UserContext)
   
-  const handleDone = () => {
-    navigation.navigate('Log in');
-    setItem('onboarded', '1');
-  };
+ const handleDone = async () => {
+  // Check if 'onboarded' is already true
+  const onboardedValue = await AsyncStorage.getItem('onboarded');
+
+  if (onboardedValue !== 'true') {
+    try {
+      // Use AsyncStorage to set the 'onboarded' item
+      await AsyncStorage.setItem('onboarded', 'true');
+      console.log('onboarded set to true');
+    } catch (error) {
+      console.error('Error setting onboarded in AsyncStorage:', error);
+    }
+  }
+
+  navigation.navigate('Log in');
+};
+
 //   useEffect(async() => {
 //   try {
 //     await AsyncStorage.clear();

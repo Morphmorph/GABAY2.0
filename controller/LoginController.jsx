@@ -54,9 +54,7 @@ export const useLoginController = () => {
           // setContext({email:email})
           const data = {email:response.data.user.email,id :response.data.user.id }
           setContext(data)
-
-         setShowModalMessage(true);
-         setTimeout(() => setShowModalMessage(false), 500);
+          navigation.navigate('Incomes')
 
         }else if(response.data.status=== 100){
           const data = {email:response.data.user.email,id :response.data.user.id }

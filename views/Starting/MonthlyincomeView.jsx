@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Style from '../Style';
 import logo from '../../assets/logo/logo1.png'
+import Logo from '../../assets/logo/logo2.png';
 import CustomInput from '../CustomInput';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMonthlyIncomeController } from '../../controller/MonthlyincomeController'; // Correct the import path
@@ -44,11 +45,10 @@ const MonthlyIncome = () => {
                 setIncomeError(null);
               }}
             />
-
             <TouchableOpacity style={Style.signInButton} onPress={startButtonPressed}>
               <Text style={Style.signInButtonText}>Start</Text>
             </TouchableOpacity>
-            <ModalMessage showAutomatically={showModalMessage} message="Gross income successfully added!" icon={<MaterialCommunityIcons name="sack" size={200} color="#E3B448" />} navigateToScreen="Homescreen"/>
+            <ModalMessage showAutomatically={showModalMessage} message="WELCOME TO GABAY!" icon={<Image source={require('../../assets/logo/logo1.png')} style={{ width: 200, height: 200 }} resizeMode="contain"/>} navigateToScreen="Homescreen"/>  
             <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
           </View>   
         </View>
