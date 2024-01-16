@@ -138,6 +138,7 @@ const Home = ({ navigation }) => {
         // // Extract the unique years from the expenses data
         const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
         setAvailableYears(uniqueYears);
+        setSelectedYear(uniqueYears[0])
 
       })
       .catch((e) => {
@@ -185,6 +186,7 @@ const Home = ({ navigation }) => {
         // console.log("ddate",ddate);
         // console.log(ddate)
         setIsLoading(false);
+        // api()
       })
       .catch((e) => {
         console.log("errer", e);
@@ -218,8 +220,10 @@ const Home = ({ navigation }) => {
       if(!response.data.total_amount){
           navigation.navigate("Incomes")
         }
+ 
 
       setIsLoading(false);
+      
     }).catch((e) => {
       // alert("Check your internet connection!")
           Alert.alert("Network Error","Check Your Internet Connection and Try Again",
@@ -245,34 +249,35 @@ const Home = ({ navigation }) => {
     })
   }
 
+  useEffect(()=>{
+
+  },[])
 
 
   useEffect(() => {
 
 
 
-    if (Object.keys(availableYears).length > 0) {
+    if(Object.keys(availableYears).length > 0){
       api()
     }
-
-    // if(Object.keys(availableYears).length > 0){
-    //   setSelectedYear(availableYears[0])
-
-    // }
-
-
-    const onFocus = async () => {
-      setPage(0)
-      if (Object.keys(availableYears).length > 0) {
-        setSelectedYear(availableYears[0])
-
-      }
      
-      
+   
+
+
+    const onFocus = () => {
+      setPage(0)
+      if(Object.keys(availableYears).length > 0){
+        setSelectedYear(availableYears[0])
+        console.log(selectedYear)
+  
+      }
+  
       filterAPI()
       getIncome()
       // setPdfPrint(null)
       setDelay(true)
+     
 
      
       if (selectedDate) {
@@ -283,12 +288,7 @@ const Home = ({ navigation }) => {
 
         }
       }
-      setTimeout(() => {
-        // setIsLoading(false);
-        // if (!context.id) {
-        //   navigation.navigate('Log in');
-        // }
-      }, 3000);
+
     };
 
 
@@ -300,25 +300,28 @@ const Home = ({ navigation }) => {
       unsubscribe();
 
     };
-  }, [navigation,chartloading,page, availableYears, selectedYear]);
+  }, [navigation,chartloading,page, availableYears,selectedYear]);
 
 
   useEffect(() => {
     // console.log(page); // Log the updated page value separately
+    // api()
+    
     const selectedDate = (ddate[page]?.date || ddate[0]?.date || null);
     if (selectedDate) {
       getData(selectedDate);
+      // console.log(selectedDate)
       // console.log(selectedDate)
       // if(Object.keys(availableYears).length > 0){
       //   setSelectedYear(availableYears[0])
       //   console.log(availableYears[0])
       // } 
       // console.log(incomes.total_amount)
-    } else { }
+    } else {}
     // console.log(ddate)  
 
 
-  }, [navigation, chartloading,ddate, availableYears, selectedYear]);
+  }, [navigation,chartloading,ddate,page,availableYears,selectedYear]);
 
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
