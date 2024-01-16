@@ -41,7 +41,7 @@ import  AsyncStorage  from '@react-native-async-storage/async-storage'
 import { getItem } from './utils/asyncStorage';
 import Logo from './views/Logo';
 import CalcInstruction from './views/Landing/CalcInstruction';
-
+import LoadingScreen from './views/LoadingScreen';
 
 
 //TODO
@@ -56,17 +56,10 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
+
 const App = ({navigation}) => {
-  const [isLoading, setIsLoading] = useState(true);
 
-  const [context, setContext] = React.useState({
-    id: null,
-    email: null,
-    otp: null
-  })
-  const [delay,setDelay] = useState(true) 
-
-  const [local,setLocal] = useState("Onboarding")
+ 
   const [totalincome,setTotalIncome] = React.useState()
 
   const [incomeIcon, setIncomeIcon] = useState({
@@ -330,11 +323,19 @@ const App = ({navigation}) => {
     require('./assets/Icon/Icons/c36.png'),
   ];
 
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [context, setContext] = React.useState({
+    id: null,
+    email: null,
+    otp: null
+  })
+  
   const [nav, setNav] = React.useState(false)
 
   const [transaction, setTransaction] = useState({})
+  const [delay,setDelay] = useState(true) 
 
+  const [local,setLocal] = useState("Onboarding")
 
   useEffect(() => {
     setTimeout(() => {
@@ -351,54 +352,76 @@ const App = ({navigation}) => {
     setEditMode(!editMode);
   };
 
-
-
-
-  useEffect(() => {
-
+ useEffect(() => {
     const loadUserFromStorage = async () => {
       try {
         const storedUser = await AsyncStorage.getItem('user');
-        const board = await getItem("onboarded")
+        let onboardedFlag = await AsyncStorage.getItem('onboarded');
+  
         if (storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        setContext(parsedUser);
-        if (board) {
-          // Navigate to the "LogIn" screen
-          // navigation.navigate("Log in");
-          setFirst(false)
-          
-        } 
-        // console.log(storedUser)
-        // console.log(Boolean(board),"wew")
-      } 
-        
+          const parsedUser = JSON.parse(storedUser);
+  
+          // If onboarded flag is not set or set to false, default to false
+          if (onboardedFlag === null || onboardedFlag === 'false') {
+            onboardedFlag = false;
+          }
+  
+          if (parsedUser.id || onboardedFlag) {
+            // User has logged in or completed onboarding
+            setContext(parsedUser);
+  
+            // Only set onboarded to true if it's currently false
+            if (!onboardedFlag) {
+              await AsyncStorage.setItem('onboarded', 'true');
+            }
+  
+            setLocal("Homescreen");
+           
+          } else {
+            // User hasn't completed onboarding, and onboarding hasn't been shown
+            setLocal("Onboarding");
+          }
+  
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+        }
+  
       } catch (error) {
         console.error('Error loading user from AsyncStorage:', error);
-        // console.log(JSON.stringify(context))
-
+        setIsLoading(false);
       }
     };
-
+  
     loadUserFromStorage();
-  }, []);
-
+  }, [setContext, setIsLoading]);
+  
+  
   useEffect(() => {
     const saveContextToStorage = async () => {
       try {
-      await AsyncStorage.setItem('user', JSON.stringify(context));
-      
-      if(context.id){
-        setLocal("Homescreen")
-      }
-        
+        await AsyncStorage.setItem('user', JSON.stringify(context));
+  
+        if (context.id) {
+          setLocal("Homescreen");
+          
+          // Check if onboarded flag is not true before setting it
+          const onboardedFlag = await AsyncStorage.getItem('onboarded');
+  
+          // Check if onboardedFlag is null or false
+          if (onboardedFlag !== 'true') {
+            await AsyncStorage.setItem('onboarded', 'true');
+          }
+        } else {
+          // Mark onboarding as incomplete when logging out
+          await AsyncStorage.setItem('onboarded', 'false');
+          
+        }
       } catch (error) {
         console.error('Error saving context to AsyncStorage:', error);
-        // console.log(JSON.stringify(context))
-
       }
     };
-
+  
     saveContextToStorage();
   }, [context]);
 
@@ -420,33 +443,29 @@ const App = ({navigation}) => {
         translucent={true}
         hidden={true}
       />
-      <NavigationContainer>
-
-        <UserContext.Provider value={providervalue}>
-          <Stack.Navigator
-            // initialRouteName={"Logo"}
-            screenOptions={{
-              headerShown: false,
-              animation: 'fade',
-            }}
-          >
-            {/* {context.id ? () : first ? () : () */}
-
-         { context.id && <Stack.Screen
-              name="Homescreen"
-              component={DrawerScreen}
-            /> }
-
-         { first && <Stack.Screen
-              name="Onboarding"
-              component={OnboardingScreen}
-            /> }
-
-            <Stack.Screen
-            name="Log in"
-            component={Login}
-
-          />  
+       <NavigationContainer>
+        {isLoading ? (
+          
+          <LoadingScreen />
+        ) : (
+          <UserContext.Provider value={providervalue}>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: 'fade',
+              }}
+            >
+                  {context.id ? (
+              <Stack.Screen name="Homescreen" component={DrawerScreen} />
+            ) : (
+              <>
+                {local === "Onboarding" && (
+                  <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+                )}
+                
+              </>
+            )}
+            <Stack.Screen name="Log in" component={Login} />
            <Stack.Screen
           name="Forecast Savings"
           component={ForecastSavings}
@@ -795,7 +814,7 @@ const App = ({navigation}) => {
           </Stack.Navigator>
 
         </UserContext.Provider>
-
+        )}
       </NavigationContainer>
 
     </SafeAreaView>
@@ -867,7 +886,7 @@ function CustomDrawerContent({}) {
   };
   return (
     
-    <View style={{ width:"100%",flexDirection: 'column', flex: 1, backgroundColor: '#3A6B35', padding:10, justifyContent: 'flex-start' }}>
+    <View style={{ height: '100%', width:"auto",flexDirection: 'column', backgroundColor: '#3A6B35', padding:10, justifyContent: 'flex-start' }}>
       <Loader visible ={loader} message="Logging out..."/>
       <TouchableOpacity onPress={() => navigateToScreen('Home')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', overflow:"hidden",justifyContent:"flex-start",width:"100%",padding:10 }}>

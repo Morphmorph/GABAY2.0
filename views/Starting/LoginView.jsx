@@ -84,7 +84,7 @@ const Login = ({navigation}) => {
         </Text>
       </View>
     
-      <ModalMessage showAutomatically={showModalMessage} message="WELCOME TO GABAY!" icon={<Image source={require('../../assets/logo/logo1.png')} style={{ width: 200, height: 200 }} resizeMode="contain"/>} navigateToScreen="Incomes"/>  
+      
       <ModalMessageE showAutomatically={showModalEMessage} message="Incorrect email or password!" icon={<MaterialCommunityIcons name="account-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
       <ModalMessageEE showAutomatically={showModalEEMessage} message="Check your internet connection!" icon={<MaterialCommunityIcons name="wifi-alert" size={200} color="#810000" />} navigateToScreen="Log in"/>
       <ModalMessageEEE showAutomatically={showModalEEEMessage} message="Account not verified!" icon={<MaterialCommunityIcons name="account-question" size={200} color="#810000" />} navigateToScreen="Pin"/>

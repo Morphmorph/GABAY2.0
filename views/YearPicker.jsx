@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   pickerStyle: {
     color: '#144714',
     backgroundColor: 'transparent', 
-    top: -7,
-    marginBottom: -25
+    top: 0,
+    
   },
 });
 
