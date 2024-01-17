@@ -139,6 +139,7 @@ const Home = ({ navigation }) => {
         const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
         setAvailableYears(uniqueYears);
         setSelectedYear(uniqueYears[0])
+        
 
       })
       .catch((e) => {
@@ -260,6 +261,7 @@ const Home = ({ navigation }) => {
 
     if(Object.keys(availableYears).length > 0){
       api()
+    
     }
      
    
@@ -300,13 +302,13 @@ const Home = ({ navigation }) => {
       unsubscribe();
 
     };
-  }, [navigation,chartloading,page, availableYears,selectedYear]);
+  }, [navigation,chartloading,page,availableYears,selectedYear]);
 
 
   useEffect(() => {
     // console.log(page); // Log the updated page value separately
     // api()
-    
+    // setPage(0)
     const selectedDate = (ddate[page]?.date || ddate[0]?.date || null);
     if (selectedDate) {
       getData(selectedDate);
@@ -322,6 +324,8 @@ const Home = ({ navigation }) => {
 
 
   }, [navigation,chartloading,ddate,page,availableYears,selectedYear]);
+
+  useEffect(()=>{setPage(0)},[selectedYear])
 
   const toggleOption = () => {
     setSelectedOption(selectedOption === 'Income' ? 'Expenses' : 'Income');
