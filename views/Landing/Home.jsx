@@ -139,6 +139,11 @@ const Home = ({ navigation }) => {
         const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
         setAvailableYears(uniqueYears);
         setSelectedYear(uniqueYears[0])
+        console.log(response.data == '')
+        if(response.data == ''){
+          setAvailableYears([])
+          setSelectedYear([])
+        }
         
 
       })
@@ -150,10 +155,12 @@ const Home = ({ navigation }) => {
 
 
   const api = () => {
+    if(selectedYear != ''){
     axiosRequest.get(`gabay/same/month/year/${context.id}/?year=${selectedYear}`)
       .then((response) => {
         const date = { ...response.data };
         setDdate(date);
+        
         // console.log("api",response.data)
         // // Extract the unique years from the expenses data
         // const uniqueYears = Array.from(new Set(Object.keys(date).map((key) => new Date(date[key].date).getFullYear())));
@@ -178,9 +185,11 @@ const Home = ({ navigation }) => {
   ]
        )
       });
+    }
   };
 
   const getData = (pagess) => {
+    if(availableYears != ''){
     axiosRequest.get(`gabay/page/${context.id}/?date=${Object.keys(ddate).length > 0 ? pagess : null}&page=1&year=${selectedYear}`)
       .then((response) => {
         setExpense(response.data);
@@ -210,7 +219,8 @@ const Home = ({ navigation }) => {
         }
   ]
        )
-      });
+      })
+    }else{setExpense([])}
   };
 
   const getIncome = () => {
@@ -259,7 +269,7 @@ const Home = ({ navigation }) => {
 
 
 
-    if(Object.keys(availableYears).length > 0){
+    if(Object.keys(availableYears).length > 0 && selectedYear != ''){
       api()
     
     }
@@ -282,7 +292,7 @@ const Home = ({ navigation }) => {
      
 
      
-      if (selectedDate) {
+      if (selectedDate  && selectedYear != '') {
         getData(selectedDate);
         // console.log(availableYears[0])
         if (Object.keys(availableYears).length > 0) {
@@ -290,7 +300,7 @@ const Home = ({ navigation }) => {
 
         }
       }
-
+    
     };
 
 
@@ -310,7 +320,7 @@ const Home = ({ navigation }) => {
     // api()
     // setPage(0)
     const selectedDate = (ddate[page]?.date || ddate[0]?.date || null);
-    if (selectedDate) {
+    if(selectedDate  && selectedYear != ''){
       getData(selectedDate);
       // console.log(selectedDate)
       // console.log(selectedDate)
@@ -322,7 +332,7 @@ const Home = ({ navigation }) => {
     } else {}
     // console.log(ddate)  
 
-
+  
   }, [navigation,chartloading,ddate,page,availableYears,selectedYear]);
 
   useEffect(()=>{setPage(0)},[selectedYear])
