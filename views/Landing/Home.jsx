@@ -7,6 +7,7 @@ import { Header, Icon } from 'react-native-elements';
 import Style from '../Style';
 import DonutChart from './DonutChart';
 import { axiosRequest } from '../../api_server/axios'
+import axios from 'axios';
 import UserContext from '../../api_server/context';
 import YearPicker from '../YearPicker';
 import LottieView from 'lottie-react-native';
@@ -348,21 +349,46 @@ const Home = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [randomQuote, setRandomQuote] = useState('');
 
-  const dailyQuotes = [
-    "The only way to do great work is to love what you do.  - Steve Jobs",
-    "Believe you can and you're halfway there. -Theodore Roosevelt",
-    "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
-    
-  ];
+ 
 
-  const getRandomQuote = () => {
-    const randomIndex = Math.floor(Math.random() * dailyQuotes.length);
-    setRandomQuote(dailyQuotes[randomIndex]);
+  const getRandomQuote = async() => {
+    // const randomIndex = Math.floor(Math.random() * dailyQuotes.length);
+    // setRandomQuote(dailyQuotes[randomIndex]);
+    await axios.get('https://api.quotable.io/random').
+    then((response)=>{
+
+      // console.log(response.data)
+      setRandomQuote(`${response.data.content} 
+       
+      -${response.data.author}`);
+    }).catch((e)=>{
+      Alert.alert("Error Occured", "Check Your Internet Connection and Try Again",
+        [
+          {
+            text: "Reload",
+            onPress: () => { getRandomQuote() }
+            ,
+            style: "yes"
+          }, {
+            text: "Exit",
+            onPress: () => {
+              setIsModalVisible(false)
+            }
+            ,
+            style: "cancel"
+          }
+        ]
+      )
+    })
   };
 
   useEffect(() => {
+
+    setTimeout(() => {
+      setIsModalVisible(true); 
+    }, 1000);
     getRandomQuote();
-    setIsModalVisible(true); 
+    
   }, []);
 
   return (
