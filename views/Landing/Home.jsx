@@ -354,13 +354,13 @@ const Home = ({ navigation }) => {
   const getRandomQuote = async() => {
     // const randomIndex = Math.floor(Math.random() * dailyQuotes.length);
     // setRandomQuote(dailyQuotes[randomIndex]);
-    await axios.get('https://api.quotable.io/random').
+    await axios.get('https://api.api-ninjas.com/v1/quotes?category=money',{headers : {'X-Api-Key' : `dAu+aBtDqzRCXJgrJH35vA==9a6EamyE3Wfsi9sA`}}).
     then((response)=>{
 
-      // console.log(response.data)
-      setRandomQuote(`${response.data.content} 
+      console.log(response.data)
+      setRandomQuote(`${response.data[0]?.quote} 
        
-      -${response.data.author}`);
+      -${response.data[0]?.author}`);
     }).catch((e)=>{
       Alert.alert("Error Occured", "Check Your Internet Connection and Try Again",
         [
