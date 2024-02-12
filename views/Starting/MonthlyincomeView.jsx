@@ -12,7 +12,7 @@ import ModalMessageEE from '../ModalEE';
 import Loader from './actionLoader';
 
 const MonthlyIncome = () => {
-  const { income, incomeError, setIncomeError, handleIncomeChange, startButtonPressed, showModalMessage, setShowModalMessage, showModalEEMessage, setShowModalEEMessage, loader, setLoader } = useMonthlyIncomeController();
+  const { income, incomeError, setIncomeError, handleIncomeChange, savings, savingsError, setSavings, setSavingsError, handleSavingsChange, startButtonPressed, showModalMessage, setShowModalMessage, showModalEEMessage, setShowModalEEMessage, loader, setLoader } = useMonthlyIncomeController();
   const [isLoading, setIsLoading] = useState(true);
 
   // Use useEffect to mimic component lifecycle behavior
@@ -31,7 +31,7 @@ const MonthlyIncome = () => {
         <View style={[Style.common, { justifyContent: 'center' }]}>
           <Loader visible={loader} message="Adding..." />
           <View style={Style.container}>
-            <Text style={Style.textcolor}>MONTHLY GROSS INCOME</Text>
+            <Text style={Style.textcolor}>MONTHLY NET INCOME</Text>
 
             <CustomInput
               iconName="currency-php"
@@ -43,6 +43,18 @@ const MonthlyIncome = () => {
               onFocus={() => {
                 // Clear income error on focus
                 setIncomeError(null);
+              }}
+            />
+             <CustomInput
+              iconName="piggy-bank-outline"
+              placeholder="Savings"
+              keyboardType="numeric"
+              value={savings}
+              onChangeText={handleSavingsChange}
+              error={savingsError}
+              onFocus={() => {
+                // Clear income error on focus
+                setSavingsError(null);
               }}
             />
             <TouchableOpacity style={Style.signInButton} onPress={startButtonPressed}>

@@ -8,7 +8,7 @@ import UserContext from '../api_server/context';
 export const useMonthlyIncomeController = () => {
     const {context} = React.useContext(UserContext)
     const navigation = useNavigation();
-    const { income, setIncome, incomeError, setIncomeError, showModalMessage, setShowModalMessage, loader, setLoader, showModalEEMessage, setShowModalEEMessage } = useMonthlyIncomeModel();
+    const { income, setIncome, incomeError, setIncomeError, savings, savingsError, setSavings, setSavingsError, showModalMessage, setShowModalMessage, loader, setLoader, showModalEEMessage, setShowModalEEMessage } = useMonthlyIncomeModel();
     const Data = {
       user : context.id,
       title : "Main",
@@ -19,7 +19,6 @@ export const useMonthlyIncomeController = () => {
     const handleIncomeChange = (text) => {
       // Clear existing errors
       setIncomeError(null);
-  
       // Remove non-digit characters
       const numericValue = text.replace(/[^0-9]/g, '');
   
@@ -27,16 +26,32 @@ export const useMonthlyIncomeController = () => {
       const formattedIncome = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   
       setIncome(formattedIncome);
+
     };
+    const handleSavingsChange = (text) => {
+      // Clear existing errors
+      setSavingsError(null);
+      // Remove non-digit characters
+      const numericValue = text.replace(/[^0-9]/g, '');
   
+      // Format the numeric value with commas
+      const formattedIncome = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  
+      setSavings(formattedIncome);
+    };
+
     const startButtonPressed = () => {
       // Clear existing errors
       setIncomeError(null);
-  
+      setSavingsError(null);
       // Validate income
       if (!income) {
         setIncomeError('Income is required');
-      } else {
+      } 
+      else if (!savings){
+        setSavingsError('Savings is required')
+      }
+      else {
         setLoader(true)
         axiosRequest.post('gabay/add/',Data).then((response)=>{
           setTimeout(() => {
@@ -53,5 +68,5 @@ export const useMonthlyIncomeController = () => {
       }
     };
   
-    return { income, setIncome, incomeError, setIncomeError, handleIncomeChange, startButtonPressed,showModalMessage, setShowModalMessage,loader, setLoader, showModalEEMessage, setShowModalEEMessage };
+    return { income, setIncome, incomeError, setIncomeError, savings, savingsError, setSavings, setSavingsError, handleSavingsChange, handleIncomeChange, startButtonPressed,showModalMessage, setShowModalMessage,loader, setLoader, showModalEEMessage, setShowModalEEMessage };
   };

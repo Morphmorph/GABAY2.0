@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
 import { Circle, G, Text as SvgText } from 'react-native-svg';
 
-const chartWidth = 220; // Adjust the width
-const chartHeight = 220; // Adjust the height
+const chartWidth = 180; // Adjust the width
+const chartHeight = 180; // Adjust the height
 const chartRadius = chartWidth / 2;
 
 const { width, height } = Dimensions.get('window');

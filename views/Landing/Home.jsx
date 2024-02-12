@@ -426,6 +426,7 @@ const Home = ({ navigation }) => {
               </View>
             </View>
           </Modal>
+          
           <View style={Style.glass}>
             <View style={{ alignItems: 'center', backgroundColor: '#E3B448', borderRadius: 5 }}>
               <Text style={{ color: '#144714', fontSize: 25 }}>HISTORY</Text>
@@ -437,6 +438,23 @@ const Home = ({ navigation }) => {
                 <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {incomes.total_amount ? incomes.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : "00"}.00 </Text>
               </View>
               <Text style={{ color: '#E3B448', fontSize: 12 }}>Monthly income</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',}}>
+            <View style={{ flex: 1, marginTop: 5, marginRight: 2.5, alignItems: 'center',  backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+              <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
+
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ 15,000.00</Text>
+              </View>
+              <Text style={{ color: '#E3B448', fontSize: 12 }}>Expenses</Text>
+            </View>
+            <View style={{ flex: 1, marginTop: 5, marginLeft: 2.5, alignItems: 'center', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+              <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
+
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ 10,000.00</Text>
+              </View>
+              <Text style={{ color: '#E3B448', fontSize: 12 }}>Savings</Text>
+            </View>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 2, maxWidth: '100%' }}>
 
@@ -451,9 +469,9 @@ const Home = ({ navigation }) => {
               </View>
             </View>
           </View>
-
+          
           {selectedOption === 'Income' && (
-
+           
             <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
               {expense != "" && <View style={{ padding: 10, }}>
                 <View style={{ borderWidth: .5, borderRadius: 10, }}>
@@ -479,7 +497,7 @@ const Home = ({ navigation }) => {
                 </View>
 
                 <View style={{ padding: 18.8, top: -15, }}>
-                  {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -16.8 }}>
+                  {chartloading ? <View style={{ justifyContent: 'space-evenly', alignItems: 'center', padding: 10, width: '100%', marginBottom: -58 }}>
                     <Image source={require('../../assets/logo/logo1.png')} style={{ top: -20, opacity: 0.3, width: 170 }} resizeMode='contain' />
                     {/* <LoadingScreen/> */}
                   </View> : expense ? <DonutChart data={expense} total_sum={incomes.total_amount} /> : null}
@@ -498,7 +516,7 @@ const Home = ({ navigation }) => {
                 </Text>
               </View>}
             </View>
-
+            
           )}
           {selectedOption === 'Expenses' && (
             <View style={{ top: 5, backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
