@@ -209,24 +209,23 @@ const AddExpenses = ({ route }) => {
         setAction(true);
         setShowModal2Message(true);
         setTimeout(() => setShowModal2Message(false), 500);
-  //       Alert.alert(`${data.description} Already Exist!`,"Save and Continue?",
-  //       [
-  //   {
-  //     text: "Yes",
-  //     onPress: () => {api(data,"Yes")
-  //     setAction(true)
-  //       }
-  //     ,
-  //     style: "yes"
-  //   },   {
-  //         text: "No",
-  //         onPress: () => {
-  //       }
-  //         ,
-  //         style: "cancel"
-  //       }
-  // ]
-  //      )
+
+      }
+      else if(error.response.data.code == 205){
+            Alert.alert(`Oops`,error.response.data.error,
+        [
+    {
+      text: "Close",
+      onPress: () => {console.log(error.response.data)
+      
+        }
+      ,
+      style: "yes"
+    },
+  ]
+       )
+
+
       }
  
       setAction(false);

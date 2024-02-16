@@ -15,6 +15,11 @@ export const useMonthlyIncomeController = () => {
       amount : parseInt(income.replace(/,/g, ''), 10),
       icon : 36
     }
+    
+    const DataSavings = {
+     user : context.id,
+     amount : parseInt(savings.replace(/,/g,''),10)
+    }
   
     const handleIncomeChange = (text) => {
       // Clear existing errors
@@ -54,11 +59,17 @@ export const useMonthlyIncomeController = () => {
       else {
         setLoader(true)
         axiosRequest.post('gabay/add/',Data).then((response)=>{
+         axiosRequest.post(`gabay/add/fixed/savings/`,DataSavings).then((result)=>{
           setTimeout(() => {
             setShowModalMessage(true);
             setLoader(false)
           }, 4000);
-
+         }).catch((e)=>{
+          console.log(e)
+        setShowModalEEMessage(true);
+          setTimeout(() => setShowModalEEMessage(false), 500);
+          
+        })
         }).catch((e)=>{
           console.log(e)
         setShowModalEEMessage(true);

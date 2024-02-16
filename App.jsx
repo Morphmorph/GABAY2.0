@@ -61,6 +61,7 @@ const App = ({navigation}) => {
 
  
   const [totalincome,setTotalIncome] = React.useState()
+  const [fixedsavings,setFixedSavings] = React.useState(0.00)
 
   const [incomeIcon, setIncomeIcon] = useState({
     income: [
@@ -429,8 +430,8 @@ const App = ({navigation}) => {
 
   const providervalue = useMemo(() => ({  context, setContext, nav, setNav, category1, 
     setCategory1, transaction, setTransaction, incomeIcon, 
-    setIncomeIcon,totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,
-      totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay]);
+    setIncomeIcon,totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay,fixedsavings,setFixedSavings }), [context, setContext, nav, setNav, category1, setCategory1, transaction, setTransaction, incomeIcon, setIncomeIcon,
+      totalincome,setTotalIncome,iconPaths,pdfprint,setPdfPrint,delay,setDelay,fixedsavings,setFixedSavings]);
 
       // const openAbout = () => {
       //   navigation.navigate('Calculator Guide')

@@ -18,7 +18,7 @@ const Home = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
-  const { context, setTotalIncome, setPdfPrint, delay, setDelay } = useContext(UserContext)
+  const { context, setTotalIncome, setPdfPrint, delay, setDelay,fixedsavings,setFixedSavings } = useContext(UserContext)
   const [chartloading, setChartLoading] = useState(false)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
@@ -235,7 +235,19 @@ const Home = ({ navigation }) => {
       if (!response.data.total_amount) {
         navigation.navigate("Incomes")
       }
-
+      axiosRequest.get(`gabay/update/fixed/savings/${context.id}/`).then((result)=>{
+       setFixedSavings(result.data.amount)
+       console.log(result.data)
+   
+        
+       
+      }).catch((e)=>{
+       console.log(e.response.data.detail)
+       if(e.response.data.detail == "Not found"){
+        navigation.navigate("Incomes")
+       }
+       
+      })
 
       setIsLoading(false);
 
@@ -444,14 +456,14 @@ const Home = ({ navigation }) => {
             <View style={{ flex: 1, marginTop: 5, marginRight: 2.5, alignItems: 'center',  backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
               <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
 
-                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ 15,000.00</Text>
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {(incomes.total_amount - fixedsavings).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
               </View>
               <Text style={{ color: '#E3B448', fontSize: 12 }}>Expenses</Text>
             </View>
             <View style={{ flex: 1, marginTop: 5, marginLeft: 2.5, alignItems: 'center', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
               <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
 
-                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ 10,000.00</Text>
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {fixedsavings ? fixedsavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','): "00.00"}</Text>
               </View>
               <Text style={{ color: '#E3B448', fontSize: 12 }}>Savings</Text>
             </View>
