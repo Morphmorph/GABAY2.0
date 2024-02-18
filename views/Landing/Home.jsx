@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image, Modal, Alert, ScrollView, BackHandler, TouchableHighlight } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Image, Modal, Alert, StyleSheet, BackHandler, TouchableHighlight } from 'react-native';
 import Logo from '../../assets/logo/logo1.png';
 import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoadingScreen from '../LoadingScreen';
 import { Header, Icon } from 'react-native-elements';
 import Style from '../Style';
+import Loader from '../Starting/actionLoader';
 import DonutChart from './DonutChart';
 import { axiosRequest } from '../../api_server/axios'
 import axios from 'axios';
@@ -12,19 +13,25 @@ import UserContext from '../../api_server/context';
 import YearPicker from '../YearPicker';
 import LottieView from 'lottie-react-native';
 import { ColorSpace } from 'react-native-reanimated';
+import CustomInput from '../CustomInput';
+
 
 const Home = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Income');
   const { context, setTotalIncome, setPdfPrint, delay, setDelay,fixedsavings,setFixedSavings } = useContext(UserContext)
   const [chartloading, setChartLoading] = useState(false)
   const [ddate, setDdate] = useState([])
   const [page, setPage] = useState(0)
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
   const selectedDate = ddate[page]?.date || (ddate[0]?.date || null);
   const [expense, setExpense] = useState([])
   const [incomes, setIncomes] = useState([])
+  const [action, setAction] = useState(false)
 
   const screenWidth1 = Dimensions.get('window').width;
   // console.log(screenWidth1)
@@ -403,6 +410,32 @@ const Home = ({ navigation }) => {
     
   }, []);
 
+  const handleEdit = async() => {
+    // Implement your edit logic here
+    // You can use the selectedExpense state to get the details of the expense being edited
+    // Close the modal after editing
+    setAction(true);
+    await axiosRequest.put(`gabay/transaction/edit/${id}/`,{
+      "description": title,
+      "amount": parseInt(amount)
+  }).then((response)=>{
+    console.log('success')
+    setAction(false);
+    setShowModalMessage(true);
+    setTimeout(() => setShowModalMessage(false), 500);
+  }).catch(e=>{
+    console.log('failed')
+  })
+
+    setEditModalVisible(false);
+    setEditMode(false);
+    
+  };
+
+  const toggleEditModal = () => {
+    setAmount((incomes.total_amount - fixedsavings).toString());
+    setEditModalVisible(!isEditModalVisible);
+  };
   return (
 
     <View style={Style.common}>
@@ -418,8 +451,8 @@ const Home = ({ navigation }) => {
             onRequestClose={() => {
               Alert.alert('Modal has been closed.');
             }}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
+            <View style={styles.modalContainer2}>
+              <View style={styles.modalContent2}>
                 <View style={styles.lottie}>
                   <LottieView
                     source={require('../../assets/onboarding/quotes.json')}
@@ -427,7 +460,7 @@ const Home = ({ navigation }) => {
                     loop
                   />
                 </View>
-                <Text style={styles.modalText}>{randomQuote}</Text>
+                <Text style={styles.modalText2}>{randomQuote}</Text>
                 <TouchableHighlight
                   style={{ position: 'absolute', top: 10, right: 10, }}
                   onPress={() => {
@@ -438,7 +471,45 @@ const Home = ({ navigation }) => {
               </View>
             </View>
           </Modal>
-          
+          <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isEditModalVisible}
+        onRequestClose={() => {
+          setEditModalVisible(!isEditModalVisible);
+        }}
+      >
+        <View style={Style.modalContainer}>
+        <Loader visible={action} message="Updating..." />
+          <View style={Style.modalContent}>
+          <Text style={{ fontSize: 20, marginBottom: 20, color: '#E3B448', }}>Update record:</Text>
+            <CustomInput
+              iconName="application-outline"
+              placeholder="Title"
+              value={"Expenses"}
+              editable={false}
+              onChangeText={(text) => setTitle(text)}
+            />
+            <CustomInput
+              iconName="currency-php"
+              placeholder="00.00"
+              keyboardType="numeric"
+              value={amount}
+              onChangeText={(text) => setAmount(text)}
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.yesButton} onPress={handleEdit}>
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.noButton} onPress={() => setEditModalVisible(false)}>
+                <Text style={styles.buttonText2}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+
           <View style={Style.glass}>
             <View style={{ alignItems: 'center', backgroundColor: '#E3B448', borderRadius: 5 }}>
               <Text style={{ color: '#144714', fontSize: 25 }}>HISTORY</Text>
@@ -453,17 +524,24 @@ const Home = ({ navigation }) => {
             </View>
 
             <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',}}>
+           
             <View style={{ flex: 1, marginTop: 5, marginRight: 2.5, alignItems: 'center',  backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+            
               <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
-
+              <TouchableOpacity onPress={toggleEditModal}>
                 <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {(incomes.total_amount - fixedsavings).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+              </TouchableOpacity>
               </View>
+              
               <Text style={{ color: '#E3B448', fontSize: 12 }}>Expenses</Text>
+              
             </View>
+            
             <View style={{ flex: 1, marginTop: 5, marginLeft: 2.5, alignItems: 'center', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
               <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
-
+              <TouchableOpacity onPress={toggleEditModal}>
                 <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {fixedsavings ? fixedsavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','): "00.00"}</Text>
+              </TouchableOpacity>
               </View>
               <Text style={{ color: '#E3B448', fontSize: 12 }}>Savings</Text>
             </View>
@@ -502,8 +580,7 @@ const Home = ({ navigation }) => {
                     <Iconn name='arrow-left-thick' style={{ fontSize: 30, color: '#144714' }} />
                   </TouchableOpacity>}
                   <Text style={{ fontSize: 20, color: '#144714', textAlign: 'center', flex: 1 }}>{Object.keys(ddate).length > 0 ? new Date(ddate[page]?.date ? ddate[page].date : ddate[0].date).toLocaleString('default', { month: 'long' }) : null}</Text>
-                  {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePresslef
-                  }>
+                  {Object.keys(ddate).length > 1 && <TouchableOpacity onPress={handlePresslef}>
                     <Iconn name='arrow-right-thick' style={{ fontSize: 30, color: '#144714' }} />
                   </TouchableOpacity>}
                 </View>
@@ -558,28 +635,27 @@ const Home = ({ navigation }) => {
 // Home.navigationOptions
 export default Home;
 
-const styles = {
-  modalContainer: {
+const styles =StyleSheet.create({
+  modalContainer2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
 
   },
-  modalContent: {
+  modalContent2: {
     backgroundColor: '#E3B448',
     padding: 10,
     borderRadius: 10,
     width: '90%',
     opacity: 0.95
   },
-  modalText: {
+  modalText2: {
     fontSize: 20,
     marginBottom: 10,
     textAlign: 'center',
     fontStyle: 'italic',
     color: '#144714',
   },
-
   lottie: {
     // backgroundColor: 'red',
     alignSelf: 'center',
@@ -587,5 +663,64 @@ const styles = {
     width: '100%',
     height: '50%',
   },
-
-};
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: '#3A6B35',
+    borderRadius: 10,
+    width: '90%',
+    padding: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#E3B448'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    width: '100%',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  yesButton: {
+    flex: 1,
+    backgroundColor: '#A2A869',
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    alignItems: 'center',
+  },
+  noButton: {
+    flex: 1,
+    backgroundColor: '#810000',
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#144714',
+    fontSize: 16,
+  },
+  buttonText2: {
+    color: '#CBD18F',
+    fontSize: 16,
+  },
+});

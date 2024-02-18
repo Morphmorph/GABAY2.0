@@ -8,11 +8,13 @@ import { useNavigation } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
 import UserContext from '../../api_server/context'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import randomColor from 'randomcolor'
 import { axiosRequest } from '../../api_server/axios'
 import Loader from '../Starting/actionLoader'
 import ModalMessage from '../Modal'
+import ModalMessage3 from '../Modal2'
 import ModalMessage2 from '../ModalE2';
 
 const AddExpenses = ({ route }) => {
@@ -23,6 +25,7 @@ const AddExpenses = ({ route }) => {
     navigation.navigate('Add Category', { destination: 'Add expenses', cat: cat });
   };
   const [showModalMessage, setShowModalMessage] = useState(false);
+  const [showModalMessage3, setShowModalMessage3] = useState(false);
   const [showModal2Message, setShowModal2Message] = useState(false);
   const [isSelectionApplied, setIsSelectionApplied] = useState(false);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
@@ -212,18 +215,9 @@ const AddExpenses = ({ route }) => {
 
       }
       else if(error.response.data.code == 205){
-            Alert.alert(`Oops`,error.response.data.error,
-        [
-    {
-      text: "Close",
-      onPress: () => {console.log(error.response.data)
+        setShowModalMessage3(true);
+        setTimeout(() => setShowModalMessage3(false), 500);
       
-        }
-      ,
-      style: "yes"
-    },
-  ]
-       )
 
 
       }
@@ -669,7 +663,9 @@ const AddExpenses = ({ route }) => {
         api(transaction, "Yes");
         setAction(true);
       }}
-    /><ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current={route.name} />
+    />
+    <ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current={route.name} />
+    <ModalMessage3 showAutomatically={showModalMessage3} message="Maximum value reach!" icon={<FontAwesome5 name="money-bill-wave" size={200} color="#810000" />} navigateToScreen="Add expenses" again={true} current={route.name} />
     </View>
   )
 }
