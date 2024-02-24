@@ -415,11 +415,9 @@ const Home = ({ navigation }) => {
     // You can use the selectedExpense state to get the details of the expense being edited
     // Close the modal after editing
     setAction(true);
-    await axiosRequest.put(`gabay/transaction/edit/${id}/`,{
-      "description": title,
-      "amount": parseInt(amount)
-  }).then((response)=>{
+    await axiosRequest.put(`gabay/update/fixed/savings/${context.id}/`,{user : context.id,amount:amount}).then((response)=>{
     console.log('success')
+    getIncome()
     setAction(false);
     setShowModalMessage(true);
     setTimeout(() => setShowModalMessage(false), 500);
@@ -428,12 +426,12 @@ const Home = ({ navigation }) => {
   })
 
     setEditModalVisible(false);
-    setEditMode(false);
+   
     
   };
 
   const toggleEditModal = () => {
-    setAmount((incomes.total_amount - fixedsavings).toString());
+    setAmount((fixedsavings).toString());
     setEditModalVisible(!isEditModalVisible);
   };
   return (
@@ -486,7 +484,7 @@ const Home = ({ navigation }) => {
             <CustomInput
               iconName="application-outline"
               placeholder="Title"
-              value={"Expenses"}
+              value={"Savings"}
               editable={false}
               onChangeText={(text) => setTitle(text)}
             />
@@ -528,9 +526,9 @@ const Home = ({ navigation }) => {
             <View style={{ flex: 1, marginTop: 5, marginRight: 2.5, alignItems: 'center',  backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
             
               <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={toggleEditModal}>
+              
                 <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {(incomes.total_amount - fixedsavings).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-              </TouchableOpacity>
+              
               </View>
               
               <Text style={{ color: '#E3B448', fontSize: 12 }}>Expenses</Text>

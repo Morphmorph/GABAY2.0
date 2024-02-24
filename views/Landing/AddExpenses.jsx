@@ -43,6 +43,8 @@ const AddExpenses = ({ route }) => {
   const { category1, transaction, setTransaction, context } = useContext(UserContext)
   const [legend, setLegend] = useState(null)
   const [action, setAction] = useState(false)
+  const [ctg, setCtg] = useState('')
+  const [val, setVal] = useState('')
 
   useEffect(() => {
     // Enable the Apply button if both year and month are selected
@@ -216,7 +218,13 @@ const AddExpenses = ({ route }) => {
       }
       else if(error.response.data.code == 205){
         setShowModalMessage3(true);
-        setTimeout(() => setShowModalMessage3(false), 500);
+        category = error.response.data.category
+        value = error.response.data.value
+        setCtg(category)
+        setVal(value)
+        setTimeout(() => {setShowModalMessage3(false)
+          setAction(false);
+        }, 500);
       
 
 
@@ -665,7 +673,7 @@ const AddExpenses = ({ route }) => {
       }}
     />
     <ModalMessage showAutomatically={showModalMessage} message="Expense successfully added!" icon={<MaterialCommunityIcons name="checkbox-marked-circle-plus-outline" size={200} color="#E3B448" />} navigateToScreen="Home" again={false} current={route.name} />
-    <ModalMessage3 showAutomatically={showModalMessage3} message="Maximum value reach!" icon={<FontAwesome5 name="money-bill-wave" size={200} color="#810000" />} navigateToScreen="Add expenses" again={true} current={route.name} />
+    <ModalMessage3 showAutomatically={showModalMessage3} message={ctg == 3 ? "Maximum Savings Reach " + val + " Allowed!":"Maximum Expense Reach " + val + " Allowed!"} icon={<FontAwesome5 name="money-bill-wave" size={200} color="#810000" />} navigateToScreen="Add expenses" again={true} current={route.name} />
     </View>
   )
 }

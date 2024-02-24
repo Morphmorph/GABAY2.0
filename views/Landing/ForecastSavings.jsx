@@ -30,7 +30,7 @@ const ForecastSavings = ({ navigation }) => {
   const [selectedOption, setSelectedOption] = useState('Year');
   const [forecast, setForcast] = useState([])
   const [predict,setPredict] =useState([])
-  const { context, totalincome, pdfprint, setPdfPrint, delay, setDelay } = useContext(UserContext)
+  const { context, totalincome, pdfprint, setPdfPrint, delay, setDelay,fixedsavings } = useContext(UserContext)
   const [value, setValue] = useState(null)
   const [select,setSelect] = useState(null)
   const [savings,setSavings] = useState([])
@@ -47,7 +47,7 @@ const ForecastSavings = ({ navigation }) => {
   const [selectedYear, setSelectedYear] = useState(null);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
   const [applyButtonDisabled1, setApplyButtonDisabled1] = useState(true);
-  const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`
+  const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}&choice=PDF`
 
   const navigateToScreen = (screenName) => {
     navigation.navigate(screenName);
@@ -179,7 +179,7 @@ const ForecastSavings = ({ navigation }) => {
   const handlePDF = async () => {
 
     setTimeout(() => {
-      Linking.openURL(server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}&choice=PDF`)
+      Linking.openURL(server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}&choice=PDF`)
       setIsLoading(false);
 
     }, 1000);
@@ -234,7 +234,7 @@ const ForecastSavings = ({ navigation }) => {
   const Forecast = async () => {
     setIsLoading(true);
 
-    axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${totalincome}&period=${selectedOption}`)
+    axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}`)
       .then((response) => {
         setTimeout(() => {
           data = response.data.avarage
