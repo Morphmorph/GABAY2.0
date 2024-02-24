@@ -656,7 +656,7 @@ const ForecastSavings = ({ navigation }) => {
                           setPredict(forecast)
                         }
                       }}
-                      enabled={selectedChartType !== 'Chart'}
+                      
                     >
                       <Picker.Item label="Overall" value={select} />
                       {savings.map((description)=> (
