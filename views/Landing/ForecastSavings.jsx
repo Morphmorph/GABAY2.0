@@ -15,6 +15,7 @@ import ModalMessageE from '../ModalE';
 import ModalMessage from '../Modal';
 import i from '../../assets/Icon/Icons/Savings.png'
 import GSC2 from './GSC2';
+import Chart from './Chart';
 // import fileDownload from 'js-file-download';
 // import RNFetchBlob from 'rn-fetch-blob';
 
@@ -38,6 +39,7 @@ const ForecastSavings = ({ navigation }) => {
   const [isPDFModalVisible, setIsPDFModalVisible] = useState(false);
   const [loader, setLoader] = useState(false)
   const [showModalMessage, setShowModalMessage] = useState(false);
+  const [selectedChartType, setSelectedChartType] = useState('DonutChart');
   const [selectedOption1, setSelectedOption1] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [previousMonthsVisible, setPreviousMonthsVisible] = useState(false);
@@ -640,8 +642,9 @@ const ForecastSavings = ({ navigation }) => {
               </View>
             </Modal>
             <View style={{ top: -5, padding: 18.8, paddingHorizontal: 10, marginBottom: 10, }}>
-            <View style={{borderWidth: .5, borderRadius: 10,}}>
-            <Picker
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',}}>
+            <View style={{flex: 1, marginRight: 2.5, borderWidth: .5, borderRadius: 10, width: '70%'}}>
+                    <Picker
                       selectedValue={value}
                       style={{ height: 50, width: '100%', color: '#144714', }}
                       onValueChange={(itemValue) => {
@@ -653,6 +656,7 @@ const ForecastSavings = ({ navigation }) => {
                           setPredict(forecast)
                         }
                       }}
+                      enabled={selectedChartType !== 'Chart'}
                     >
                       <Picker.Item label="Overall" value={select} />
                       {savings.map((description)=> (
@@ -660,9 +664,28 @@ const ForecastSavings = ({ navigation }) => {
                         ))}
                     </Picker>
                     </View>
-              <DonutChart data={predict} predict={value} />
-
+                    <View style={{flex: 1, marginLeft: 2.5, borderWidth: .5, borderRadius: 10,}}>
+                      
+                    <Picker
+                      selectedValue={selectedChartType}
+                      style={{ height: 50, width: '100%', color: '#144714', }}
+                      onValueChange={(itemValue) => {
+                        setSelectedChartType(itemValue);
+                      }}
+                    >
+                      <Picker.Item label="Average" value="DonutChart" />
+                      <Picker.Item label="Compare" value="Chart" />
+                    </Picker>
+                    </View>
+                    </View>
+                    {selectedChartType === 'DonutChart' && ( 
+                    <DonutChart data={predict} predict={value} /> 
+                    )}
+                    {selectedChartType === 'Chart' && (
+                      <Chart />
+                    )}
             </View>
+            
             <View style={{marginBottom: -10}}>
             <TouchableOpacity style={{ bottom: 20, backgroundColor: '#A2A869', paddingVertical: 10, width: '100%', paddingHorizontal: 30, borderRadius: 5, alignSelf: 'center', alignItems: 'center' }} onPress={() => {
 
