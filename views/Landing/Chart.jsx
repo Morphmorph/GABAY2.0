@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet  } from 'react-native'
+import { View, StyleSheet, Text as Ext  } from 'react-native'
 import { LineChart, XAxis, YAxis, Grid } from 'react-native-svg-charts'
 import { Circle, Text } from 'react-native-svg'
 
@@ -57,47 +57,58 @@ const Chart = () => {
   ]
 
   return (
-    <View style={{ height: 231, width: 'auto', flexDirection: 'row', }}>
-      <YAxis
-        data={data1.concat(data2)}
-        contentInset={{ top: 20, bottom: 32, left: 0, right: 0 }}
-        style={{justifyContent: 'flex-start', width: 20, left: 0, }}
-        svg={{
-          fill: 'grey',
-          fontSize: 10,
-          
-        }}
-        numberOfTicks={10}
-        formatLabel={(value) => `${value}`}
-      />
-      <View style={{ flex: 1, marginLeft: 10, }}>
-        <LineChart
-          style={{ flex: 1 }}
-          data={data1}
-          svg={{ stroke: 'blue' }}
-          contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
-        >
-          <Grid />
-          <Decorator />
-        </LineChart>
-        <LineChart
-          style={StyleSheet.absoluteFill}
-          data={data2}
-          svg={{ stroke: 'orange' }}
-          contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
-        >
-          <Decorator />
-        </LineChart>
-        <XAxis
-          style={{top: 10, marginHorizontal: -10, height: 20 }}
-          data={months}
-          formatLabel={(value, index) => months[index]}
-          contentInset={{ left: 20, right: 20 }}
-          svg={{ fontSize: 10, fill: 'black' }}
+    <View style={{ height: 271, width: 'auto', flexDirection: 'column' }}>
+      <View style={{ height: 231, flexDirection: 'row' }}>
+        
+        <YAxis
+          data={data1.concat(data2)}
+          contentInset={{ top: 20, bottom: 32, left: 0, right: 0 }}
+          style={{ justifyContent: 'flex-start', width: 20, left: 0 }}
+          svg={{
+            fill: 'grey',
+            fontSize: 10,
+          }}
+          numberOfTicks={10}
+          formatLabel={(value) => `${value}`}
         />
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <LineChart
+            style={{ flex: 1 }}
+            data={data1}
+            svg={{ stroke: 'blue' }}
+            contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
+          >
+            <Grid />
+            <Decorator />
+          </LineChart>
+          <LineChart
+            style={StyleSheet.absoluteFill}
+            data={data2}
+            svg={{ stroke: 'orange' }}
+            contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
+          >
+            <Decorator />
+          </LineChart>
+          <XAxis
+            style={{ top: 10, marginHorizontal: -10, height: 20 }}
+            data={months}
+            formatLabel={(value, index) => months[index]}
+            contentInset={{ left: 20, right: 20 }}
+            svg={{ fontSize: 10, fill: 'black' }}
+          />
+        </View>
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+          <View style={{ width: 10, height: 10, backgroundColor: 'blue', marginRight: 5 }} />
+          <Ext style={{ color: '#144714'}}>Actual value</Ext>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ width: 10, height: 10, backgroundColor: 'orange', marginRight: 5 }} />
+          <Ext style={{ color: '#144714' }}>Predicted value</Ext>
+        </View>
       </View>
     </View>
   )
 }
-
 export default Chart
