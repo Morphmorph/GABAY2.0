@@ -557,7 +557,7 @@ const AddExpenses = ({ route }) => {
                 Select Month and Year:
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'space-between',marginBottom: 20 }}>
-              <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
+              <View style={{ flex: 1, marginRight: 2.5, borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
                 <Picker
                   selectedValue={selectedYear}
                   style={{ height: 50, width: 150, color: '#144714' }}
@@ -570,7 +570,7 @@ const AddExpenses = ({ route }) => {
                   })}
                 </Picker>
                 </View>
-                <View style={{ borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
+                <View style={{ flex: 1, marginLeft: 2.5, borderWidth: .5,  borderColor: '#144714', borderRadius: 10 }}>
                 <Picker
                   selectedValue={selectedPreviousMonth}
                   style={{ height: 50, width: 150, color: '#144714' }}
