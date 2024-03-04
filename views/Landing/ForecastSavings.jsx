@@ -49,6 +49,7 @@ const ForecastSavings = ({ navigation }) => {
   const [selectedYear, setSelectedYear] = useState(null);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
   const [applyButtonDisabled1, setApplyButtonDisabled1] = useState(true);
+  const [myid,setMyId] = useState()
   const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}&choice=PDF`
 
   const navigateToScreen = (screenName) => {
@@ -284,6 +285,7 @@ const ForecastSavings = ({ navigation }) => {
 
     };
   }, [forecast]);
+ // console.log(savings)
 
   return (
     <View style={Style.common}>
@@ -646,11 +648,17 @@ const ForecastSavings = ({ navigation }) => {
             <View style={{flex: 1, marginRight: 2.5, borderWidth: .5, borderRadius: 10, width: '70%'}}>
                     <Picker
                       selectedValue={value}
+                
                       style={{ height: 50, width: '100%', color: '#144714', }}
-                      onValueChange={(itemValue) => {
+                      onValueChange={(itemValue,itemIndex) => {
                         setValue(itemValue)
                         if (itemValue != select){
                           setPredict(savings)
+                          if(itemIndex> 0){
+                          setMyId(itemIndex-1)}
+                          else{
+                           setMyId(itemIndex)
+                          }
                           console.log(itemValue)
                         }else{
                           setPredict(forecast)
@@ -660,7 +668,7 @@ const ForecastSavings = ({ navigation }) => {
                     >
                       <Picker.Item label="Overall" value={select} />
                       {savings.map((description)=> (
-                           <Picker.Item key={description} label={description.key} value={description.value} />
+                           <Picker.Item key={description} label={description.key} value={description.value} data={description}/>
                         ))}
                     </Picker>
                     </View>
@@ -668,6 +676,7 @@ const ForecastSavings = ({ navigation }) => {
                       
                     <Picker
                       selectedValue={selectedChartType}
+                      enabled ={predict !== forecast}
                       style={{ height: 50, width: '100%', color: '#144714', }}
                       onValueChange={(itemValue) => {
                         setSelectedChartType(itemValue);
@@ -682,7 +691,7 @@ const ForecastSavings = ({ navigation }) => {
                     <DonutChart data={predict} predict={value} /> 
                     )}
                     {selectedChartType === 'Chart' && (
-                      <Chart />
+                      <Chart dataOne = {savings[myid]} dataTwo = {[500,473,472,474]}/>
                     )}
             </View>
             
