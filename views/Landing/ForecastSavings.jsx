@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Modal, Linking } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity,Alert, Image, Dimensions, Modal, Linking } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
 import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation, useIsFocused } from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native' 
 import DonutChart from './DonutChart'
 import { axiosRequest, server } from '../../api_server/axios';
 import UserContext from '../../api_server/context';
@@ -16,6 +16,8 @@ import ModalMessage from '../Modal';
 import i from '../../assets/Icon/Icons/Savings.png'
 import GSC2 from './GSC2';
 import Chart from './Chart';
+import  AsyncStorage  from '@react-native-async-storage/async-storage'
+
 // import fileDownload from 'js-file-download';
 // import RNFetchBlob from 'rn-fetch-blob';
 
@@ -49,6 +51,7 @@ const ForecastSavings = ({ navigation }) => {
   const [selectedYear, setSelectedYear] = useState(null);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
   const [applyButtonDisabled1, setApplyButtonDisabled1] = useState(true);
+  const [desc,setDesc] = useState()
   const [myid,setMyId] = useState()
   const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}&choice=PDF`
 
@@ -136,6 +139,10 @@ const ForecastSavings = ({ navigation }) => {
     }
   }
 
+  const GetActualData = async (data) =>{
+console.log(savings[myid]?.chart_date[0])
+      
+  }
   const filterAPmonth = (year) => {
     axiosRequest.get(`gabay/same/month/year/${context.id}/?year=${year}`)
       .then((response) => {
@@ -234,14 +241,41 @@ const ForecastSavings = ({ navigation }) => {
   const opencalc = () => {
     navigation.navigate('Savings Calculator')
   }
-  const Forecast = async () => {
-    setIsLoading(true);
 
+  const fetchDataFromStorage = async () => {
+    try {
+      const savedSavings = await AsyncStorage.getItem('savings');
+      const savedForecast = await AsyncStorage.getItem('forecast');
+      const savedSelect = await AsyncStorage.getItem('select');
+      const input = await AsyncStorage.getItem('input');
+  
+      if (savedSavings !== null && savedForecast !== null && savedSelect !== null) {
+        // Data is found in AsyncStorage, parse and set states
+        setSavings(JSON.parse(savedSavings));
+        setForcast(JSON.parse(savedForecast));
+        setPredict(JSON.parse(savedForecast));
+        setSelect(JSON.parse(savedSelect));
+        setValue(JSON.parse(savedSelect));
+        setIncome(input)
+  
+        console.log(input);
+      } else {
+        console.log('No data found in AsyncStorage');
+      }
+    } catch (error) {
+      console.error('Error fetching data from AsyncStorage:', error);
+    }
+  };
+  
+  const Forecast = async () => {
+    
+      setIsLoading(true);
     axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}`)
       .then((response) => {
+        data = response.data.avarage
+        savings_data = response.data.saving_description
         setTimeout(() => {
-          data = response.data.avarage
-          savings_data = response.data.saving_description
+          
           setSavings(savings_data)
           setForcast(data)
           setPredict(data)
@@ -253,6 +287,20 @@ const ForecastSavings = ({ navigation }) => {
 
           setIsLoading(false);
         }, 3000);
+        
+        const saveData = async () => {
+          try {
+            await AsyncStorage.setItem('savings', JSON.stringify(savings_data));
+            await AsyncStorage.setItem('forecast', JSON.stringify(data));
+            await AsyncStorage.setItem('select', JSON.stringify(response.data.forecast));
+            await AsyncStorage.setItem('input', income);
+            console.log('Data saved to AsyncStorage');
+          } catch (error) {
+            console.error('Error saving data to AsyncStorage:', error);
+          }
+        };
+
+        saveData();
 
       }).catch(e => {
         setIsLoading(false);
@@ -263,20 +311,48 @@ const ForecastSavings = ({ navigation }) => {
 
   }
 
+  const Warn = async () => {
+    Alert.alert(
+      'Forecast New Data?',
+      `Actual Data Will Be Updated to latest input`,
+      [
+        {
+          text: 'Yes',
+          onPress: () => Forecast(),
+          style: 'Yes',
+        },
+        {
+          text: 'No',
+          onPress: () => console.log("closed"),
+          style: 'cancel',
+        },
+      ],
+  
+    );
+  };
+
+  useEffect(() => {
+    setIsPDFModalVisible(true)
+    fetchDataFromStorage();
+    setTimeout(() => {
+      setIsPDFModalVisible(false)
+    }, 10);
+  }, []);
+
   useEffect(() => {
     const onFocus = async () => {
       if (Object.keys(forecast).length) {
         setDelay(false)
         // console.log(forecast)
       } else {
-
+        console.log(income,'shit')
       }
     }
     if (Object.keys(forecast).length) {
       setDelay(false)
       // console.log(forecast)
     } else {
-
+      console.log(income,'shit')
     }
 
     const unsubscribe = navigation.addListener('focus', onFocus);
@@ -291,6 +367,7 @@ const ForecastSavings = ({ navigation }) => {
     <View style={Style.common}>
       <Loader visible={isLoading} message="Analyzing Data..." />
       <Loader visible={loader} message="Generating PDF..." />
+      <Loader visible={isPDFModalVisible} message="Loading..." />
       <View style={{ marginBottom: 20, }}>
         <View
           style={{
@@ -348,7 +425,7 @@ const ForecastSavings = ({ navigation }) => {
               alignItems: 'center',
               width: '100%',
             }}
-            onPress={Forecast}
+            onPress={savings ? Warn : Forecast}
           >
             <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
           </TouchableOpacity>
@@ -652,15 +729,23 @@ const ForecastSavings = ({ navigation }) => {
                       style={{ height: 50, width: '100%', color: '#144714', }}
                       onValueChange={(itemValue,itemIndex) => {
                         setValue(itemValue)
+
+                        const selectedLabel = savings[myid]?.key;
+                        
+                        setDesc(selectedLabel)
                         if (itemValue != select){
                           setPredict(savings)
                           if(itemIndex> 0){
-                          setMyId(itemIndex-1)}
+                          setMyId(itemIndex-1)
+                          GetActualData(savings[itemIndex-1]?.key)
+                        }
                           else{
-                           setMyId(itemIndex)
+                           setMyId("none")
+                           GetActualData(savings[itemIndex]?.key)
                           }
-                          console.log(itemValue)
+                          console.log(select)
                         }else{
+                          setSelectedChartType("DonutChart")
                           setPredict(forecast)
                         }
                       }}
@@ -676,7 +761,7 @@ const ForecastSavings = ({ navigation }) => {
                       
                     <Picker
                       selectedValue={selectedChartType}
-                      enabled ={predict !== forecast}
+                      enabled ={value !== select}
                       style={{ height: 50, width: '100%', color: '#144714', }}
                       onValueChange={(itemValue) => {
                         setSelectedChartType(itemValue);
@@ -691,7 +776,7 @@ const ForecastSavings = ({ navigation }) => {
                     <DonutChart data={predict} predict={value} /> 
                     )}
                     {selectedChartType === 'Chart' && (
-                      <Chart dataOne = {savings[myid]} dataTwo = {[500,473,472,474]}/>
+                      <Chart dataOne = {savings[myid]} dataTwo = {[]}/>
                     )}
             </View>
             

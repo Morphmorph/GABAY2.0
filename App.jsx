@@ -863,12 +863,12 @@ function CustomDrawerContent({}) {
   };
 
   const handleLogout = async() => {
-    // try {
-    //   await AsyncStorage.clear();
-    //   console.log('AsyncStorage cleared successfully.');
-    // } catch (error) {
-    //   console.error('Error clearing AsyncStorage:', error);
-    // }
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage cleared successfully.');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
   };
 
   const handleLogoutConfirmed = async () => {
