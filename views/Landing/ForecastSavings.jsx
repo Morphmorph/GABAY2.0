@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity,Alert, Image, Dimensions, Modal, Linking } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import Style from '../Style'
+import Iconn from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../CustomInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -51,9 +52,12 @@ const ForecastSavings = ({ navigation }) => {
   const [selectedYear, setSelectedYear] = useState(null);
   const [applyButtonDisabled, setApplyButtonDisabled] = useState(true);
   const [applyButtonDisabled1, setApplyButtonDisabled1] = useState(true);
+  const [fordata,setForData] = useState([])
+  const [datatwo,setDataTwo] = useState([])
+  const [fordate,setForDate] = useState([])
   const [desc,setDesc] = useState()
   const [myid,setMyId] = useState()
-  const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}&choice=PDF`
+  const Download = server + `gabay/transaction-data/${context.id}/?no_months_to_predict=1&income=${fixedsavings}&period=Monthly&choice=PDF`
 
   const navigateToScreen = (screenName) => {
     navigation.navigate(screenName);
@@ -140,7 +144,41 @@ const ForecastSavings = ({ navigation }) => {
   }
 
   const GetActualData = async (data) =>{
-console.log(savings[myid]?.chart_date[0])
+// console.log(data.key)
+// console.log(data.chart_date[0])
+try {
+  // 1. Retrieve existing data from AsyncStorage
+  const data1 = await AsyncStorage.getItem(data.key);
+  const date1 =  await AsyncStorage.getItem(data.key+'_date')
+  
+  // Parse the existing data from JSON to an array
+
+  let existingData = [];
+  let datedate = []
+
+  
+  if (data1 && date1) {
+    existingData = JSON.parse(data1);
+    datedate = JSON.parse(date1)
+    setForData(existingData)
+    setForDate(datedate)
+    axiosRequest.get(`gabay/get/actual/data/?&user=${context.id}&date=${datedate[0]}&description=${data.key}`)
+  .then((response)=>{
+      console.log(response.data)
+      const data = response.data
+      setDataTwo(data)
+  }).catch(error => console.log(error))
+    // console.log(existingData)
+    // console.log(datedate)
+    
+  }
+
+
+  console.log('Data appended to keydata successfully!');
+} catch (error) {
+  console.error('Error appending data to keydata:', error);
+}
+
       
   }
   const filterAPmonth = (year) => {
@@ -189,7 +227,7 @@ console.log(savings[myid]?.chart_date[0])
   const handlePDF = async () => {
 
     setTimeout(() => {
-      Linking.openURL(server + `gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}&choice=PDF`)
+      Linking.openURL(server + `gabay/transaction-data/${context.id}/?no_months_to_predict=1&income=${fixedsavings}&period=Monthly&choice=PDF`)
       setIsLoading(false);
 
     }, 1000);
@@ -270,22 +308,83 @@ console.log(savings[myid]?.chart_date[0])
   const Forecast = async () => {
     
       setIsLoading(true);
-    axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=${income}&income=${fixedsavings}&period=${selectedOption}`)
+      
+    axiosRequest.get(`gabay/transaction-data/${context.id}/?no_months_to_predict=1&income=${fixedsavings}&period=Monthly`)
       .then((response) => {
         data = response.data.avarage
         savings_data = response.data.saving_description
-        setTimeout(() => {
-          
+        setTimeout(async () => {
+          setSelectedChartType('DonutChart')
           setSavings(savings_data)
           setForcast(data)
           setPredict(data)
           setSelect(response.data.forecast)
           setValue(response.data.forecast)
           // setPdfPrint(true)
-          console.log(pdfprint)
-          console.log(response.data.forecast)
-
+          console.log(data)
+          // console.log(response.data.forecast) 
           setIsLoading(false);
+
+          try {
+            // Loop through each item in dataArray
+            for (const item of savings_data) {
+              const { key, chart_data,chart_date } = item; // Destructure key and chart_data from each item
+
+              const data1 = await AsyncStorage.getItem(key)
+              const date1 = await AsyncStorage.getItem(key+'_date')
+
+              let existingData1 = []
+              let existingDate1 = []
+
+              if (data1 && date1) {
+                existingData1 = JSON.parse(data1);
+                existingDate1 = JSON.parse(date1)
+                // setForData(existingData)
+                // setForDate(datedate)
+                console.log(existingData1)
+                console.log(existingDate1)
+                
+              }
+
+              const isDuplicate = existingDate1.includes(chart_date[0]);
+              const isDuplicateData = existingData1.includes(chart_data[0])
+
+              if (isDuplicate) {
+                console.log('Item already exists in keydata. Not appending.');
+                
+                if(!isDuplicateData){
+                  existingData1.pop()
+                  existingDate1.pop()
+                }
+                
+                if(isDuplicateData){
+                  existingData1.pop()
+                  existingDate1.pop()
+                  existingData1.push(chart_data[0])
+                  existingDate1.push(chart_date[0])
+                }
+                
+                await AsyncStorage.setItem(key, JSON.stringify(existingData1));
+                await AsyncStorage.setItem(key+'_date', JSON.stringify(existingDate1));
+                 // Do not append if it's a duplicate
+              }
+              else{
+                existingData1.push(chart_data[0]);
+                existingDate1.push(chart_date[0])
+            
+              await AsyncStorage.setItem(key, JSON.stringify(existingData1));
+              await AsyncStorage.setItem(key+'_date', JSON.stringify(existingDate1));
+              }
+
+              
+              console.log(`Chart data saved for key: ${key}`);
+
+              
+            }
+            console.log('All chart data saved successfully!');
+          } catch (error) {
+            console.error('Error saving chart data:', error);
+          }
         }, 3000);
         
         const saveData = async () => {
@@ -293,7 +392,7 @@ console.log(savings[myid]?.chart_date[0])
             await AsyncStorage.setItem('savings', JSON.stringify(savings_data));
             await AsyncStorage.setItem('forecast', JSON.stringify(data));
             await AsyncStorage.setItem('select', JSON.stringify(response.data.forecast));
-            await AsyncStorage.setItem('input', income);
+            // await AsyncStorage.setItem('input', income);
             console.log('Data saved to AsyncStorage');
           } catch (error) {
             console.error('Error saving data to AsyncStorage:', error);
@@ -334,6 +433,7 @@ console.log(savings[myid]?.chart_date[0])
   useEffect(() => {
     setIsPDFModalVisible(true)
     fetchDataFromStorage();
+    console.log(totalincome)
     setTimeout(() => {
       setIsPDFModalVisible(false)
     }, 10);
@@ -368,7 +468,7 @@ console.log(savings[myid]?.chart_date[0])
       <Loader visible={isLoading} message="Analyzing Data..." />
       <Loader visible={loader} message="Generating PDF..." />
       <Loader visible={isPDFModalVisible} message="Loading..." />
-      <View style={{ marginBottom: 20, }}>
+      {/* <View style={{ marginBottom: 20, }}>
         <View
           style={{
             top: 10,
@@ -402,48 +502,61 @@ console.log(savings[myid]?.chart_date[0])
             </View>
           </View>
         </View>
-      </View>
+      </View> */}
      
-      <View
-        style={{
-          alignItems: 'center',
-          alignSelf: 'center',
-          width: '80%',
-          
-          paddingHorizontal: 0,
-          flexDirection: 'row',
-          justifyContent: 'space-evenly'
-        }}
-      >
-        <View style={{ width: '50%'}}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#A2A869',
-              padding: 10,
-              borderRadius: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}
-            onPress={savings ? Warn : Forecast}
-          >
-            <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ position: 'absolute', right: 0}}>
-        <TouchableOpacity style={{  justifyContent: 'flex-end',}} onPress={opencalc}>
-          <Image
-            source={require('../../assets/Icon/calculatore.png')}
-            style={{ width: 30, height: 30 }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        </View>
-      </View>
+     <View style={Style.glass}>
+            <View style={{ alignItems: 'center', backgroundColor: '#E3B448', borderRadius: 5 }}>
+              <Text style={{ color: '#144714', fontSize: 25 }}>FORECAST</Text>
+            </View>
+
+            <View style={{ marginTop: 5, alignItems: 'center', width: '100%', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+              <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
+
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','): "00.00"}</Text>
+              </View>
+              <Text style={{ color: '#E3B448', fontSize: 12 }}>Forecasted Savings</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',}}>
+           
+            <View style={{ flex: 1, marginVertical: 5, marginRight: 2.5, alignItems: 'center',  backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+            
+              <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
+              
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {forecast !== '' ? ((forecast[0]?.key == "Necessities"  && forecast[1]?.key == "Wants" ? parseInt(forecast[0]?.value, 10) + parseInt(forecast[1]?.value, 10) : parseInt(forecast[0]?.value, 10) ?? 0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','): "00"}</Text>
+              {console.log(forecast[14]?.key)}
+              </View>
+              
+              <Text style={{ color: '#E3B448', fontSize: 12 }}>Suggested Expenses</Text>
+              
+            </View>
+            
+            <View style={{ flex: 1, marginVertical: 5, marginLeft: 2.5, alignItems: 'center', backgroundColor: '#2C702B', padding: 5, borderRadius: 5, borderWidth: 1, borderColor: 'transparent', }}>
+              <View style={{ width: '100%', flexDirection: 'row', borderBottomWidth: .5, alignItems: 'center', borderColor: '#144714', justifyContent: 'center' }}>
+              <TouchableOpacity onPress={()=>{navigation.navigate('Home')}}>
+                <Text style={{ color: '#CBD18F', fontSize: 20 }}> ₱ {forecast !== '' ? ( (totalincome - (forecast[0]?.key == "Necessities"  && forecast[1]?.key == "Wants" ? parseInt(forecast[0]?.value, 10) + parseInt(forecast[1]?.value, 10) : parseInt(forecast[0]?.value, 10) ?? 0))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','): "00"}</Text>
+              </TouchableOpacity>
+              </View>
+              <Text style={{ color: '#E3B448', fontSize: 12 }}>Suggested  Savings</Text>
+            </View>
+            </View>
+            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 2, maxWidth: '100%' }}>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, backgroundColor: '#CBD18F', borderRadius: 5, marginHorizontal: 10, marginRight: 30 }}>
+                <Text style={{ fontSize: 20, color: '#144714', width: '100%', textAlign: 'center' }}>{selectedOption}</Text>
+              </View>
+
+              <View>
+                <TouchableOpacity onPress={toggleOption} style={{ right: 7 }}>
+                  <Iconn name="swap-vertical-circle-outline" style={{ fontSize: 40, color: '#E3B448', }} />
+                </TouchableOpacity>
+              </View>
+            </View> */}
+          </View>
       
-      <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 10, alignItems: 'center', padding: 5, }}>
+      {/* <View style={{ top: 0, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#144714', margin: 50, alignItems: 'center', padding: 5, }}>
         <Text style={{ color: '#E3B448', fontSize: 21, }}>Predicted Savings</Text>
-      </View>
+      </View> */}
       <View style={{ backgroundColor: '#CBD18F', paddingHorizontal: 10, marginHorizontal: 10, borderRadius: 10, }}>
 
         {Object.keys(forecast).length ?
@@ -737,11 +850,11 @@ console.log(savings[myid]?.chart_date[0])
                           setPredict(savings)
                           if(itemIndex> 0){
                           setMyId(itemIndex-1)
-                          GetActualData(savings[itemIndex-1]?.key)
+                          GetActualData(savings[itemIndex-1])
                         }
                           else{
                            setMyId("none")
-                           GetActualData(savings[itemIndex]?.key)
+                           GetActualData(savings[itemIndex])
                           }
                           console.log(select)
                         }else{
@@ -776,7 +889,7 @@ console.log(savings[myid]?.chart_date[0])
                     <DonutChart data={predict} predict={value} /> 
                     )}
                     {selectedChartType === 'Chart' && (
-                      <Chart dataOne = {savings[myid]} dataTwo = {[]}/>
+                      <Chart dataOne = {savings[myid]} dataTwo = {datatwo} fordata  ={fordata} fordate = {fordate}/>
                     )}
             </View>
             
@@ -788,6 +901,7 @@ console.log(savings[myid]?.chart_date[0])
               <Text style={{ color: '#144714', fontSize: 18, }}>View details</Text>
             </TouchableOpacity>
             </View>
+
           </View> : <View style={{ justifyContent: 'space-evenly', alignItems: 'center', paddingBottom: 13, width: '100%' }}>
             <Image source={require('../../assets/logo/logo1.png')} style={{ top: 20, opacity: 0.3, width: 170 }} resizeMode='contain' />
             <Text style={{ fontSize: 24, fontWeight: '400', fontStyle: 'italic', marginTop: 60.5, color: '#144714', opacity: 0.3, letterSpacing: 2, textAlign: 'center' }}>
@@ -795,6 +909,45 @@ console.log(savings[myid]?.chart_date[0])
               Start Forecasting!
             </Text>
           </View>}
+          
+
+      </View>
+
+      <View
+        style={{
+          alignItems: 'center',
+          alignSelf: 'center',
+          width: '80%',
+          marginTop:20, 
+          paddingHorizontal: 0,
+          flexDirection: 'row',
+          justifyContent: 'space-evenly'
+        }}
+      >
+        <View style={{ width: '50%'}}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#A2A869',
+              padding: 10,
+              borderRadius: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+            }}
+            onPress={savings ? Warn : Forecast}
+          >
+            <Text style={{ color: '#144714', fontSize: 18, }}>Forecast</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ position: 'absolute', right: 0}}>
+        <TouchableOpacity style={{  justifyContent: 'flex-end',}} onPress={opencalc}>
+          <Image
+            source={require('../../assets/Icon/calculatore.png')}
+            style={{ width: 30, height: 30 }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        </View>
       </View>
       <ModalMessageE showAutomatically={showModalEMessage} message="Something went wrong!" icon={<MaterialIcons name="warning" size={200} color="#810000" />} navigateToScreen="" />
       <ModalMessage showAutomatically={showModalMessage} message="Download completed!" icon={<MaterialCommunityIcons name="file-download-outline" size={200} color="#CBD28F" />} navigateToScreen="" />
