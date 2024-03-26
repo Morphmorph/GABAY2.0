@@ -870,11 +870,13 @@ try {
                         ))}
                     </Picker>
                     </View>
-                    <View style={{flex: 1, marginLeft: 2.5, borderWidth: .5, borderRadius: 10,}}>
+                    <View style={{flex: 1, marginLeft: 2.5, borderWidth: .5, borderRadius: 10,opacity: value !==select ? 1 : 0.5}}>
                       
                     <Picker
                       selectedValue={selectedChartType}
+                      dropdownIconColor='#E3B448'
                       enabled ={value !== select}
+                      itemStyle = {{color:'blue'}}
                       style={{ height: 50, width: '100%', color: '#144714', }}
                       onValueChange={(itemValue) => {
                         setSelectedChartType(itemValue);
